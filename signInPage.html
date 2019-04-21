@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+	<!---Title of webpage-->
+        <title>Let's Eat</title>
+	    
+    	<!---Centers the logo---> 
+   		<style> 
+   			form {
+			  /* Just to center the form on the page */
+			  margin: 0 auto;
+			  width: 400px;
+			  /* To see the outline of the form */
+			  padding: 1em;
+			  border: 1px solid #CCC;
+			  border-radius: 1em;
+			}
+			img {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			max-width:30%;
+  			max-height:30%;
+			}
+    	</style>
+    </head>
+
+    <body>
+	<!---Makes logo clickable, redirects to defaultPage.html--->
+    	<a href="defaultPage.html">
+    	<img
+	 	src="./images/ACTUALLOGO.png"
+	 	alt="Let's Eat Logo">
+    	</a>
+    	
+	<!---Formats the sign in box--->
+    	<link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
+	<form method="post" action="index.html">
+	<div class="box">
+		<h1><center>Sign In</center></h1>
+		<center><input type="email" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" /></center>
+		<center><input type="password" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" /></center>
+
+		<!---Redirects user to userPage.html if Sign In is clicked--->
+		<a href="userPage.html"><div class="btn"><center>Sign In</center></div></a>
+
+		<!---Redirects user to signUpPage.html if Sign Up is clicked--->
+		<a href="signUpPage.html"><div id="btn2"><center>Sign Up</center></div></a>
+	</div>
+	</form>
+	    	<!---Forgot password link---IN PROCESS--->
+		<p><center>Forgot your password? <u style="color:#f1c40f;">Click Here!</u></center></p>
+    </body>
+</html>
