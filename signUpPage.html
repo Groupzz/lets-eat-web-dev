@@ -5,9 +5,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-	<!---Title of webpage--->
-        <title>Let's Eat</title>
-	    
+        <title>Let's Eat Sign Up Page</title>
     	<!---Centers the logo---> 
    		<style> 
 			form {
@@ -48,30 +46,28 @@
     </head>
 
     <body>
-	<!---Makes logo clickable, redirects to defaultPage.html--->
     	<a href="defaultPage.html">
     	<img
-	 	src="./images/ACTUALLOGO.png"
+	 	src="ACTUALLOGO.png"
 	 	alt="Let's Eat Logo">
     	</a>
-    	
-	<!---Formats the sign up information box--->
-	<form method="post" action="index.html">
-	<div class="box">
-	<h1><center>Sign Up</center></h1>
+    	    	
+		<form method="post" action="index.html">
+		<div class="box">
+		<h1><center>Sign Up</center></h1>
 
-	<!--User info-->
-	<label for="username">Username: </label><input type="Username" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" />
-	<label for="first name">First Name: </label><input type="First Name" name="First Name" value="" onFocus="field_focus(this, 'First Name');" onblur="field_blur(this, 'First Name');" class="First Name" />
-	<label for="last name">Last Name: </label><input type="Last Name" name="Last Name" value="" onFocus="field_focus(this, 'Last Name');" onblur="field_blur(this, 'Last Name');" class="Last Name" />
-	<label for="email">E-mail: </label><input type="Email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" class="Email" />
-	<label for="password">Password: </label><input type="Password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" class="Password" />
-	<label for="city">City: </label><input type="City" name="City" value="" onFocus="field_focus(this, 'City');" onblur="field_blur(this, 'City');" class="City" />
-	<label for="state">State: </label><input type="State" name="State" value="" onFocus="field_focus(this, 'State');" onblur="field_blur(this, 'State');" class="State" />
-	<label for="secq">Security Question: </label><input type="Security Question" name="Security Question" value="" onFocus="field_focus(this, 'Security Question');" onblur="field_blur(this, 'Security Question');" class="Security Question" />
-	<label for="answer">Answer:</label><input type="Answer" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" />
+		<!-- User info -->
+		<label for="username">Username: </label><input type="Username" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" />
+		<label for="first name">First Name: </label><input type="First Name" name="First Name" value="" onFocus="field_focus(this, 'First Name');" onblur="field_blur(this, 'First Name');" class="First Name" />
+		<label for="last name">Last Name: </label><input type="Last Name" name="Last Name" value="" onFocus="field_focus(this, 'Last Name');" onblur="field_blur(this, 'Last Name');" class="Last Name" />
+		<label for="email">E-mail: </label><input type="Email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" class="Email" />
+		<label for="password">Password: </label><input type="Password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" class="Password" />
+		<label for="city">City: </label><input type="City" name="City" value="" onFocus="field_focus(this, 'City');" onblur="field_blur(this, 'City');" class="City" />
+		<label for="state">State: </label><input type="State" name="State" value="" onFocus="field_focus(this, 'State');" onblur="field_blur(this, 'State');" class="State" />
+		<label for="secq">Security Question: </label><input type="Security Question" name="Security Question" value="" onFocus="field_focus(this, 'Security Question');" onblur="field_blur(this, 'Security Question');" class="Security Question" />
+		<label for="answer">Answer:</label><input type="Answer" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" />
 
-	<fieldset> <!--Preferences-->
+		<fieldset> <!-- Preferences -->
 		<legend>What are your preferences?</legend>      
 		<p align = "left"><input type="checkbox" name="cuisine" value="American">American<br></p>
 		<p align = "left"><input type="checkbox" name="cuisine" value="Mexican">Mexican<br></p>    
@@ -82,12 +78,11 @@
 		<p align = "left"><input type="checkbox" name="cuisine" value="Indian">Indian<br></p>  
 		<p align = "left"><input type="checkbox" name="cuisine" value="Greek">Greek<br></p>      
 		<br>      
-	</fieldset>      
+		</fieldset>      
+		
+		<a href="userPage.html"><div id="btn2"><center>Submit</center></div></a> <!-- End Submit -->
 
-	<!---Submit button redirects to userPage.html--->
-	<a href="userPage.html"><div id="btn2"><center>Submit</center></div></a>
-
-	</div>
-	</form>
+		</div> <!-- End Box -->
+		</form>
     </body>
 </html>

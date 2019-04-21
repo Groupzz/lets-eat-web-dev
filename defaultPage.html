@@ -1,44 +1,14 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    
-        <!-- Imports the css for the top navigation bar -->
-        <link rel="stylesheet" href="./css/navbar.css">       
-
-        <!-- Style the search bar -->
-        <style>
-        #search {
-            background-color: white;
-            background-image: url('searchicon.png');
-            background-position: 10px 10px;
-            background-repeat: no-repeat;
-            padding-left: 0px;
-            width: 65%;
-        }
-        #search:focus {
-            border: 3px solid #555;
-        }
-        </style>
-	    
-	<!---Title of webpage--->
-        <title>Let's Eat</title>
-    </head>
-    
-    <script data-main="scripts/yelp" src="scripts/require.js">
-    var x = document.getElementById("search");
-    yelpSearch(x);
-    </script>
-    <body>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">        
-        <title>Let's Eat</title>
+        <title>Let's Eat Default Page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
-	    	/* Style the topnav bar */
-		.mySlides {display:none;}
+		.mySlides {display:none;} /* idk */
 		.topnav {
 			background-color: #333;
 			overflow: hidden;
@@ -74,16 +44,14 @@
     </head>
     	
     <body>
-	<!---Top navigation bar--->
     	<div class="topnav">
 			<a class="active" href="#homepage">Default Page</a>
 			<a href="signInPage.html">Sign in</a>
 			<img
-	 			src="./images/ACTUALLOGO.png"
+	 			src="ACTUALLOGO.png"
 	 			alt="Let's Eat Logo">
     	</div>
     	
-	<!---List of cuisine images--->
     	<div class="w3-content w3-display-container">
 		<img class="mySlides" src="./images/img_american.jpg" style="width:100%" style="height:100%">
 	  	<img class="mySlides" src="./images/img_chinese.jpg" style="width:100%" style="height:100%">
@@ -93,8 +61,7 @@
 	  	<button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
 	  	<button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
 		</div>
-	    
-	<!---Cycles through images--->
+
 	<script>
 		var slideIndex = 1;
 		showDivs(slideIndex);
