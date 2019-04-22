@@ -3,10 +3,11 @@ var Schema = mongoose.Schema;
 //Creating the table
 var usersSchema = new Schema({
     userName: String,
+    salt: String,
+    shash: String,
     firstName: String,
     lastName: String,
     email: String,
-    password: String,
     city: String,
     state: String,
     sQuestion: String,
@@ -14,5 +15,5 @@ var usersSchema = new Schema({
 });
 
 //To use the schema definition (Table)
-var Blog = mongoose.model('Blog', blogSchema);
+var User = mongoose.model('User', usersSchema);
 
