@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-	<!---Title of webpage--->
+		<!---Title of webpage--->
         <title>Let's Eat</title>
 	 
-    <!---Styles the top nav bar-->
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    	<!---Styles the top nav bar-->
     <style>
 	    .topnav {
 		background-color: #333;
@@ -36,22 +35,41 @@
 			display: block;
 			left: 50%
 			margin-left: -50px !important;
-			max-width:7%;
-			max-height:7%;
+			max-width:8.5%;
+			max-height:8.5%;
+		}
+		body {
+			position: cover;
+			background-image: url("./images/bg.jpg");
+			background-repeat: no-repeat; /* image is small so does not repeat */
+			background-attachment: scroll; /*scroll with cursor*/			
+			background-size: 100%;
+		}
+		.search {
+ 			font-size: 38px;
+			text-align: center;
+			position: absolute;
+			top: 47%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
 		}
     </style>
     </head>
     
-    <!---Top navigation bar, clickable Account button and logo--->
-    <div class="topnav">
-		<a class="active" href="#homepage">User Page</a>
-		<a href="accountManagement.html">Account</a>
-		<img
-	 		src="./images/ACTUALLOGO.png"
-	 		alt="Let's Eat Logo">
-    </div>
-    
     <body>
-	    <!---Empty body for now--->
+	    <!---Top navigation bar, clickable Account button and logo--->
+		<div class="topnav">
+			<a class="active" href="#homepage">User Page</a>
+			<a href="accountManagement.html">Account</a>
+			<img
+				src="./images/ACTUALLOGO.png"
+				alt="Let's Eat Logo">
+		</div>
+		
+    	<div class="search">
+    		<input type="text" placeholder="I'm in the mood for...">
+    	</div>
+    	
     </body>
 </html>
