@@ -71,8 +71,8 @@
 	<label for="secq">Security Question: </label><input type="Security Question" name="SecurityQuestion" value="" onFocus="field_focus(this, 'Security Question');" onblur="field_blur(this, 'Security Question');" class="Security Question" required/>
 	<label for="answer">Answer:</label><input type="Answer" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" required/>
 
-	<fieldset> <!--Preferences-->
-		<legend>What are your preferences?</legend>      
+	<fieldset><center><!--Preferences-->
+		<legend>What are your cuisine preferences?</legend>      
 		<p align = "left"><input type="checkbox" name="cuisine" value="American">American<br></p>
 		<p align = "left"><input type="checkbox" name="cuisine" value="Mexican">Mexican<br></p>    
 		<p align = "left"><input type="checkbox" name="cuisine" value="Chinese">Chinese<br></p>
@@ -82,13 +82,17 @@
 		<p align = "left"><input type="checkbox" name="cuisine" value="Indian">Indian<br></p>  
 		<p align = "left"><input type="checkbox" name="cuisine" value="Greek">Greek<br></p>      
 		<br>      
-	</fieldset>      
-
-	<!---Submit button redirects to userPage.html--->
-	<center><button onclick="register()" type="submit" id="btn2">Submit</button></center>
-
+	</center></fieldset>      
 	</div>
 	</form>
+
+	<!---Submit button redirects to userPage.html--->
+<<<<<<< HEAD
+	<center><button onclick="register()" type="submit" id="btn2">Submit</button></center>
+=======
+	<a href="userPage.html"><div id="btn2"><center>Submit</center></div></a>
+>>>>>>> 4b10cb7f310f2d8de36e0bbdac8963be29dd0b0a
+
     </body>
 
 	<script type="text/javascript" src="client.js">
