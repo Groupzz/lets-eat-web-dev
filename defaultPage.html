@@ -57,7 +57,10 @@
 
     </style>
     </head>
-    	
+    <script data-main="scripts/yelp" src="scripts/require.js">
+    	var x = document.getElementById("search")
+	yelpSearch(x)
+    </script>
     <body>
 		<!---Top navigation bar--->
     	<div class="topnav">
@@ -68,10 +71,11 @@
 	 			alt="Let's Eat Logo">
     	</div>
     	
-    	<div class="search">
+    	<div class="search" id="search">
     		<input type="place" placeholder="I'm in the mood for...">
     		<input type="location" placeholder="at...">
-    	</div>
+    		<button class="btn">Search</button>
+	</div>
     	
     </body>
 </html>
