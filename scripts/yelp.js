@@ -72,4 +72,4 @@ function yelpSearch(input, location)
 	});
 }
 //}
->>>>>>> c2a78420ba9f9c580b5fc0ce5dc2179dde2f28be
+
