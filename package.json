@@ -4,7 +4,7 @@
   "description": "\"# Let-s-Eat\"",
   "main": "main.js",
   "scripts": {
-    "start": "electron"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
