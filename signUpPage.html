@@ -56,7 +56,7 @@
     	</a>
     	
 	<!---Formats the sign up information box--->
-	<form method="post">
+	<form method="POST" action="http://104.237.158.50:8080/registerUser">
 	<div class="box">
 	<h1><center>Sign Up</center></h1>
 
@@ -83,41 +83,14 @@
 		<p align = "left"><input type="checkbox" name="cuisine" value="Greek">Greek<br></p>      
 		<br>      
 	</center></fieldset>      
+	<!---Submit button redirects to userPage.html--->
+	<center><input type="submit" id="btn2" value="Register"></center>
+    </body>
 	</div>
 	</form>
 
-	<!---Submit button redirects to userPage.html--->
-<<<<<<< HEAD
-	<center><button onclick="register()" type="submit" id="btn2">Submit</button></center>
-=======
-	<a href="userPage.html"><div id="btn2"><center>Submit</center></div></a>
->>>>>>> 4b10cb7f310f2d8de36e0bbdac8963be29dd0b0a
-
-    </body>
 
 	<script type="text/javascript" src="client.js">
-		/*const electron = require('electron')
-		
-		function sending() {
-			var info = document.getElementById("box")
-			
-			//Create a renderer to send to the server
-			const {ipcRenderer} = electron
-			let temp =	{
-						"username"		:	info.elements[0].value,
-						"firstName"		:	info.elements[1].value,
-						"lastName"		:	info.elements[2].value,
-						"email"			:	info.elements[3].value,
-						"password"		:	info.elements[4].value,
-						"city"			:	info.elements[5].value,
-						"state"			:	info.elements[6].value,
-						"securityquestion"	:	info.elements[7].value,
-						"answer"		:	info.elements[8].value,
-						"cuisine"		:	info.elements[9].value
-					}
-			ipcRenderer.send()
-		}*/
-
 		
 	</script>
 </html>
