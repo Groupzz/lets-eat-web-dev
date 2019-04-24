@@ -6,7 +6,7 @@ const ip = '104.237.158.50'
 const port = 8080
 
 //Registers the user into the database
-function register()
+function register(info)
 {
 	console.log("here")
 	//Turns the info into a JSON string
