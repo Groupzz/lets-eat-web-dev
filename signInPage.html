@@ -45,20 +45,22 @@
     	
 	<!---Formats the sign in box--->
     	<link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
-	<form method="post" action="">
+	<form method="post" action="http://104.237.158.50:8080/loginUser">
 	<div class="box">
 		<h1><center><font size="+5">Sign In</font></center></h1>
 		<center><input type="email" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" /></center>
 		<center><input type="password" name="password" value="password" onFocus="field_focus(this, 'password');" onblur="field_blur(this, 'password');" class="password" /></center>
 
-		<!---Redirects user to userPage.html if Sign In is clicked--->
-		<a href="userPage.html"><div class="btn"><center><font size="+3">Sign In</font></center></div></a>
+		<!---Checks if user is in database then goes to userPage.html--->
+		<center><input type="submit" value="Sign In"></center>
 
-		<!---Redirects user to signUpPage.html if Sign Up is clicked--->
-		<a href="signUpPage.html"><div id="btn2"><center><font size="+3">Sign Up</font></center></div></a>
-		
-		<p><center><font size="+2">Forgot your password? <a href="forgotpw.html">Click Here!</a></font></center></p>
 	</div>
 	</form>
+    
+    <!---Redirects user to signUpPage.html if Sign Up is clicked--->
+    <a href="signUpPage.html"><div id="btn2"><center><font size="+3">Sign Up</font></center></div></a>
+    
+    <p><center><font size="+2">Forgot your password? <a href="forgotpw.html">Click Here!</a></font></center></p>
+    
     </body>
 </html>
