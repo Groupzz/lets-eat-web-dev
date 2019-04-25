@@ -1,52 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
+    
     <!--- Website/tab title --->
     <title>Welcome to our Let's Eat! App</title>
+    
    <!---Centers the logo---> 
-   <style> 
+   <style>
 	img {
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
 	}
+	h1 {
+	    margin: 0;
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    -ms-transform: translate(-50%, -50%);
+	    transform: translate(-50%, -50%);
+	}
+	h1 p {
+		font-size: 20px;
+		color: #585858;
+	}
+	body {
+		position: cover;
+		background-image: url("./images/indexbg.jpg");
+		background-repeat: no-repeat; /* image is small so does not repeat */
+		background-attachment: fixed; /*scroll with cursor*/
+		background-size: cover;	/* fits screen */
+	}
     </style>
+    
   </head>
   <body>
-    <h1><center>Let's Eat! Click on our logo to get started!</center></h1>
+    <h1><center>
+    
     <!--- Makes logo clickable --->
     <a href="defaultPage.html">
     <img
-	 src="./images/ACTUALLOGO.png"
+	 src="./images/logo.gif"
 	 alt="Let's Eat Logo">
     </a>
-    <p><center>By: Brett Tomita, Hayden Matheus, Long Chu, Pamela Regudo, and Jessica Hilario</center></p>
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-      'use strict';
+    <p>By: Brett Tomita, Hayden Matheus, Long Chu, <br>Pamela Regudo, and Jessica Hilario</p>
+    
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    <p>We are using Node.js<script>document.write(process.versions.node)</script>,<br>
+    Chromium<script>document.write(process.versions.chrome)</script>,<br>
+    and Electron<script>document.write(process.versions.electron)</center></script>.</p>
 
-	const yelp = require('yelp-fusion');
-
-	// Place holder for Yelp Fusion's API Key. Grab them
-	// from https://www.yelp.com/developers/v3/manage_app
-	const apiKey = 'p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx';
-
-	const searchRequest = {
-	  term:'Four Barrel Coffee',
-	  location: 'san francisco, ca'
-	};
-
-	const client = yelp.client(apiKey);
-
-	client.search(searchRequest).then(response => {
-	  const firstResult = response.jsonBody.businesses[0];
-	  const prettyJson = JSON.stringify(firstResult, null, 4);
-	  console.log(prettyJson);
-	}).catch(e => {
-	  console.log(e);
-	});
-    </script>
+	</center></h1>
+	<script>
+	// You can also require other files to run in this process
+	require('./renderer.js')
+	</script>
   </body>
 </html>
