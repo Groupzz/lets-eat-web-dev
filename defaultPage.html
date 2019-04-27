@@ -57,10 +57,10 @@
 
     </style>
     </head>
-    <script data-main="scripts/yelp" src="scripts/require.js">
+<!--     <script data-main="scripts/yelp" src="scripts/require.js">
     	var x = document.getElementById("search")
 	yelpSearch(x)
-    </script>
+    </script> -->
     <body>
 		<!---Top navigation bar--->
     	<div class="topnav">
@@ -72,10 +72,10 @@
     	</div>
     	
     	<div class="search" id="search">
-    		<input type="place" placeholder="I'm in the mood for...">
-    		<input type="location" placeholder="at...">
-    		<button class="btn">Search</button>
+    		<input id="input" type="place" placeholder="I'm in the mood for...">
+    		<input id = "location" type="location" placeholder="at...">
+    		<button id="submit" class="btn">Search</button>
 	</div>
-    	
+    <script data-main="scripts/yelp.js" src="scripts/require.js">const yelp = require('yelp-fusion');</script>
     </body>
 </html>

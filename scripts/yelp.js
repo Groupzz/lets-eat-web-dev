@@ -1,6 +1,7 @@
 'use strict';
 
-
+//const ex = require('express');
+const yelp = require('yelp-fusion');
 /*function printSearch(e)
 {
 	var search = document.getElementById("input").value;
@@ -23,7 +24,7 @@ document.getElementById('submit').onclick = function() {
 	var location = document.getElementById('location').value;
 	yelpSearch(input, location);  // Call yelp query function with inputs as search parameters
 };
-const yelp = require('yelp-fusion');
+
 
 // Place holder for Yelp Fusion's API Key. Grab them
 // from https://www.yelp.com/developers/v3/manage_app
@@ -34,7 +35,7 @@ function yelpSearch(input, location)
 {
 	// For some reason the yelp result will only be displayed if I change innerHTML first
 	document.getElementById('search').innerHTML = "Please Wait...";
-	document.getElementById('search').innerHTML = "";
+	//document.getElementById('search').innerHTML = "";
 
 	// Create search query
 	const searchRequest = {

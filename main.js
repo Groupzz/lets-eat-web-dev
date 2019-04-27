@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const client = require("./client.js");
+const yelp = require('yelp-fusion').remote;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -8,7 +9,7 @@ let startWin
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 969, height: 545 })
+  win = new BrowserWindow({ width: 969, height: 545, webPreferences: {nodeIntegration: true}})
 
   // and load the index.html of the app.
   win.loadFile('index.html')
