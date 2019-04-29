@@ -5,16 +5,21 @@ var Element = domino.impl.Element; // etc
 
 var window = domino.createWindow('<h1>Hello world</h1>', 'http://example.com');
 var document = window.document;
+
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const dom = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`);
+
 //const ex = require('express');
 const yelp = require('yelp-fusion');
 
 // Wait for submit button to be clicked
 
 window.onload = function(){
-	document.getElementById('submit').onclick = function() {
-		var input = document.getElementById('input').value;  // Get inputs
+	dom.window.document.getElementById('submit').onclick = function() {
+		var input = dom.window.document.getElementById('input').value;  // Get inputs
 		//document.getElementById('search').innerHTML = input;
-		var location = document.getElementById('location').value;
+		var location = dom.window.document.getElementById('location').value;
 		yelpSearch(input, location);  // Call yelp query function with inputs as search parameters
 	};
 };
@@ -28,10 +33,10 @@ const apiKey = 'p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6
 function yelpSearch(input, location)
 {
 	// Change background image so results/text is more readable
-	document.body.style.backgroundImage = "url('./images/accmgmt.jpg')";
+	dom.window.document.body.style.backgroundImage = "url('./images/accmgmt.jpg')";
 	// For some reason the yelp result will only be displayed if I change innerHTML first
-	document.getElementById('search').innerHTML = "Please Wait...";
-	document.getElementById('search').innerHTML = "";
+	dom.window.document.getElementById('search').innerHTML = "Please Wait...";
+	dom.window.document.getElementById('search').innerHTML = "";
 
 
 	// Create search query
@@ -58,11 +63,11 @@ function yelpSearch(input, location)
 				// Print key:value line by line
 				if(result.hasOwnProperty(key))
 				{
-					document.getElementById('search').innerHTML += "<strong>" + key + ":</strong>  " + JSON.stringify(result[key], null, 4) + "<br>";
+					dom.window.document.getElementById('search').innerHTML += "<strong>" + key + ":</strong>  " + JSON.stringify(result[key], null, 4) + "<br>";
 				}
 			}
 			// Line breaks between results
-			document.getElementById('search').innerHTML += "<br><br>";
+			dom.window.document.getElementById('search').innerHTML += "<br><br>";
 			//document.getElementById('search').innerHTML += jsonResult + "<br> <br>";// + jsonResult;
 		}
 	}).catch(e => {
