@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+		<!--- Website/tab title --->
+		<title>Let's Eat! User Manual</title>
+	
+		<!---Centers the logo---> 
+		<style> 
+		h1{
+			font-size: 35px;
+			text-align: center;
+			position: absolute;
+			top: 13%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+			color: red;
+		}
+		h2 {
+			font-size: 23px;
+			text-align: center;
+			position: absolute;
+			top: 27%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+		}
+		h3 {
+			font-size: 23px;
+			text-align: center;
+			position: absolute;
+			top: 54%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+		}
+		h4 {
+			font-size: 23px;
+			text-align: center;
+			position: absolute;
+			top: 81%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+		}
+		h5 {
+			font-size: 23px;
+			text-align: center;
+			position: absolute;
+			top: 103%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+		}
+		h6 {
+			font-size: 23px;
+			text-align: center;
+			position: absolute;
+			top: 127%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+		}
+		p {
+			font-size: 14px;
+			text-align: center;
+			font-family: Arial;
+			font-weight: lighter;
+		}
+		ul {
+			font-size: 14px;
+			text-align: left;
+			font-family: Arial;
+			font-weight: lighter;
+			/*list-style-position: inside;*/
+		}
+		.shift { /* Shifts list to right */
+			margin-left:80px;
+		}
+		img {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 5%;
+			height: auto;
+		}
+		body {
+			background-image: url("./images/header.jpg");
+			background-repeat: no-repeat; /* image is small so does not repeat */
+			background-attachment: scroll; /*scroll with cursor*/
+			background-size: cover;	/* fits screen */
+		}
+		</style>
+  </head>
+  
+  <body>
+  	<h1><center><u>Let's Eat! User Manual</u></center></h1>
+    
+    <!-- Logo -->
+    <img
+	 src="./images/ACTUALLOGO.png"
+	 alt="Let's Eat Logo"
+	>
+    <p style=font-size:10px;><center>By: Brett Tomita, Hayden Matheus, Long Chu, Pamela Regudo, and Jessica Hilario</center></p>    
+    
+    <h2>What is Let's Eat?
+		<p>The purpose of our Let’s Eat! is to help people choose what restaurant they should go to. 
+		<br>It will create a list of restaurants based on the filters the user has put in. 
+		<br>Our application’s features reduces the frustration of finding somewhere to eat, encourages users 
+		<br>to experience somewhere new, and requires less memory space since the directions will pop up on the 
+		<br>application as well. The main elements are the end users and the system because 
+		<br>it is the basis of what our application is trying to accomplish.</p>
+	</h2>
+	
+	<h3>Getting Started: Making an Account
+		<ul style="list-style-type: decimal;">
+    	    <li class="shift">Select Sign In from the Home Page
+    	    <img
+			 src="./images/signin.png"
+			 alt="sign in picture"
+			 style="width:200px;height:50px;float:right;"
+			>
+    	    </li>
+    		<li class="shift">Select Sign Up
+    		<img
+			 src="./images/signup.png"
+			 alt="sign up picture"
+			 style="width:300px;height:180px;float:right;"
+			>
+			</li>
+    		<li class="shift">Provide your email address, password, and any other requested information</li>
+    		<li class="shift">Select Submit, then an email will be sent to you to confirm your new account</li>
+    	</ul>
+	</h3>
+
+	<h4>Getting Started: Finding A Restaurant
+		<ul style="list-style-type: decimal;">
+    	    <li class="shift">Select the search bar</li>
+    		<li class="shift">Enter your preference filters</li>
+    		<li class="shift">Select Find a Restaurant</li>
+    		<li class="shift">Restaurant's basic information will be displayed</li>
+    		<li class="shift">Select View Yelp Page to view restaurant's Yelp page</li>
+    		<li class="shift">Select Get Directions to get directions</li>
+    	</ul>
+	</h4>
+
+	<h5>Getting Started: Group Voting
+		<ul style="list-style-type: decimal;">
+    	    <li class="shift">Select Group Vote from the Home Page</li>
+    		<li class="shift">A group invite code will be generated. Share with people to include them in the vote. 
+		<br>If you are friends with them then select them from the Friends List to send an invite.</li>
+    		<li class="shift">When code is received, select Join Group from the Group Vote page</li>
+    		<li class="shift">Once all group members have joined, select Start Group Vote</li>
+    		<li class="shift">Each member will be prompted to enter their preferred restaurant filters</li>
+    		<li class="shift">Countdown timer on the vote page indicates time left to apply filters</li>
+    		<li class="shift">If Find a Restaurant is selected or time expires, all current filters will be taken</li>
+    		<li class="shift">Chosen restaurant is presented to all group members</li>
+    		<li class="shift">Each member can choose to view Yelp page or get directions</li>
+    	</ul>
+	</h5>
+
+	<h6><b>Frequently Asked Questions</b>
+		<p><font color="red">Is this a free service?</font>
+    	<br>There is no charge to use this system. You will not be asked to provide any payment information.</p>
+    	<p><font color="red">Do you share our data with any businesses?</font>
+    	<br>Privacy is important to us; all of your data is encrypted and stored securely in our system.</p>
+    	<p><font color="red">Can businesses advertise on the app?</font>
+    	<br>Businesses can choose to advertise their businesses on the app, 
+    	<br>however we will not share any of your information with them <br></p>
+	</h6>
+  </body>
+</html>
