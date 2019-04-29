@@ -42,7 +42,7 @@
 			position: cover;
 			background-image: url("./images/bg.jpg");
 			background-repeat: no-repeat; /* image is small so does not repeat */
-			background-attachment: scroll; /*scroll with cursor*/			
+			background-attachment: fixed; /*Changed to 'fixed' so scrolling doesn't scroll into a white background*/			
 			background-size: 100%;
 		}
 		.search {
@@ -57,25 +57,33 @@
 
     </style>
     </head>
-    <script data-main="scripts/yelp" src="scripts/require.js">
+<!--     <script data-main="scripts/yelp" src="scripts/require.js">
     	var x = document.getElementById("search")
 	yelpSearch(x)
-    </script>
+    </script> -->
     <body>
 		<!---Top navigation bar--->
     	<div class="topnav">
 			<a class="active" href="#homepage">Default Page</a>
 			<a href="signInPage.html">Sign in</a>
 			<img
-	 			src="./images/ACTUALLOGO.png"
+	 			src="./images/logo.gif"
 	 			alt="Let's Eat Logo">
     	</div>
     	
-    	<div class="search" id="search">
-    		<input type="place" placeholder="I'm in the mood for...">
-    		<input type="location" placeholder="at...">
-    		<button class="btn">Search</button>
-	</div>
-    	
+
+<!--     	<div class="search" id="search">
+    		<input id="input" type="place" placeholder="I'm in the mood for...">
+    		<input id = "location" type="location" placeholder="at...">
+    		<button id="submit" class="btn">Search</button>
+		</div> -->
+		<div id="container">
+    		<form id="search">
+	    		<input id="input" type="place" placeholder="I'm in the mood for...">
+	    		<input id = "location" type="location" placeholder="at...">
+	    		<button id="submit" class="btn">Search</button>
+	    	</form>
+		</div>
+    <script data-main="scripts/yelp.js" src="scripts/require.js">const yelp = require('yelp-fusion');</script>
     </body>
 </html>
