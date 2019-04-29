@@ -7,21 +7,20 @@
 // var document = window.document;
 
 const jsdom = require("jsdom");
+const window = (new JSDOM('', {runScripts: "outside-only"})).window;
 const { JSDOM } = jsdom;
-const dom = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`);
+const document = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`).window;
 
 //const ex = require('express');
 const yelp = require('yelp-fusion');
 
 // Wait for submit button to be clicked
 
-window.onload = function(){
-	dom.window.document.getElementById('submit').onclick = function() {
-		var input = dom.window.document.getElementById('input').value;  // Get inputs
-		//document.getElementById('search').innerHTML = input;
-		var location = dom.window.document.getElementById('location').value;
-		yelpSearch(input, location);  // Call yelp query function with inputs as search parameters
-	};
+document.getElementById('submit').onclick = function() {
+	var input = document.getElementById('input').value;  // Get inputs
+	//document.getElementById('search').innerHTML = input;
+	var location = document.getElementById('location').value;
+	yelpSearch(input, location);  // Call yelp query function with inputs as search parameters
 };
 
 
