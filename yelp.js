@@ -1,8 +1,13 @@
 'use strict';
 
+var domino = require('domino');
+var Element = domino.impl.Element; // etc
+
+var window = domino.createWindow('<h1>Hello world</h1>', 'http://example.com');
+var document = window.document;
 //const ex = require('express');
 const yelp = require('yelp-fusion');
-/*function printSearch(e)
+*function printSearch(e)
 {
 	var search = document.getElementById("input").value;
 	document.getElementById("container").innerHTML = search;
