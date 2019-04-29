@@ -7,27 +7,16 @@ var window = domino.createWindow('<h1>Hello world</h1>', 'http://example.com');
 var document = window.document;
 //const ex = require('express');
 const yelp = require('yelp-fusion');
-function printSearch(e)
-{
-	var search = document.getElementById("input").value;
-	document.getElementById("container").innerHTML = search;
-	return false;
-}
 
-if(search.attachEvent)
-{
-	search.attachEvent("submit", printSearch);
-}
-else
-{
-	search.addEventListener("submit", printSearch);
-}*/
 // Wait for submit button to be clicked
-document.getElementById('submit').onclick = function() {
-	var input = document.getElementById('input').value;  // Get inputs
-	//document.getElementById('search').innerHTML = input;
-	var location = document.getElementById('location').value;
-	yelpSearch(input, location);  // Call yelp query function with inputs as search parameters
+
+window.onload = function(){
+	document.getElementById('submit').onclick = function() {
+		var input = document.getElementById('input').value;  // Get inputs
+		//document.getElementById('search').innerHTML = input;
+		var location = document.getElementById('location').value;
+		yelpSearch(input, location);  // Call yelp query function with inputs as search parameters
+	};
 };
 
 
