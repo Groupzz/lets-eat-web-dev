@@ -4,8 +4,8 @@ var Schema = mongoose.Schema
 //Creating the table
 var usersSchema = new Schema({
     userName: String,
-    salt: String,
-    shash: String,
+    salt: Buffer,
+    shash: Buffer,
     firstName: String,
     lastName: String,
     email: String,
