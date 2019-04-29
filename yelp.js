@@ -1,10 +1,10 @@
 'use strict';
 
-var domino = require('domino');
-var Element = domino.impl.Element; // etc
+// var domino = require('domino');
+// var Element = domino.impl.Element; // etc
 
-var window = domino.createWindow('<h1>Hello world</h1>', 'http://example.com');
-var document = window.document;
+// var window = domino.createWindow('<h1>Hello world</h1>', 'http://example.com');
+// var document = window.document;
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
