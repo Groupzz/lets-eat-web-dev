@@ -71,4 +71,4 @@ function yelpSearch(input, location)
 }
 //}
 
-module.exports = yelpSearch
+module.exports.yelpSearch = yelpSearch

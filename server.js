@@ -27,7 +27,10 @@ app.post("/yelpSearch", (req,res) => {
 
   let info = req.body
 
-  yelpsearch.yelpSearch()
+  var search = info.place
+  var location = info.location
+
+  yelpsearch.yelpSearch(search, location)
 })
 
 app.post("/registerUser", (req,res) => {
