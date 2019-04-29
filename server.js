@@ -3,6 +3,7 @@ const app = express()
 const crypto = require('crypto')
 const mongoose = require('mongoose')
 const User = require('./db/user')
+const yelpsearch = require('./yelp.js')
 
 const ip = '104.237.158.50'
 const port = 8080
@@ -21,6 +22,14 @@ var user = {}
 var pref = {}
 
 //Registers user
+app.post("/yelpSearch", (req,res) => {
+  console.log(req.body)
+
+  let info = req.body
+
+  yelpsearch.yelpSearch()
+})
+
 app.post("/registerUser", (req,res) => {
 
    let info = req.body
