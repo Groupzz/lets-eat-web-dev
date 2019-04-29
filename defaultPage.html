@@ -78,12 +78,12 @@
     		<button id="submit" class="btn">Search</button>
 		</div> -->
 		<div id="container">
-    		<form id="search">
+    		<form id="search" method="POST" action="http://104.237.158.50:8080/yelpSearch">
 	    		<input id="input" type="place" placeholder="I'm in the mood for...">
 	    		<input id = "location" type="location" placeholder="at...">
 	    		<button id="submit" class="btn">Search</button>
 	    	</form>
 		</div>
-    <script data-main="scripts/yelp.js" src="scripts/require.js">const yelp = require('yelp-fusion');</script>
+    <script data-main="yelp.js" src="/public/scripts/require.js">const yelp = require('yelp-fusion');</script>
     </body>
 </html>
