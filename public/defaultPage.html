@@ -78,12 +78,18 @@
     		<button id="submit" class="btn">Search</button>
 		</div> -->
 		<div id="container">
-    		<form id="search" method="POST" action="http://104.237.158.50:8080/yelpSearch">
+			<!-- <form id="search" method="POST" action="http://localhost:8080/yelpSearch"> -->
+    		<!-- <form id="search" method="POST" action="http://104.237.158.50:8080/yelpSearch"> -->
+    		<form id="search" method="POST" action="https://cors-anywhere.herokuapp.com/http://localhost:8080/yelpSearch">
 	    		<input id="input" name = "place" type="place" placeholder="I'm in the mood for...">
 	    		<input id = "location" name="location" type="location" placeholder="at...">
 	    		<button id="submit" class="btn">Search</button>
 	    	</form>
 		</div>
-    <script data-main="yelp.js" src="/public/scripts/require.js">const yelp = require('yelp-fusion');</script>
+
+		<script src="bundle.js"></script>
+    
+    	<!-- <script data-main="yelp.js" src="/public/scripts/require.js">const yelp = require('yelp-fusion');</script>  -->
+    
     </body>
 </html>

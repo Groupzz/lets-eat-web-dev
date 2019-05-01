@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
-const client = require("./client.js");
+//const client = require("./client.js");
 const yelp = require('yelp-fusion').remote;
 
 // Keep a global reference of the window object, if you don't, the window will

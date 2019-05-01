@@ -3,9 +3,9 @@ const app = express()
 const crypto = require('crypto')
 const mongoose = require('mongoose')
 const User = require('./db/user')
-const yelpsearch = require('./yelp.js')
+//const yelpsearch = require('./yelp.js')
 
-const ip = '104.237.158.50'
+const ip = 'localhost' //'104.237.158.50'
 const port = 8080
 
 var  bodyParser = require("body-parser")
@@ -20,6 +20,8 @@ var username
 var users = []
 var user = {}
 var pref = {}
+
+var api_key = 'p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx';
 
 //Registers user
 app.post("/yelpSearch", (req,res) => {
