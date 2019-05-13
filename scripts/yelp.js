@@ -57,16 +57,41 @@ function yelpSearch(input, location)
 		for(i in response.jsonBody.businesses)
 		{
 			// Get JSON data for next restaurant
-			const result = response.jsonBody.businesses[i];
+            const result = response.jsonBody.businesses[i];
 			// Iterate through key:value JSON attributes
 			for(var key in result)
 			{
-				// Print key:value line by line
-				if(result.hasOwnProperty(key))
-				{
-					document.getElementById('search').innerHTML += "<strong>" + key + ":</strong>  " + JSON.stringify(result[key], null, 4) + "<br>";
+				// Print restaurant's basic info
+                if (result.hasOwnProperty(key)) {
+                    if (key == 'name')
+                    {
+                        document.getElementById('search').innerHTML += "<strong>" + 'Name' + ":</strong>  " + JSON.stringify(result[key], null, 4) + "<br>";
+                    }
+                    if (key == 'display_phone') {
+                        document.getElementById('search').innerHTML += "<strong>" + 'Phone Number' + ":</strong>  " + JSON.stringify(result[key], null, 4) + "<br>";
+                    }
+                    
 				}
-			}
+
+            }
+            ///*
+            for (var key in result)
+            {
+                // Print yelp page URL after the restaurant's basic info (STILL NEED TO FIX THE QUOTATIONS)
+                if (result.hasOwnProperty(key)) {
+                    if (key == 'url') {
+                        var linkText = "Yelp Page";
+                        var space = " ";
+                        var url1 = JSON.stringify(result[key], null, 4);
+                        url1.replace(/\"/, space);
+                        var resultLink = linkText.link(url1);
+                        document.getElementById('search').innerHTML += resultLink;
+
+                    }
+                }
+
+            }
+            //*/
 			// Line breaks between results
 			document.getElementById('search').innerHTML += "<br><br>";
 			//document.getElementById('search').innerHTML += jsonResult + "<br> <br>";// + jsonResult;
@@ -75,5 +100,5 @@ function yelpSearch(input, location)
 	  console.log(e);
 	});
 }
-//}
+
 
