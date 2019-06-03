@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+	    <!---Title of webpage-->
+        <title>Let's Eat</title>
+	    
+    	<!---Centers the logo---> 
+   		<style> 
+   			h1 {
+   				font-size: 40px;
+   			}
+   			form {
+			    margin: 0 auto;
+			    width: 300px;
+			    padding: 1em;
+			}
+			input {
+			  font: 1.4em sans-serif;
+			}
+			img {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				max-width:30%;
+				max-height:30%;
+			}
+			body {
+				position: cover;
+				background-image: url("./images/forgotpw.jpg");
+				background-repeat: no-repeat; /* image is small so does not repeat */
+				background-attachment: scroll; /*scroll with cursor*/
+				background-size: cover;	/* fits screen */
+			}
+    	</style>
+    </head>
+
+    <body>
+	<!---Makes logo clickable, redirects to defaultPage.html--->
+    	<a href="defaultPage.html">
+    	<img
+	 	src="./images/logo.gif"
+	 	alt="Let's Eat Logo">
+    	</a>
+    	
+	<!---Formats the forgot pw box--->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
+	<form method="post" action="index.html">
+	<div class="box">
+		<h1><center>Forgot Password</center></h1>
+		<p><font size="+1"><center>Enter your email to receive a link to retrieve your password.</font></center></p>
+		<center><input type="email" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" /></center>
+
+		<!---Redirects user to defaultPage.html if Submit is clicked--->
+		<a href="defaultPage.html"><div class="btn"><center><font size="+2">Submit</font></center></div></a>
+	</div>
+	</form>
+    </body>
+</html>
