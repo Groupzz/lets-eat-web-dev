@@ -1,0 +1,25 @@
+{
+  "name": "let-s-eat",
+  "version": "1.0.0",
+  "description": "\"# Let-s-Eat\"",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JessicaHilario/Let-s-Eat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JessicaHilario/Let-s-Eat/issues"
+  },
+  "homepage": "https://github.com/JessicaHilario/Let-s-Eat#readme",
+  "dependencies": {
+    "yelp-fusion": "^2.2.1"
+  },
+  "keywords": [
+    "electron"
+  ]
+}
