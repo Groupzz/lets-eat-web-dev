@@ -3,7 +3,7 @@
     
     <description>A social version of Yelp that allows users to vote for restaurants specified by users and their friends. It can also choose one random restaurant based on the filters given.</description>
 
-    <content src="www/index.html"></html>
+    <content src="www/public/index.html"></html>
 
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
