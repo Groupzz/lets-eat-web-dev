@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!---Title of webpage--->
+    <title>Let's Eat</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet'  href='/fonts/font-awesome-4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='/stylesheets/defaultPage.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        // Functions
+        function yelpSite() {
+            window.open('https://www.yelp.com/');
+        }
+        function loginSec() {
+            window.location.href = "/login";
+        }
+        function signUpSec() {
+            window.location.href = "/register";
+        }
+        function aboutUsSec() {
+            window.location.href = "/aboutUs";
+        }
+
+        // ajax
+        $("#inpt_search").on('focus', function () {
+            $(this).parent('label').addClass('active');
+        });
+
+        $("#inpt_search").on('blur', function () {
+            if($(this).val().length == 0)
+                $(this).parent('label').removeClass('active');
+        });
+    </script>
+</head>
+<!--     <script data-main="scripts/yelp" src="scripts/require.js">
+    	var x = document.getElementById("search")
+	yelpSearch(x)
+    </script> -->
+<body>
+
+<div class="wrapper">
+    <div class = "top">
+        <div class="top_image">
+            <img src="/images/logo2.gif" alt="Avatar" class = "round-image" onclick = "home()">
+        </div>
+        <div id="searchBarContainer">
+            <form>
+                <input class="searchBar" type="text" name="search" placeholder="Deliciousness is just a click away.....">
+            </form>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+            </button>
+            <div class="dropdown-content">
+                <li onclick="loginSec()">Log In</li>
+                <li onclick = "signUpSec()">Sign Up</li>
+                <li onclick = "groupVoteSec()">Group Vote</li>
+                <li onclick = "advancedSearch()">Advanced Search</li>
+                <li onclick="aboutUsSec()">About Us</li>
+                <li onclick="helpSec()">Help</li>
+                <li onclick="yelpSite()">Yelp</li>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="search">
+             <form id="searchForm" method="post" action="/search">
+                 <input class="input" name = "place" type="place" placeholder="I'm in the mood for...">
+                 <input class = "location" name="location" type="location" placeholder="at...">
+                 <input class="searchFood" type="submit" value="Submit"/>
+             </form>
+        </div>
+        <div class="FriendsActivityContainer">
+            <span class="friendsMessage">Log in/Sign up to see what your friends are up to!</span>
+        </div>
+        <div class="RecommendationContainer">
+            <span class="recommendMessage">Log in/Sign up to see recommendations based on your preferences!</span>
+        </div>
+    </div>
+
+</div>
+<div class = "bottomCredits">
+    <span class = "bottomCreditsFL">© 2019 Let's Eat LE1.0.0,  All Rights Reserved</span><br>
+    <span class = "bottomCreditsSL">	 • powered by Let's Eat 2019</span>
+    <span class = "veryBottomCreditTL">By: Brett Tomita, Hayden Matheus, <br>Long Chu, Pamela Regudo, and Jessica Hilario</span>
+
+</div>
+
+<!--<script src="bundle.js"></script>-->
+
+<!-- <script data-main="yelp.js" src="/public/scripts/require.js">const yelp = require('yelp-fusion');</script>  -->
+
+</body>
+</html>

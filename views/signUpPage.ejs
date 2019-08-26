@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/signUp.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-en.min.js"></script>
+
+    <!---Title of webpage--->
+    <title>Let's Eat</title>
+
+    <script>
+        var $signupForm = $('#SignupForm');
+
+        $signupForm.validationEngine();
+
+        $signupForm.formToWizard({
+            submitButton: 'Register',
+            showProgress: true, //default value for showProgress is also true
+            nextBtnName: 'Forward >>',
+            prevBtnName: '<< Previous',
+            showStepNo: false,
+            validateBeforeNext: function() {
+                return $signupForm.validationEngine( 'validate' );
+            }
+        });
+
+        $( '#txt_stepNo' ).change( function() {
+            $signupForm.formToWizard( 'GotoStep', $( this ).val() );
+        });
+
+        $( '#btn_next' ).click( function() {
+            $signupForm.formToWizard( 'NextStep' );
+        });
+
+        $( '#btn_prev' ).click( function() {
+            $signupForm.formToWizard( 'PreviousStep' );
+        });
+
+        function validatePassword(){
+            var password = document.getElementById("Password")
+                , confirm_password = document.getElementById("ConfirmPassword");
+            console.log("check");
+            if(password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+
+        function uniqueUsername() {
+            // ajax
+        }
+    </script>
+</head>
+
+<body>
+<!---Makes logo clickable, redirects to defaultPage.html--->
+<a href="defaultPage.html">
+    <img
+            src="./images/logo.gif"
+            alt="Let's Eat Logo">
+</a>
+<h1><center>Sign Up</center></h1>
+<!---Formats the sign up information box--->
+<div class="limiter">
+<form method="POST" action="/registerUser" id="SignupForm">
+<!--    <div class="box">-->
+    <fieldset>
+        <legend>Account SignUp</legend>
+        <!--User info-->
+        <label for="username">Username: </label>
+        <input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" id="username" class="validate[required]" onchange = "uniqueUsername()"/>
+        <label for="Email">E-mail: </label>
+        <input type="email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" id="Email" class="validate[custom[email],required]"/>
+        <label for="Password">Password: </label>
+        <input type="password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="validate[required]" id="Password"/>
+        <label for="ConfirmPassword">Confirm Password: </label>
+        <input type="password" name="ConfirmPassword" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" id="ConfirmPassword" onchange = "validatePassword()" class="validate[required]"/>
+    </fieldset>
+    <fieldset>
+        <legend>Personal Information</legend>
+        <label for="first_name">First Name: </label>
+        <input type="text" name="FirstName" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'First Name');" id="first_name" class="validate[required]"/>
+        <label for="last_name">Last Name: </label>
+        <input type="text" name="LastName" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'Last Name');" id="last_name" class="validate[required]"/>
+        <label for="dob">Date of Birth: </label>
+        <input type="date" value="" onFocus="field_focus(this, 'date');" onblur="field_blur(this, 'date');" id="dob" class="validate[required]"/>
+        <label for="city">City: </label>
+        <input type="text" name="City" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="city" class="validate[required]"/>
+        <label for="state">State: </label>
+        <input type="text" name="State" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="state" class="validate[required]"/>
+        <label for="phone">Phone Number</label>
+        <input id="phone" name="phone" type="tel" pattern="[0-9]{3}(-)?[0-9]{3}(-)?[0-9]{4}"  class="validate[required]"/>
+        <label for="secq">Security Question: </label>
+        <input type="text" name="SecurityQuestion" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="secq" class="validate[required]"/>
+        <label for="answer">Answer:</label>
+        <input type="text" name="Answer" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="answer" class="validate[required]"/>
+    </fieldset>
+    <fieldset><!--Preferences-->
+        <legend>What are your cuisine preferences?</legend>
+            <p align = "left"><input type="checkbox" name="cuisine" value="American">American<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Mexican">Mexican<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Chinese">Chinese<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Japanese">Japanese<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Thai">Thai<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Italian">Italian<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Indian">Indian<br></p>
+            <p align = "left"><input type="checkbox" name="cuisine" value="Greek">Greek<br></p>
+            <br>
+    </fieldset>
+
+        <!---Submit button redirects to userPage.html--->
+        <!-- <a href="userPage.html"><div id="btn2"><center>Submit</center></div></a> -->
+    <p>
+        <input type="submit" id="Register" value="Register"/>
+    </p>
+<!--    </div>-->
+
+</form>
+</div>
+</body>
+</html>

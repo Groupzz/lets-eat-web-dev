@@ -1,0 +1,22 @@
+form {
+    margin: 0 auto;
+    width: 270px;
+    padding: 1em;
+}
+input {
+    font: 1.5em sans-serif;
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width:30%;
+    max-height:30%;
+}
+body {
+    position: cover;
+    background-image: url("./images/signin.jpg");
+    background-repeat: no-repeat; /* image is small so does not repeat */
+    background-attachment: scroll; /*scroll with cursor*/
+    background-size: cover; /* fits screen */
+}
