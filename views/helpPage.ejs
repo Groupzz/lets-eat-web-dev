@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    	<!---Title of webpage--->   
+        <title>Let's Eat</title>
+        
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+    	/* Style the topnav bar */
+		.topnav {
+			background-color: #333;
+			overflow: hidden;
+		}
+		.topnav a {
+			float: right;
+			color: #f2f2f2;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 25px
+		}
+		.topnav a:hover {
+			background-color: #ddd;
+			color: black;
+		}
+		.topnav a.active {
+			background-color: #ff80d5;
+			color: white;
+		}
+		img {
+			position: absolute;
+			display: block;
+			left: 50%
+			margin-left: -50px !important;
+			max-width:8.5%;
+			max-height:8.5%;
+		}
+		body {
+			position: cover;
+			background-image: url("./images/helpbg.jpg");
+			background-repeat: no-repeat; /* image is small so does not repeat */
+			background-attachment: scroll; /*scroll with cursor*/			
+			background-size: cover;
+		}
+		.search {
+ 			font-size: 38px;
+			text-align: center;
+			position: absolute;
+			top: 47%;
+			left: 50%;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+		}
+		/* Added for padding */
+		p {
+			margin-left:2em;
+		}
+		h1 {
+			margin-left:0.8em;
+		}
+		h2 {
+			margin-left:1em;
+		}
+
+    </style>
+    </head>
+    
+    <script data-main="scripts/yelp" src="scripts/require.js">
+	    	var x = document.getElementById("search")
+		    yelpSearch(x)
+	</script>
+    	
+    <body>
+		<!---Top navigation bar--->
+    	<div class="topnav">
+			<a class="active" href="#homepage">Default Page</a>
+			<a href="signInPage.html">Sign in</a>
+			<img
+	 			src="./images/logo.gif"
+	 			alt="Let's Eat Logo">
+    	</div>
+    	
+    	<!---Page name--->
+        <h1><font size="6">Hey, I Need Help!</font></h1>
+    	
+    	<!---Frequently Asked Questions--->
+    	<div class="faq">
+			<p><font color="red">Can I change my username?</font>
+    		<br>Yes! First, navigate to...</p>
+    		<p><font color="red">Can I change the email associated with my account?</font>
+    		<br>Yes! First, navigate to...</p>
+    		<p><font color="red">I forgot my password, how do I reset it?</font>
+    		<br>Select Account Management on the top right...</p>
+    		<p><font color="red">Can I order food through your website?</font>
+    		<br>To be added...</br>
+			<p><font color="red">How do I add friends?</font>
+    		<br>To be added...</p>
+			<p><font color="red">How can I unfriend or block someone?</font>
+    		<br>To be added...</p>
+			<p><font color="red">Can businesses advertise on the website?</font>
+    		<br>Businesses can choose to advertise their businesses on the app, 
+    		<br>however we will not share any of your information with them <br></p>
+			<p><font color="red">I have an existing Yelp! account, can I use it here?</font>
+    		<br>To be added...</p>
+		</div>
+		
+		<h2>Contact Us!</h2>
+		<p>Email us at lets_eat@gmail.com if you have a question not listed above.</p>
+		
+    </body>
+</html>
