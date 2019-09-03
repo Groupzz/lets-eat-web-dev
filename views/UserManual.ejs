@@ -5,23 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet'  href='/fonts/font-awesome-4.7.0/css/font-awesome.min.css'>
     <link rel='stylesheet' href='/stylesheets/UserManual.css'>
 
     <!--- Website/tab title --->
     <title>Let's Eat! User Manual</title>
+    <script>
+        // Functions
+        function yelpSite() {
+            window.open('https://www.yelp.com/');
+        }
+        function loginSec() {
+            window.location.href = "/login";
+        }
+        function signUpSec() {
+            window.location.href = "/register";
+        }
+        function aboutUsSec() {
+            window.location.href = "/aboutUs";
+        }
+        function home() {
+            window.location.href = "/home"
+        }
+    </script>
 </head>
 
 <body>
-    <div class="goback">
-        <span class="gobackText">Return Home</span>
+<div class = "top">
+    <div class="top_image">
+        <img id="top_logo" src="/images/logo2.gif" alt="Avatar" class = "round-image" onclick = "home()">
     </div>
+
+    <div class="dropdown">
+        <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+        </button>
+        <div class="dropdown-content">
+            <li onclick="loginSec()">Log In</li>
+            <li onclick = "signUpSec()">Sign Up</li>
+            <li onclick = "groupVoteSec()">Group Vote</li>
+            <li onclick = "advancedSearch()">Advanced Search</li>
+            <li onclick="aboutUsSec()">About Us</li>
+            <li onclick="helpSec()">Help</li>
+            <li onclick="yelpSite()">Yelp</li>
+        </div>
+    </div>
+</div>
+<div class="container">
     <h1><center><u>Let's Eat! User Manual</u></center></h1>
 
-    <!-- Logo -->
-    <img
-            src="/images/logo2.gif"
-            alt="Let's Eat Logo"
-    >
+<!--    &lt;!&ndash; Logo &ndash;&gt;-->
+<!--    <img-->
+<!--            src="/images/logo2.gif"-->
+<!--            alt="Let's Eat Logo"-->
+<!--    >-->
 
     <h2>What is Let's Eat?
         <p>The purpose of our Let’s Eat! is to help people choose what restaurant they should go to.
@@ -36,17 +72,17 @@
         <ul style="list-style-type: decimal;">
             <li class="shift">Select Sign In from the Home Page
                 <img
+                        class="pic"
                         src="/images/signin.png"
                         alt="sign in picture"
-                        style="width:200px;height:50px;float:right;"
-                >
+                        style="width:200px;height:50px;float:right;">
             </li>
             <li class="shift">Select Sign Up
                 <img
+                        class="pic"
                         src="/images/signup.png"
                         alt="sign up picture"
-                        style="width:300px;height:180px;float:right;"
-                >
+                        style="width:300px;height:180px;float:right;">
             </li>
             <li class="shift">Provide your email address, password, and any other requested information</li>
             <li class="shift">Select Submit, then an email will be sent to you to confirm your new account</li>
@@ -88,6 +124,7 @@
             <br>Businesses can choose to advertise their businesses on the app,
             <br>however we will not share any of your information with them <br></p>
     </h6>
+</div>
 
 
 </body>
