@@ -120,7 +120,7 @@ body {
     margin-top: 5px;
     top:0;
     right:0;
-    position: fixed;
+    position: absolute;
     display: inline-block;
 }
 .dropbtn {
