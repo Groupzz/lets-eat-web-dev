@@ -1,0 +1,115 @@
+/* Style the topnav bar */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 10%; opacity: 1}
+}
+.top{
+    width:100%;
+    height: 55px;
+    background-color: #333;
+}
+/* Image start */
+.top_image {
+    background:none;
+    width:75px;
+    height: 55px;
+    cursor:pointer;
+}
+img {
+    margin-left: 10px;
+    max-width:75px;
+    max-height:55px;
+}
+/* Image end */
+/* Search bar start */
+.searchBar {
+    background-image: url('/images/searchicon.png');
+    background-size: 20px;
+    background-position-y: center;
+    background-position-x: center;
+    position: absolute;
+    left:80px;
+    top:8px;
+    text-align: center;
+    float: left;
+    margin-top: 3px;
+    margin-left: 500px;
+    width: 500px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 3px 20px 3px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+/* Search bar end */
+/* Dropdown start*/
+.fa-user-circle-o {
+    border-radius: 22px;
+    background: #adadad;
+}
+.dropdown {
+    background: none;
+    text-align: center;
+    margin-top: 5px;
+    top:0;
+    right:0;
+    position: absolute;
+    display: inline-block;
+ }
+.dropbtn {
+    margin-right: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.dropdown-content {
+    font-size: 14px;
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content li {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content li:hover {
+    background-color: #f14c42;
+    cursor: pointer;
+}
+.dropdown:hover .dropdown-content {display: block;}
+/* Dropdown end*/
+/* Footer */
+.bottomCredits{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: black;
+    text-align: center;
+    font-size:12px;
+    font-family: Helvetica;
+    font-weight: lighter;
+    background-color: #dbc8a7;
+}
+
+.bottomCreditsFL{
+
+}
+
+.bottomCreditsSL{
+    margin-left:20px;
+}
+/* Content Area end */
