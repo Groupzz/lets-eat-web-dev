@@ -19,21 +19,22 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
-// users - city, dateofbirth, email, firstname, lastname, password, phone, securityanswer, securityquestion, state, username, zipcode
+// users - city, dateofbirth, email, firstname, lastname, password, phone, securityanswer, securityquestion, state, username, zipcode(num)
 // preferences - username, preference
 // statusboard - checkin, username
+// DietaryRestriction - username, Vegan, Vegetarian, Halal,
 
 // Sending emails to the user
 let smtpTransport = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com", // hostname
+  host: "imap.gmail.com", // hostname
   secureConnection: false, // TLS requires secureConnection to be false
   port: 587, // port for secure SMTP
   tls: {
     ciphers:'SSLv3'
   },
   auth: {
-    user: 'register@pvnet.com',
-    pass: 'R3gi$t3r'
+    user: 'letseatsc@gmail.com',
+    pass: 'Aaqwertyuiop1'
   }
 });
 
