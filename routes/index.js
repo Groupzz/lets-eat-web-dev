@@ -3,7 +3,9 @@ var router = express.Router();
 var firebase = require("firebase/app");
 var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
+var yelp = require('yelp-fusion');
 
+const apiKey = 'p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx';
 require("firebase/firestore");
 require("firebase/auth");
 
@@ -74,5 +76,10 @@ router.post('/registerUser', function(req,res) {
 
 });
 
+/* POST yelp search */
+router.post('/yelpSearch', function(req,res) {
+  var info = req.body;
+
+});
 
 module.exports = router;
