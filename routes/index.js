@@ -142,7 +142,11 @@ router.get('/checkEmail', function(req, res) {
 
 /* POST registering users */
 router.post('/registerUser', function(req,res) {
+    if (req.cookies.userInfo == null) { // make cookie
+        res.cookie("userInfo", userDataPacket);
 
+        console.log("here is the coockie", req.cookies);
+    }
 });
 
 /* POST yelp search */
