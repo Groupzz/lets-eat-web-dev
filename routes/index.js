@@ -142,6 +142,14 @@ router.get('/checkEmail', function(req, res) {
 
 /* POST registering users */
 router.post('/registerUser', function(req,res) {
+    var userDataPacket = {
+
+        email: data[0].email,
+        pass: data[0].password,
+        firstName: data[0].firstname,
+        lastName: data[0].lastname,
+        useID: data[0].id
+    };
     if (req.cookies.userInfo == null) { // make cookie
         res.cookie("userInfo", userDataPacket);
 
