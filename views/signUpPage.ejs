@@ -6,38 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='/stylesheets/signUp.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-en.min.js"></script>
+    <script src="javascripts/SignupJS/main.js"></script>
 
     <!---Title of webpage--->
     <title>Let's Eat</title>
 
     <script>
-        var $signupForm = $('#SignupForm');
+        $( function() {
+            var $signupForm = $('#SignupForm');
 
-        $signupForm.validationEngine();
+            $signupForm.validationEngine();
 
-        $signupForm.formToWizard({
-            submitButton: 'Register',
-            showProgress: true, //default value for showProgress is also true
-            nextBtnName: 'Forward >>',
-            prevBtnName: '<< Previous',
-            showStepNo: false,
-            validateBeforeNext: function() {
-                return $signupForm.validationEngine( 'validate' );
-            }
-        });
+            $signupForm.formToWizard({
+                submitButton: 'Register',
+                showProgress: true, //default value for showProgress is also true
+                nextBtnName: 'Forward >>',
+                prevBtnName: '<< Previous',
+                showStepNo: false,
+                validateBeforeNext: function() {
+                    var password = document.getElementById("Password")
+                        , confirm_password = document.getElementById("ConfirmPassword");
+                    console.log("check");
+                    if(password.value != confirm_password.value) {
+                        alert("passwords do not match");
+                        return false;
+                    }
+                    var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+                    if(!password.value.match(passw)){
+                        password.style="border-color:red;";
+                        alert("Make sure your password satisfied the following format:\n* contains at least one number \n* one uppercase and lowercase letter\n* at least 8 or more characters");
 
-        $( '#txt_stepNo' ).change( function() {
-            $signupForm.formToWizard( 'GotoStep', $( this ).val() );
-        });
+                        return false;
+                    }
+                    password.style="border-color:black; background:none";
+                    return $signupForm.validationEngine( 'validate' );
+                }
+            });
 
-        $( '#btn_next' ).click( function() {
-            $signupForm.formToWizard( 'NextStep' );
-        });
+            $( '#txt_stepNo' ).change( function() {
+                $signupForm.formToWizard( 'GotoStep', $( this ).val() );
+            });
 
-        $( '#btn_prev' ).click( function() {
-            $signupForm.formToWizard( 'PreviousStep' );
+            $( '#btn_next' ).click( function() {
+                $signupForm.formToWizard( 'NextStep' );
+            });
+
+            $( '#btn_prev' ).click( function() {
+                $signupForm.formToWizard( 'PreviousStep' );
+            });
         });
 
         function validatePassword(){
@@ -51,10 +70,30 @@
                 confirm_password.setCustomValidity('');
             }
         }
-
-        function uniqueUsername() {
-            // ajax
-        }
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+            $('#username').on('change', function() {
+                var username = document.getElementById("username").value;
+                $.get("/isUnique?uname="+username, function (response) {
+                    if (response.UserNameInUse) {
+                        alert("that username is not available");
+                    }
+                })
+            });
+            $('#Email').on('change', function() {
+                var email = document.getElementById("Email").value;
+                $.get("/checkEmail?email="+email, function (response) {
+                    if (response.EmailInUse) {
+                        alert("that email is being used");
+                    }
+                })
+            });
+        });
     </script>
 </head>
 
@@ -65,7 +104,7 @@
             src="./images/logo.gif"
             alt="Let's Eat Logo">
 </a>
-<h1><center>Sign Up</center></h1>
+<h1 id="topMessage"><center>Sign Up</center></h1>
 <!---Formats the sign up information box--->
 <div class="limiter">
 <form method="POST" action="/registerUser" id="SignupForm">
@@ -74,7 +113,7 @@
         <legend>Account SignUp</legend>
         <!--User info-->
         <label for="username">Username: </label>
-        <input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" id="username" class="validate[required]" onchange = "uniqueUsername()"/>
+        <input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" id="username" class="validate[required]"/>
         <label for="Email">E-mail: </label>
         <input type="email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" id="Email" class="validate[custom[email],required]"/>
         <label for="Password">Password: </label>
@@ -83,6 +122,7 @@
         <input type="password" name="ConfirmPassword" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" id="ConfirmPassword" onchange = "validatePassword()" class="validate[required]"/>
     </fieldset>
     <fieldset>
+        <!--    Personal Information    -->
         <legend>Personal Information</legend>
         <label for="first_name">First Name: </label>
         <input type="text" name="FirstName" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'First Name');" id="first_name" class="validate[required]"/>
@@ -113,14 +153,9 @@
             <p align = "left"><input type="checkbox" name="cuisine" value="Greek">Greek<br></p>
             <br>
     </fieldset>
-
-        <!---Submit button redirects to userPage.html--->
-        <!-- <a href="userPage.html"><div id="btn2"><center>Submit</center></div></a> -->
     <p>
         <input type="submit" id="Register" value="Register"/>
     </p>
-<!--    </div>-->
-
 </form>
 </div>
 </body>

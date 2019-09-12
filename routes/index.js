@@ -3,7 +3,7 @@ var router = express.Router();
 var firebase = require("firebase/app");
 require("firebase/firestore");
 // var nodemailer = require("nodemailer");
-// var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 // var yelp = require('yelp-fusion');
 
 // setup connection to firebase database
@@ -33,6 +33,15 @@ const db = firebase.firestore();
 //     pass: 'R3gi$t3r'
 //   }
 // });
+
+/* converts to a regular date */
+function convert(str) {
+    var date = new Date(str),
+        mnth = ("0" + (date.getMonth()+1)).slice(-2),
+        day  = ("0" + date.getDate()).slice(-2);
+    return [ date.getFullYear(), mnth, day ].join("-");
+}
+
 /* GET index page. */
 router.get('/', function(req, res, next) {
     var cafes = [];
@@ -81,9 +90,58 @@ router.get('/aboutUs', function(req,res) {
   res.render('UserManual', { title: 'AboutUs' });
 });
 
+/* GET check username */
+router.get('/isUnique', function(req, res) {
+    var query = require('url').parse(req.url, true).query;
+    var username = query.uname;
+    var inUse = false;
+    const promise = new Promise((res,rej) => {
+        db.collection('users').where('username', '==', username).get()
+            .then((snapshot) => {
+                if (snapshot != null) {
+                    snapshot.docs.forEach(doc => {
+                        if (doc.data().username === username) {
+                            inUse = true;
+                        }
+                    });
+                }
+                res(inUse)
+            });
+    })
+        .then(nameInUse => {
+            return res.send({
+                UserNameInUse: nameInUse
+            });
+        });
+});
+
+/* GET check email*/
+router.get('/checkEmail', function(req, res) {
+    var query = require('url').parse(req.url, true).query;
+    var email = query.email;
+    var inUse = false;
+    const promise = new Promise((res,rej) => {
+        db.collection('users').where('email', '==', email).get()
+            .then((snapshot) => {
+                if (snapshot != null) {
+                    snapshot.docs.forEach(doc => {
+                        if (doc.data().email === email) {
+                            inUse = true;
+                        }
+                    });
+                }
+                res(inUse)
+            });
+    })
+        .then(emailInUse => {
+            return res.send({
+                EmailInUse: emailInUse
+            });
+        });
+});
+
 /* POST registering users */
 router.post('/registerUser', function(req,res) {
-  var db = req.con;
 
 });
 
