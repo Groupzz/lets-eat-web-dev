@@ -4,7 +4,6 @@ var firebase = require("firebase/app");
 require("firebase/firestore");
 // var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
-// var yelp = require('yelp-fusion');
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -142,6 +141,31 @@ router.get('/checkEmail', function(req, res) {
 
 /* POST registering users */
 router.post('/registerUser', function(req,res) {
+    // Personal information
+    var un = req.body.Username;
+    var email = req.body.email;
+    var pass = req.body.Password;
+    var fn = req.body.FirstName;
+    var ln = req.body.LastName;
+    var dob = req.body.dob;
+    var city = req.body.City;
+    var state = req.body.State;
+    var phone = req.body.phone;
+    var secq = req.body.SecurityQuestion;
+    var seca = req.body.Answer;
+
+    // Preferences
+    var  am = !!req.body.American;
+    var me = !!req.body.Mexican;
+    var ch = !!req.body.Chinese;
+    var ja = !!req.body.Japanese;
+    var th = !!req.body.Thai;
+    var it = !!req.body.Italian;
+    var ind = !!req.body.Indian;
+    var gr = !!req.body.Greek;
+
+    console.log("dob ",dob);
+
     var userDataPacket = {
 
         email: data[0].email,
