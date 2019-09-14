@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!---Title of webpage--->
+    <title><%=title%> <%=searchTerm%></title>
+    <link rel='stylesheet'  href='/fonts/font-awesome-4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='/stylesheets/yelpSearchPage.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        // Functions
+        function yelpSite() {
+            window.open('https://www.yelp.com/');
+        }
+        function loginSec() {
+            window.location.href = "/login";
+        }
+        function signUpSec() {
+            window.location.href = "/register";
+        }
+        function aboutUsSec() {
+            window.location.href = "/aboutUs";
+        }
+        function home() {
+            window.location.href = "/home";
+        }
+        function helpSec() {
+            window.location.href = "/help";
+        }
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <div class = "top">
+        <div class="top_image">
+            <img src="/images/logo2.gif" alt="Avatar" class = "round-image" onclick = "home()">
+        </div>
+        <!--        <div id="searchBarContainer">-->
+        <!--            <form>-->
+        <!--                <input class="searchBar" type="search" name="search" placeholder="Deliciousness is just a click away.....">-->
+        <!--            </form>-->
+        <!--        </div>-->
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+            </button>
+            <div class="dropdown-content">
+                <li onclick="loginSec()">Log In</li>
+                <li onclick = "signUpSec()">Sign Up</li>
+                <li onclick = "groupVoteSec()">Group Vote</li>
+                <li onclick = "advancedSearch()">Advanced Search</li>
+                <li onclick="aboutUsSec()">About Us</li>
+                <li onclick="helpSec()">Help</li>
+                <li onclick="yelpSite()">Yelp</li>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="sideModify">
+            <%console.log(searchTerm)%>
+        </div>
+        <div class="restaurantListContainer">
+            <ul class="restaurant-list">
+                <% for(var j = 0; j < restaurants.length; j++) {%>
+                <li id="<%=restaurants[j].id%>" class="restEle">
+                    <span class="name"><%=restaurants[j].name%></span><span class="location"><%=restaurants[j].price%></span>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

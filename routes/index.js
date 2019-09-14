@@ -1,9 +1,13 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var firebase = require("firebase/app");
+var yelp = require('yelp-fusion');
+const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
+var bcrypt = require('bcrypt-nodejs');
 require("firebase/firestore");
 // var nodemailer = require("nodemailer");
-var bcrypt = require('bcrypt-nodejs');
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -87,6 +91,36 @@ router.get('/register', function(req,res) {
 /* GET about us page */
 router.get('/aboutUs', function(req,res) {
   res.render('UserManual', { title: 'AboutUs' });
+});
+
+/* GET help page */
+router.get('/help', function(req,res) {
+    res.render('helpPage', {title: 'Help Page'});
+});
+
+/* POST restaurant search */
+router.post('/restaurantSearch', function(req,res) {
+    var searchTerm = req.body.term;
+    var location = req.body.location;
+
+    var restaurants = [];
+
+    client.search({
+        term: searchTerm,
+        location: location,
+    })
+        .then(response => {
+
+            restaurants = response.jsonBody.businesses;
+            console.log(restaurants);
+            var title = "searching for... ";
+            var buffer = "";
+            res.render('yelpSearchPage', {title: title, data: buffer, restaurants, searchTerm, location});
+
+        })
+        .catch(e => {
+            console.log(e);
+        });
 });
 
 /* GET check username */
@@ -180,11 +214,5 @@ router.post('/registerUser', function(req,res) {
         console.log("here is the coockie", req.cookies);
     }
 });
-
-/* POST yelp search */
-// router.post('/yelpSearch', function(req,res) {
-//   var info = req.body;
-//
-// });
 
 module.exports = router;

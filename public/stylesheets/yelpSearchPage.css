@@ -1,11 +1,11 @@
 html, body {
-    background-image: url('/images/bg.jpg');
+    margin: 0;
+    background-image: url('/images/accmgmt.jpg');
     background-repeat: no-repeat; /* image is small so does not repeat */
     background-size: cover;
     height: 100%;
     font-family: Helvetica;
 }
-
 .wrapper {
     width: 100%;
     height:100%;
@@ -18,6 +18,7 @@ html, body {
     to {top: 10%; opacity: 1}
 }
 .top{
+    margin: 0;
     width:100%;
     height: 55px;
     background-color: #333;
@@ -75,7 +76,7 @@ img {
     right:0;
     position: absolute;
     display: inline-block;
- }
+}
 .dropbtn {
     margin-right: 10px;
     border: none;
@@ -98,7 +99,6 @@ img {
     text-decoration: none;
     display: block;
 }
-
 .dropdown-content li:hover {
     background-color: #f14c42;
     cursor: pointer;
@@ -106,91 +106,50 @@ img {
 .dropdown:hover .dropdown-content {display: block;}
 /* Dropdown end*/
 /* Content Area start */
-/* search navigation start*/
-.search {
-    font-size: 30px;
-    text-align: center;
+/* restaurant list start */
+.restaurantListContainer {
+    background: #fff;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px 20px;
+    border-radius: 20px; /*10px 120px 10px 10px*/
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+}
+.restaurant-list {
+    list-style-type: none;
+    padding: 0;
+}
+.restEle {
+    padding: 20px;
+    background: #f6f6f6;
+    font-size: 20px;
+    color: #555;
+    position: relative;
+    border-bottom: 1px solid #e6e6e6;
+    height: 46px;
+}
+.restEle:nth-child(even){
+    padding: 20px;
+    background: #f2f2f2;
+}
+.restEle span {
+    didsplay: block;
+}
+.restEle span:nth-child(2){
+    font-size: 16px;
+    margin-top: 6px;
+    color: #999;
+}
+li div{
     position: absolute;
-    top: 250px;
-    left: 80px;
-    margin-left: 500px;
-}
-.searchFood {
-    border-top:		2px solid #cc885a;
-    border-left:		2px solid #cc885a;
-    border-right:		2px solid #b06f5a;
-    border-bottom:		2px solid #b06f5a;
-    padding:		15px 20px !important;
-    font-size:		14px !important;
-    background-color: #ffd96b;
-    font-weight:		bold;
-    color: #5d3d1d;
-}
-/* search navigation start*/
-/* Friend's activity container start */
-.FriendsActivityContainer{
-    width:600px;
-    height:240px;
-    background: none;
-    border-radius: 15px;
+    top: 0;
+    right: 0px;
+    background: rgba(255,255,255,0.6);
+    width: 40px;
     text-align: center;
-    border: 2px solid #cc885a;
-    background:#7f7f7f;
-    background:rgba(255,255,255,0.4);
-    position:absolute;
-    left:150px;
-    bottom:250px;
+    padding: 10px 0;
+    font-weight:  bold;
+    cursor:  pointer;
 }
-.friendsMessage {
-    position: absolute;
-    top: 80px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: x-large;
-}
-/* Friend's activity container end */
-/* Recommendation container start */
-.RecommendationContainer{
-    text-align: center;
-    border: 2px solid #cc885a;
-    width:600px;
-    height:240px;
-    background: none;
-    border-radius: 15px;
-    background:#7f7f7f;
-    background:rgba(255,255,255,0.4);
-    position:absolute;
-    right:150px;
-    bottom:250px;
-}
-.recommendMessage {
-    position: absolute;
-    top: 80px;
-    left: 0;
-    right: 0;
-    font-size: x-large;
-}
-/* Recommendation container end */
-/* Footer */
-.bottomCredits{
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    color: black;
-    text-align: center;
-    font-size:12px;
-    font-family: Helvetica;
-    font-weight: lighter;
-    background-color: #dbc8a7;
-}
-
-.bottomCreditsFL{
-
-}
-
-.bottomCreditsSL{
-    margin-left:20px;
-}
+/* restaurant list end */
 /* Content Area end */
