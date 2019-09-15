@@ -4,10 +4,11 @@ var express = require('express');
 var router = express.Router();
 var firebase = require("firebase/app");
 var yelp = require('yelp-fusion');
-const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
+var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
+const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
-// var nodemailer = require("nodemailer");
+
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -23,19 +24,19 @@ firebase.initializeApp(firebaseConfig);
 // Create the database connection
 const db = firebase.firestore();
 
-// Sending emails to the user
-// let smtpTransport = nodemailer.createTransport({
-//   host: "smtp-mail.outlook.com", // hostname
-//   secureConnection: false, // TLS requires secureConnection to be false
-//   port: 587, // port for secure SMTP
-//   tls: {
-//     ciphers:'SSLv3'
-//   },
-//   auth: {
-//     user: 'register@pvnet.com',
-//     pass: 'R3gi$t3r'
-//   }
-// });
+Sending emails to the user
+let smtpTransport = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com", // hostname
+  secureConnection: false, // TLS requires secureConnection to be false
+  port: 587, // port for secure SMTP
+  tls: {
+    ciphers:'SSLv3'
+  },
+  auth: {
+    user: 'letseatsc@gmail.com',
+    pass: 'Aaqwertyuiop1'
+  }
+});
 
 /* converts to a regular date */
 function convert(str) {
@@ -200,19 +201,21 @@ router.post('/registerUser', function(req,res) {
 
     console.log("dob ",dob);
 
-    var userDataPacket = {
 
-        email: data[0].email,
-        pass: data[0].password,
-        firstName: data[0].firstname,
-        lastName: data[0].lastname,
-        useID: data[0].id
-    };
-    if (req.cookies.userInfo == null) { // make cookie
-        res.cookie("userInfo", userDataPacket);
 
-        console.log("here is the coockie", req.cookies);
-    }
+    // var userDataPacket = {
+    //
+    //     email: data[0].email,
+    //     pass: data[0].password,
+    //     firstName: data[0].firstname,
+    //     lastName: data[0].lastname,
+    //     useID: data[0].id
+    // };
+    // if (req.cookies.userInfo == null) { // make cookie
+    //     res.cookie("userInfo", userDataPacket);
+    //
+    //     console.log("here is the coockie", req.cookies);
+    // }
 });
 
 module.exports = router;
