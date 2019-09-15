@@ -216,3 +216,6 @@ router.post('/registerUser', function(req,res) {
 });
 
 module.exports = router;
+
+// Google API key
+// AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0
