@@ -106,10 +106,31 @@ img {
 .dropdown:hover .dropdown-content {display: block;}
 /* Dropdown end*/
 /* Content Area start */
+/* Side area start */
+.sideModify {
+    position: absolute;
+    left: 0;
+    background: #fff;
+    max-width: 200px;
+    margin: 30px auto;
+    padding: 20px 20px;
+    border-radius: 20px; /*10px 120px 10px 10px*/
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+}
+.modifyHeader {
+    padding: 5px;
+    background: #f6f6f6;
+    font-size: 18px;
+    color: #555;
+    position: relative;
+    border-bottom: 1px solid #e6e6e6;
+    height: 46px;
+}
+/* Side area end */
 /* restaurant list start */
 .restaurantListContainer {
     background: #fff;
-    max-width: 700px;
+    max-width: 1000px;
     margin: 30px auto;
     padding: 20px 20px;
     border-radius: 20px; /*10px 120px 10px 10px*/

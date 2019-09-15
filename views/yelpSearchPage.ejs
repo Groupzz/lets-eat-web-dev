@@ -58,13 +58,14 @@
     </div>
     <div class="container">
         <div class="sideModify">
+            <span class="modifyHeader">Modify Search Criteria</span>
             <%console.log(searchTerm)%>
         </div>
         <div class="restaurantListContainer">
             <ul class="restaurant-list">
-                <% for(var j = 0; j < restaurants.length; j++) {%>
+                <% for(var j = 0; j < 10; j++) {%>
                 <li id="<%=restaurants[j].id%>" class="restEle">
-                    <span class="name"><%=restaurants[j].name%></span><span class="location"><%=restaurants[j].price%></span>
+                    <span class="name"><%=restaurants[j].name%> - <%=restaurants[j].price%></span><span class="location"><%=restaurants[j].location.city%>,<%=restaurants[j].location.state%> <%=restaurants[j].location.zip_code%></span>
                 </li>
                 <%}%>
             </ul>
