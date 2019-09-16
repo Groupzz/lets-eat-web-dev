@@ -24,9 +24,9 @@ firebase.initializeApp(firebaseConfig);
 // Create the database connection
 const db = firebase.firestore();
 
-Sending emails to the user
+// Sending emails to the user
 let smtpTransport = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com", // hostname
+  host: "smtp.gmail.com", // hostname
   secureConnection: false, // TLS requires secureConnection to be false
   port: 587, // port for secure SMTP
   tls: {
