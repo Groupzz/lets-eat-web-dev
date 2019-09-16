@@ -1,3 +1,20 @@
+body {
+    position: cover;
+    background-image: url("/images/helpbg.jpg");
+    background-repeat: no-repeat; /* image is small so does not repeat */
+    background-attachment: scroll; /*scroll with cursor*/
+    background-size: cover;
+}
+
+p {
+    margin-left:2em;
+}
+h1 {
+    margin-left:0.8em;
+}
+h2 {
+    margin-left:1em;
+}
 /* Style the topnav bar */
 @keyframes animatetop {
     from {top: -300px; opacity: 0}
