@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
 
@@ -15,6 +15,9 @@
     <title>Let's Eat</title>
 
     <script>
+        function home(){
+            window.location.href = "/home";
+        }
         $( function() {
             var $signupForm = $('#SignupForm');
 
@@ -93,70 +96,81 @@
                     }
                 })
             });
+            $('.Login').click(function() {
+               window.location.href = "/login";
+            });
+            $('.home').click(function() {
+               window.location.href = "/home";
+            });
         });
     </script>
 </head>
 
 <body>
 <!---Makes logo clickable, redirects to defaultPage.html--->
-<a href="defaultPage.html">
     <img
+            onclick="home()"
             src="./images/logo.gif"
             alt="Let's Eat Logo">
-</a>
-<h1 id="topMessage"><center>Sign Up</center></h1>
-<!---Formats the sign up information box--->
-<div class="limiter">
-<form method="POST" action="/registerUser" id="SignupForm">
-<!--    <div class="box">-->
-    <fieldset>
-        <legend>Account SignUp</legend>
-        <!--User info-->
-        <label for="username">Username: </label>
-        <input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" id="username" class="validate[required]"/>
-        <label for="Email">E-mail: </label>
-        <input type="email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" id="Email" class="validate[custom[email],required]"/>
-        <label for="Password">Password: </label>
-        <input type="password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="validate[required]" id="Password"/>
-        <label for="ConfirmPassword">Confirm Password: </label>
-        <input type="password" name="ConfirmPassword" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" id="ConfirmPassword" onchange = "validatePassword()" class="validate[required]"/>
-    </fieldset>
-    <fieldset>
-        <!--    Personal Information    -->
-        <legend>Personal Information</legend>
-        <label for="first_name">First Name: </label>
-        <input type="text" name="FirstName" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'First Name');" id="first_name" class="validate[required]"/>
-        <label for="last_name">Last Name: </label>
-        <input type="text" name="LastName" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'Last Name');" id="last_name" class="validate[required]"/>
-        <label for="dob">Date of Birth: </label>
-        <input type="date" name="dob" value="" onFocus="field_focus(this, 'date');" onblur="field_blur(this, 'date');" id="dob" class="validate[required]"/>
-        <label for="city">City: </label>
-        <input type="text" name="City" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="city" class="validate[required]"/>
-        <label for="state">State: </label>
-        <input type="text" name="State" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="state" class="validate[required]"/>
-        <label for="phone">Phone Number</label>
-        <input id="phone" name="phone" type="tel" pattern="[0-9]{3}(-)?[0-9]{3}(-)?[0-9]{4}"  class="validate[required]"/>
-        <label for="secq">Security Question: </label>
-        <input type="text" name="SecurityQuestion" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="secq" class="validate[required]"/>
-        <label for="answer">Answer:</label>
-        <input type="text" name="Answer" value="" onFocus="field_focus(this, 'text');" onblur="field_blur(this, 'text');" id="answer" class="validate[required]"/>
-    </fieldset>
-    <fieldset><!--Preferences-->
-        <legend>What are your cuisine preferences?</legend>
-            <p align = "left"><input type="checkbox" name="American" value="American">American<br></p>
-            <p align = "left"><input type="checkbox" name="Mexican" value="Mexican">Mexican<br></p>
-            <p align = "left"><input type="checkbox" name="Chinese" value="Chinese">Chinese<br></p>
-            <p align = "left"><input type="checkbox" name="Japanese" value="Japanese">Japanese<br></p>
-            <p align = "left"><input type="checkbox" name="Thai" value="Thai">Thai<br></p>
-            <p align = "left"><input type="checkbox" name="Italian" value="Italian">Italian<br></p>
-            <p align = "left"><input type="checkbox" name="Indian" value="Indian">Indian<br></p>
-            <p align = "left"><input type="checkbox" name="Greek" value="Greek">Greek<br></p>
-            <br>
-    </fieldset>
-    <p>
-        <input type="submit" id="Register" value="Register"/>
-    </p>
-</form>
+    <h1 id="topMessage"><center>Sign Up</center></h1>
+    <!---Formats the sign up information box--->
+    <div class="limiter">
+    <form method="POST" action="/registerUser" id="SignupForm">
+    <!--    <div class="box">-->
+        <fieldset>
+            <legend>Account SignUp</legend>
+            <!--User info-->
+            <label for="username">Username: </label>
+            <input type="text" name="Username" value=""id="username" class="validate[required]"/>
+            <label for="Email">E-mail: </label>
+            <input type="email" name="Email" value="" id="Email" class="validate[custom[email],required]"/>
+            <label for="Password">Password: </label>
+            <input type="password" name="Password" value="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="validate[required]" id="Password"/>
+            <label for="ConfirmPassword">Confirm Password: </label>
+            <input type="password" name="ConfirmPassword" value="" id="ConfirmPassword" onchange = "validatePassword()" class="validate[required]"/>
+        </fieldset>
+        <fieldset>
+            <!--    Personal Information    -->
+            <legend>Personal Information</legend>
+            <label for="first_name">First Name: </label>
+            <input type="text" name="FirstName" value="" id="first_name" class="validate[required]"/>
+            <label for="last_name">Last Name: </label>
+            <input type="text" name="LastName" value="" id="last_name" class="validate[required]"/>
+            <label for="dob">Date of Birth: </label>
+            <input type="date" name="dob" value=""id="dob" class="validate[required]"/>
+            <label for="city">City: </label>
+            <input type="text" name="City" value="" id="city" class="validate[required]"/>
+            <label for="state">State: </label>
+            <input type="text" name="State" value="" id="state" class="validate[required]"/>
+            <label for="zip">Zip Code: </label>
+            <input type="text" name="zip" value="" id="zip" class="validate[required]"/>
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" pattern="[0-9]{3}(-)?[0-9]{3}(-)?[0-9]{4}"  class="validate[required]"/>
+            <label for="secq">Security Question: </label>
+            <input type="text" name="SecurityQuestion" value="" id="secq" class="validate[required]"/>
+            <label for="answer">Answer:</label>
+            <input type="text" name="Answer" value="" id="answer" class="validate[required]"/>
+        </fieldset>
+        <fieldset><!--Preferences-->
+            <legend>What are your cuisine preferences?</legend>
+                <p align = "left"><input type="checkbox" name="American" value="American">American<br></p>
+                <p align = "left"><input type="checkbox" name="Mexican" value="Mexican">Mexican<br></p>
+                <p align = "left"><input type="checkbox" name="Chinese" value="Chinese">Chinese<br></p>
+                <p align = "left"><input type="checkbox" name="Japanese" value="Japanese">Japanese<br></p>
+                <p align = "left"><input type="checkbox" name="Thai" value="Thai">Thai<br></p>
+                <p align = "left"><input type="checkbox" name="Italian" value="Italian">Italian<br></p>
+                <p align = "left"><input type="checkbox" name="Indian" value="Indian">Indian<br></p>
+                <p align = "left"><input type="checkbox" name="Greek" value="Greek">Greek<br></p>
+                <br>
+        </fieldset>
+        <p>
+            <input type="submit" id="Register" value="Register"/>
+        </p>
+    </form>
+    <div class="belowSignUpForm">
+        <input type="button" class="Login" value="Login">
+        <input type="button" class="home" value="Home">
+    </div>
 </div>
 </body>
 </html>

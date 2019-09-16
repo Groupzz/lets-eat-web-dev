@@ -9,6 +9,9 @@ var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
 
+// Global variables
+var host, mailOptions,link, buffer = "";
+
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -69,7 +72,6 @@ router.get('/', function(req, res, next) {
             });
     })
         .then(cafeList => {
-            var buffer = "cafes";
             res.render('index', { title: 'Express' , data: buffer, cafeList});
         });
 });
@@ -115,7 +117,7 @@ router.post('/restaurantSearch', function(req,res) {
             restaurants = response.jsonBody.businesses;
             console.log(restaurants);
             var title = "searching for... ";
-            var buffer = "";
+
             res.render('yelpSearchPage', {title: title, data: buffer, restaurants, searchTerm, location});
 
         })
@@ -178,7 +180,7 @@ router.get('/checkEmail', function(req, res) {
 router.post('/registerUser', function(req,res) {
     // Personal information
     var un = req.body.Username;
-    var email = req.body.email;
+    var email = req.body.Email;
     var pass = req.body.Password;
     var fn = req.body.FirstName;
     var ln = req.body.LastName;
@@ -188,6 +190,7 @@ router.post('/registerUser', function(req,res) {
     var phone = req.body.phone;
     var secq = req.body.SecurityQuestion;
     var seca = req.body.Answer;
+    var zip = req.body.zip;
 
     // Preferences
     var  am = !!req.body.American;
@@ -199,9 +202,69 @@ router.post('/registerUser', function(req,res) {
     var ind = !!req.body.Indian;
     var gr = !!req.body.Greek;
 
-    console.log("dob ",dob);
+    var prefs = {
+        American: am,
+        Chinese: ch,
+        Greek: gr,
+        Indian: ind,
+        Italian: it,
+        Japanese: ja,
+        Mexican: me,
+        Thai: th,
+        username: un,
+    };
 
+    var userInfo = {
+        username: un,
+        email: email,
+        password: bcrypt.hashSync(pass, null, null),
+        firstname: fn,
+        lastname: ln,
+        dateofbirth: dob,
+        city: city,
+        state: state,
+        zipcode: zip,
+        phone: phone,
+        securityquestion: secq,
+        securityanswer: seca,
+        verified: false,
+    };
+    db.collection('users').add(
+        userInfo
+    )
+        .then(function(docRef) {
+            console.log("Document written with users ID: ", docRef.id);
+            db.collection('preferences').add(
+                prefs
+            )
+                .then(function(docRef2) {
+                    console.log("Document written with preferences ID: ", docRef.id);
+                    host = req.get('host');
+                    link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
+                    mailOptions = {
+                        to: email,
+                        subject: "Let's Eat! Please Confirm Your Email Account",
+                        html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
+                    };
 
+                    smtpTransport.sendMail(mailOptions, function (error, response) {
+                        if (error) {
+                            console.log(error);
+                            res.end("error");
+                        } else {
+                            console.log("Message sent: " + response.message);
+                            var Name = name;
+                            res.render('VerifyEmailForRegister', {title: "Verify Your Email", data: buffer, Name});
+                        }
+                    })
+                })
+                .catch(function(error) {
+                    console.log("Error adding preferences document: ", error);
+                });
+        })
+        .catch(function(error) {
+           console.log("Error adding users document: ", error);
+        });
 
     // var userDataPacket = {
     //
@@ -216,6 +279,32 @@ router.post('/registerUser', function(req,res) {
     //
     //     console.log("here is the coockie", req.cookies);
     // }
+});
+
+/* GET verify account */
+router.get('/verify', function(req,res){
+    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
+        console.log("Domain is matched. Information is from Authentic email");
+        const cafePromise = new Promise((res, rej) => {
+            db.collection('users').get()
+                .then((snapshot) => {
+                    // loop through each document in the database
+                    snapshot.docs.forEach(doc => {
+                        // grab the data and push it to a list
+                        if (doc.data().password === req.query.id) {
+                            var username = doc.data().username;
+                            var docId = doc.id;
+
+                            db.collection('users').doc(docId).update({
+                                verified: true,
+                            });
+                        }
+                    });
+                });
+        })
+    } else {
+        res.end("<h1>Request id from unknown source</h1>");
+    }
 });
 
 module.exports = router;
