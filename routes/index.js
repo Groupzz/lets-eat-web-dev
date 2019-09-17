@@ -12,7 +12,6 @@ require("firebase/firestore");
 // Global variables
 var host, mailOptions,link, buffer = "";
 
-
 // setup connection to firebase database
 const firebaseConfig = {
     apiKey: "AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0",
@@ -41,6 +40,10 @@ let smtpTransport = nodemailer.createTransport({
   }
 });
 
+const googleMapsClient = require('@google/maps').createClient({
+    key: 'AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4'
+});
+
 /* converts to a regular date */
 function convert(str) {
     var date = new Date(str),
@@ -51,29 +54,7 @@ function convert(str) {
 
 /* GET index page. */
 router.get('/', function(req, res, next) {
-    var cafes = [];
-    // Create a promise for the cafes
-    const cafePromise = new Promise((res, rej) => {
-        // called the table database
-        db.collection('cafes').get()
-            .then((snapshot) => {
-                // loop through each document in the database
-                snapshot.docs.forEach(doc => {
-                    // grab the data and push it to a list
-                    var details = {
-                        id: doc.id,
-                        name: doc.data().name,
-                        city: doc.data().city
-                    };
-                    cafes.push(details);
-                });
-                // resolve the details of cafes
-                res(cafes);
-            });
-    })
-        .then(cafeList => {
-            res.render('index', { title: 'Express' , data: buffer, cafeList});
-        });
+    res.render('index', { title: 'Express' , data: buffer});
 });
 
 /* GET home page. */
