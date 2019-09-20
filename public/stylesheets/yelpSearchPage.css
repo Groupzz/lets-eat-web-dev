@@ -5,6 +5,7 @@ html, body {
     background-size: cover;
     height: 100%;
     font-family: Helvetica;
+    paddng: 0;
 }
 .wrapper {
     width: 100%;
@@ -173,4 +174,8 @@ li div{
     cursor:  pointer;
 }
 /* restaurant list end */
+#map {
+    height: 350px;
+    width: 450px;
+}
 /* Content Area end */

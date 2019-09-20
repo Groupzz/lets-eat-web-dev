@@ -9,9 +9,7 @@
     <link rel='stylesheet'  href='/fonts/font-awesome-4.7.0/css/font-awesome.min.css'>
     <link rel='stylesheet' href='/stylesheets/yelpSearchPage.css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4&callback=initMap">
-    </script>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
     <script>
         // Functions
         function yelpSite() {
@@ -32,31 +30,25 @@
         function helpSec() {
             window.location.href = "/help";
         }
-
+        // function initialize() {
+        //     var mapProp = {
+        //         center:new google.maps.LatLng(33.871038, -117.99275),
+        //         zoom:5,
+        //         mapTypeId:google.maps.MapTypeId.ROADMAP
+        //     };
+        //     var map=new google.maps.Map(document.getElementById("map"), mapProp);
+        // }
+        var map;
         function initMap() {
-            var map = new google.maps.Map(
-                document.getElementById('map'), {
-                    center: {lat: -34.397, lng: 150.644},
-                    zoom: 6
-                });
-            var infoWindow = new google.maps.InfoWindow;
-
-            var pos = {
-                lat: 33.871038,
-                lng: -117.99275
-                // lat: restaurants[0].coordinates.latitude,
-                // lng: restaurants[0].coordinates.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-            infoWindow.open(map);
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 33.862770, lng: -118.002518},
+                zoom: 8
+            });
         }
+        // google.maps.event.addDomListener(window, 'load', initMap);
     </script>
 </head>
-<body>
+<body onload="initMap()">
 <div class="wrapper">
     <div class = "top">
         <div class="top_image">
@@ -84,7 +76,6 @@
     <div class="container">
 <!--        <div class="sideModify">-->
 <!--            <span class="modifyHeader">Modify Search Criteria</span>-->
-            <%console.log(restaurants[0].coordinates.latitude)%>
 <!--        </div>-->
         <div class="restaurantListContainer">
             <div id="<%=restaurants[0].id%>" class="restEle">
@@ -92,9 +83,10 @@
             </div>
 
         </div>
-        <div id="map" style="height: 80%; width: 100%;">
-
-        </div>
+        <div id="map"></div>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4&callback=initMap">
+        </script>
     </div>
 </div>
 </body>
