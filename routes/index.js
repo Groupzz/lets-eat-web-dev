@@ -279,8 +279,10 @@ router.get('/verify', function(req,res){
                             db.collection('users').doc(docId).update({
                                 verified: true,
                             });
+                            res.render('RegisteredNotification', {title: "Success!", data: buffer, username});
                         }
                     });
+                    res.render('AccountNotFound', {title:"Account not found"});
                 });
         })
     } else {
