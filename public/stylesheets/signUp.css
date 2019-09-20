@@ -28,7 +28,6 @@ body {
     position: page;
     background-image: url("/images/signup.jpg");
     background-repeat: no-repeat; /* image is small so does not repeat */
-    background-attachment: scroll; /*scroll with cursor*/
     background-size: cover;	/* fits screen */
 }
 form {

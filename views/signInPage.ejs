@@ -4,38 +4,96 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='/stylesheets/signUp.css'>
+    <link rel='stylesheet' href='/stylesheets/signin.css'>
 
     <!---Title of webpage-->
-    <title>Let's Eat</title>
+    <title>Let's Eat Login</title>
+    <script>
+        function signUp() {
+            window.location.href = "/register";
+        }
+        function home() {
+            window.location.href="/home";
+        }
+    </script>
+    <script src="javascripts/LoginJS/main.js"></script>
 </head>
 
 <body>
-<!---Makes logo clickable, redirects to defaultPage.html--->
-<a href="defaultPage.html">
-    <img
-            src="./images/logo2.gif"
-            alt="Let's Eat Logo">
-</a>
+<div class="limiter">
+    <!---Makes logo clickable, redirects to defaultPage.html--->
 
-<!---Formats the sign in box--->
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
-<form method="post" action="/signIn">
-    <div class="box">
-        <h1><center><font size="+5">Sign In</font></center></h1>
-        <center><input type="email" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" /></center>
-        <center><input type="password" name="password" value="password" onFocus="field_focus(this, 'password');" onblur="field_blur(this, 'password');" class="password" /></center>
+        <img onclick="home()"
+                src="/images/logo2.gif"
+                alt="Let's Eat Logo">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
 
-        <!---Checks if user is in database then goes to userPage.html--->
-        <center><input type="submit" value="Sign In"></center>
+            <form class="login100-form validate-form flex-sb flex-w" action="signIn" method="post">
+                <div class = "topWelcome">
+					<span class="login100-form-title">
+						Welcome
+					</span>
+                    <span class = "loginText">to Let's Eat</span>
+                </div>
+                <span class="txt1 p-b-11">
+                    Email
+					</span>
+                <span class = "error"><%=text%></span>
+                <div class="wrap-input100 validate-input m-b-36" data-validate = "Username is required">
+                    <input class="input100" type="text" name="email" required>
+                    <span class="focus-input100"></span>
+                </div>
 
+                <span class="txt1 p-b-11" >
+						Password
+					</span>
+                <div class="wrap-input100 validate-input m-b-12" data-validate = "Password is required">
+						<span class="btn-show-pass">
+							<i class="fa fa-eye"></i>
+						</span>
+                    <input class="input100" type="password" name="pass" required>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="flex-sb-m w-full p-b-48">
+                    <div>
+                        <li class="txt3" onclick="forgotThePassword()">
+                            Forgot Password?
+                        </li>
+                        <li class="txt3" onclick="signUp()">
+                            First time? Sign up
+                        </li>
+                    </div>
+                </div>
+
+                <div class="container-login100-form-btn">
+
+                    <input id="SaveAccount"class="login100-form-btn" type="submit" value="Submit"/>
+
+                </div>
+
+            </form>
+        </div>
     </div>
-</form>
-
-<!---Redirects user to signUpPage.html if Sign Up is clicked--->
-<a href="signUpPage.html"><div id="btn2"><center><font size="+3">Sign Up</font></center></div></a>
-
-<p><center><font size="+2">Forgot your password? <a href="forgotpw.html">Click Here!</a></font></center></p>
-
+<!--    &lt;!&ndash;-Formats the sign in box-&ndash;&gt;-->
+<!--    <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>-->
+<!--    <form method="post" action="/signIn">-->
+<!--        <div class="box">-->
+<!--            <h1><center><font size="+5">Sign In</font></center></h1>-->
+<!--            <center><input type="email" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" /></center>-->
+<!--            <center><input type="password" name="password" value="password" onFocus="field_focus(this, 'password');" onblur="field_blur(this, 'password');" class="password" /></center>-->
+<!--    -->
+<!--            &lt;!&ndash;-Checks if user is in database then goes to userPage.html-&ndash;&gt;-->
+<!--            <center><input type="submit" value="Sign In"></center>-->
+<!--    -->
+<!--        </div>-->
+<!--    </form>-->
+<!--    -->
+<!--    &lt;!&ndash;-Redirects user to signUpPage.html if Sign Up is clicked-&ndash;&gt;-->
+<!--    <div id="btn2" onclick="signUp()"><center><font size="+3">Sign Up</font></center></div>-->
+<!--    -->
+<!--    <p><center><font size="+2">Forgot your password? <a href="forgotpw.html">Click Here!</a></font></center></p>-->
+</div>
 </body>
 </html>

@@ -64,7 +64,9 @@ router.get('/home', function(req,res) {
 
 /* GET login page */
 router.get('/login', function(req,res) {
-  res.render('signInPage', { title: 'Sign In' });
+    var buffer = "";
+    var text = "";
+  res.render('signInPage', { title: 'Sign In' , data: buffer, text});
 });
 
 /* GET sign up page */
@@ -210,42 +212,43 @@ router.post('/registerUser', function(req,res) {
         securityanswer: seca,
         verified: false,
     };
-    db.collection('users').add(
-        userInfo
-    )
-        .then(function(docRef) {
-            console.log("Document written with users ID: ", docRef.id);
-            db.collection('preferences').add(
-                prefs
-            )
-                .then(function(docRef2) {
-                    console.log("Document written with preferences ID: ", docRef.id);
-                    host = req.get('host');
-                    link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
-                    mailOptions = {
-                        to: email,
-                        subject: "Let's Eat! Please Confirm Your Email Account",
-                        html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
-                    };
+        db.collection('users').add(
+            userInfo
+        )
+            .then(function (docRef) {
+                console.log("Document written with users ID: ", docRef.id);
+                db.collection('preferences').add(
+                    prefs
+                )
+                    .then(function (docRef2) {
+                        console.log("Document written with preferences ID: ", docRef2.id);
+                        host = req.get('host');
+                        link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
+                        mailOptions = {
+                            to: email,
+                            subject: "Let's Eat! Please Confirm Your Email Account",
+                            html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
+                        };
 
-                    smtpTransport.sendMail(mailOptions, function (error, response) {
-                        if (error) {
-                            console.log(error);
-                            res.end("error");
-                        } else {
-                            console.log("Message sent: " + response.message);
-                            var Name = name;
-                            res.render('VerifyEmailForRegister', {title: "Verify Your Email", data: buffer, Name});
-                        }
+                        smtpTransport.sendMail(mailOptions, function (error, response) {
+                            if (error) {
+                                console.log(error);
+                                res.end("error");
+                            } else {
+                                console.log("Message sent: " + response.message);
+                                var Name = name;
+                                res.render('VerifyEmailForRegister', {title: "Verify Your Email", data: buffer, Name});
+                            }
+                        })
                     })
-                })
-                .catch(function(error) {
-                    console.log("Error adding preferences document: ", error);
-                });
-        })
-        .catch(function(error) {
-           console.log("Error adding users document: ", error);
-        });
+                    .catch(function (error) {
+                        console.log("Error adding preferences document: ", error);
+                    });
+            })
+            .catch(function (error) {
+                console.log("Error adding users document: ", error);
+            });
+
 
     // var userDataPacket = {
     //
@@ -266,28 +269,43 @@ router.post('/registerUser', function(req,res) {
 router.get('/verify', function(req,res){
     if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
         console.log("Domain is matched. Information is from Authentic email");
-        const cafePromise = new Promise((res, rej) => {
+        const verifyPromise = new Promise((res, rej) => {
             db.collection('users').get()
                 .then((snapshot) => {
+                    var theName;
                     // loop through each document in the database
                     snapshot.docs.forEach(doc => {
                         // grab the data and push it to a list
                         if (doc.data().password === req.query.id) {
-                            var username = doc.data().username;
+                            theName = doc.data().firstname;
                             var docId = doc.id;
 
                             db.collection('users').doc(docId).update({
                                 verified: true,
                             });
-                            res.render('RegisteredNotification', {title: "Success!", data: buffer, username});
+                            console.log(theName);
+                            res(theName);
                         }
                     });
-                    res.render('AccountNotFound', {title:"Account not found"});
+
                 });
         })
+            .then(fName => {
+                console.log(fName);
+                // res.redirect('/login');
+                res.render('RegisteredNotification', {title: "Success!", data: buffer, fName});
+            })
+            .catch(err => {
+               console.log(err);
+            });
     } else {
         res.end("<h1>Request id from unknown source</h1>");
     }
+});
+
+/* Post request to sign in */
+router.post('/signIn', function(req,res) {
+
 });
 
 module.exports = router;
