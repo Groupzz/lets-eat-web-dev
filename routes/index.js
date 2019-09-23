@@ -8,6 +8,9 @@ var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
+// const googleMapsClient = require('@google/maps').createClient({
+//     key: 'AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4'
+// });
 
 // Global variables
 var host, mailOptions,link, buffer = "";
@@ -305,10 +308,16 @@ router.get('/verify', function(req,res){
 
 /* Post request to sign in */
 router.post('/signIn', function(req,res) {
+    var email = req.body.email;
+    var pass = req.body.pass;
 
+    db.collection('users').where("email","==",email).get()
+        .then(snapshot => {
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
 });
 
 module.exports = router;
-
-// Google API key
-// AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0
