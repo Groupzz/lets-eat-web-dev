@@ -8,6 +8,9 @@ var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client(API);
 require("firebase/firestore");
+// const googleMapsClient = require('@google/maps').createClient({
+//     key: 'AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4'
+// });
 
 // Global variables
 var host, mailOptions,link, buffer = "", usersDataPack = {};
@@ -305,7 +308,7 @@ router.post('/signIn', function(req,res) {
                 res.render('signInPage',{title:"login", data:buffer, text});
             }
             else {
-                if(snapshot[0].data().verified == 0) {
+                if(snapshot[0].data().verified == false) {
                     res.render("accountFoundButNotVerified", {title: "Please verify your email"});
                 }
                 else {
@@ -319,7 +322,7 @@ router.post('/signIn', function(req,res) {
                             docID: snapshot[0].id
                         };
                         if (req.cookies.userInfo == null) {
-                            res.cookie("userInfo", userDataPack);
+                            res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
                             console.log("here is the cookie", req.cookies);
                             res.redirect("/accountInterface");
                         }
@@ -337,6 +340,3 @@ router.post('/signIn', function(req,res) {
 });
 
 module.exports = router;
-
-// Google API key
-// AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0
