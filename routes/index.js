@@ -308,16 +308,38 @@ router.get('/verify', function(req,res){
 
 /* Post request to sign in */
 router.post('/signIn', function(req,res) {
-    var email = req.body.email;
-    var pass = req.body.pass;
+        var email = req.body.email;
+        var pass = req.body.pass;
 
-    db.collection('users').where("email","==",email).get()
-        .then(snapshot => {
-
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        db.collection('users').where("email", "==", email).get()
+            .then(snapshot => {
+                if (snapshot[0] == null) {
+                    var text = "Email or Password is wrong";
+                    res.render('signInPage', {title: 'Sign In', data: buffer, text});
+                } else {
+                    if (snapshot[0].data().verified == false) {
+                        res.render('accountFoundButNotVerified', {title: "Please Verify your email"});
+                    } else {
+                        if (bcrypt.compareSync(pass, snapshot[0].data().password)) {
+                            if(req.cookies.userInfo == null) {
+                                var userDataPacket = {
+                                    email: email,
+                                    password: pass,
+                                    firstName: snapshot[0].data().firstname,
+                                    lastName: snapshot[0].data().lastname
+                                };
+                                res.cookie("userInfo", userDataPacket, {expire: new Date() + 1});
+                            }
+                            res.redirect('/accountInterface');
+                        }
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
 });
+
+router.get()
 
 module.exports = router;
