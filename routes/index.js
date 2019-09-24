@@ -6,15 +6,15 @@ var firebase = require("firebase/app");
 var yelp = require('yelp-fusion');
 var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
-const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
+const client = yelp.client(API);
 require("firebase/firestore");
 
 // Global variables
-var host, mailOptions,link, buffer = "";
+var host, mailOptions,link, buffer = "", usersDataPack = {};
 
 // setup connection to firebase database
 const firebaseConfig = {
-    apiKey: "AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0",
+    apiKey: API,
     authDomain: "lets-eat-18b7b.firebaseapp.com",
     databaseURL: "https://lets-eat-18b7b.firebaseio.com",
     projectId: "lets-eat-18b7b",
@@ -38,10 +38,6 @@ let smtpTransport = nodemailer.createTransport({
     user: 'letseatsc@gmail.com',
     pass: 'Aaqwertyuiop1'
   }
-});
-
-const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4'
 });
 
 /* converts to a regular date */
@@ -82,6 +78,15 @@ router.get('/aboutUs', function(req,res) {
 /* GET help page */
 router.get('/help', function(req,res) {
     res.render('helpPage', {title: 'Help Page'});
+});
+
+router.get('/accountInterface', function(req, res) {
+    if (req.cookies.userInfo!=null) {
+        var email = req.cookies.userInfo.email;
+        var userPacket = req.cookies.userInfo;
+
+        db.collection('users')
+    }
 });
 
 /* POST restaurant search */
@@ -236,8 +241,7 @@ router.post('/registerUser', function(req,res) {
                                 res.end("error");
                             } else {
                                 console.log("Message sent: " + response.message);
-                                var Name = name;
-                                res.render('VerifyEmailForRegister', {title: "Verify Your Email", data: buffer, Name});
+                                res.redirect('/home');
                             }
                         })
                     })
@@ -248,21 +252,6 @@ router.post('/registerUser', function(req,res) {
             .catch(function (error) {
                 console.log("Error adding users document: ", error);
             });
-
-
-    // var userDataPacket = {
-    //
-    //     email: data[0].email,
-    //     pass: data[0].password,
-    //     firstName: data[0].firstname,
-    //     lastName: data[0].lastname,
-    //     useID: data[0].id
-    // };
-    // if (req.cookies.userInfo == null) { // make cookie
-    //     res.cookie("userInfo", userDataPacket);
-    //
-    //     console.log("here is the coockie", req.cookies);
-    // }
 });
 
 /* GET verify account */
@@ -305,7 +294,46 @@ router.get('/verify', function(req,res){
 
 /* Post request to sign in */
 router.post('/signIn', function(req,res) {
+    var email = req.body.email;
+    var password = req.body.pass;
 
+    let query = db.collection('users').where('email', '==', email).get()
+        .then(snapshot => {
+            if (snapshot.empty) {
+                console.log("No matching documents.");
+                var text = "Email or Password is wrong.";
+                res.render('signInPage',{title:"login", data:buffer, text});
+            }
+            else {
+                if(snapshot[0].data().verified == 0) {
+                    res.render("accountFoundButNotVerified", {title: "Please verify your email"});
+                }
+                else {
+                    if(bcrypt.compareSync(password,snapshot[0].data().password)) {
+                        var userDataPack = {
+                            email: snapshot[0].data().email,
+                            pass: snapshot[0].data().password,
+                            firstName: snapshot[0].data().firstname,
+                            lastName: snapshot[0].data().lastname,
+                            username: snapshot[0].data().username,
+                            docID: snapshot[0].id
+                        };
+                        if (req.cookies.userInfo == null) {
+                            res.cookie("userInfo", userDataPack);
+                            console.log("here is the cookie", req.cookies);
+                            res.redirect("/accountInterface");
+                        }
+                    }
+                    else {
+                        var text = "Username or Password is wrong";
+                        res.render('signInPage', {title: "login", data: buffer, text});
+                    }
+                }
+            }
+        })
+        .catch(err => {
+            console.log("Error getting documents", err);
+        });
 });
 
 module.exports = router;
