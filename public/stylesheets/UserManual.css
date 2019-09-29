@@ -1,74 +1,74 @@
-h1{
-    font-size: 35px;
+h1{ 
+    font-size: 30px;
     text-align: center;
-    position: absolute;
+/*    position: absolute;
     top: 13%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     color: red;
 }
 h2 {
-    font-size: 23px;
+    font-size: 20px;
     text-align: center;
-    position: absolute;
+/*    position: absolute;
     top: 27%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
 }
 h3 {
-    font-size: 23px;
+    font-size: 20px;
     text-align: center;
-    position: absolute;
+/*    position: absolute;
     top: 54%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
 }
 h4 {
-    font-size: 23px;
+    font-size: 20px;
     text-align: center;
-    position: absolute;
+/*    position: absolute;
     top: 81%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
 }
 h5 {
-    font-size: 23px;
+    font-size: 20px;
     text-align: center;
-    position: absolute;
+/*    position: absolute;
     top: 103%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
 }
 h6 {
-    font-size: 23px;
+    font-size: 20px;
     text-align: center;
-    position: absolute;
+/*    position: absolute;
     top: 127%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
 }
 p {
-    font-size: 14px;
+    font-size: 20px;
     text-align: center;
     font-family: Arial;
     font-weight: lighter;
 }
 ul {
-    font-size: 14px;
-    text-align: left;
+    font-size: 20px;
+    text-align: center;
     font-family: Arial;
     font-weight: lighter;
     /*list-style-position: inside;*/
 }
-.shift { /* Shifts list to right */
+/*.shift { /* Shifts list to right */
     margin-left:80px;
-}
+}*/
 .pic {
     display: block;
     margin-left: auto;
