@@ -66,7 +66,7 @@ ul {
     font-weight: lighter;
     /*list-style-position: inside;*/
 }
-/*.shift { /* Shifts list to right */
+/*.shift { /* Shifts list to right 
     margin-left:80px;
 }*/
 .pic {
@@ -142,7 +142,7 @@ body {
 .dropdown-content li {
     color: black;
     padding: 12px 16px;
-    text-decoration: none;
+    text-decoratioln: none;
     display: block;
 }
 
@@ -151,3 +151,18 @@ body {
     cursor: pointer;
 }
 .dropdown:hover .dropdown-content {display: block;}
+
+/* Friend's activity container start */
+.FriendsActivityContainer{
+    width:600px;
+    height:1585px;
+    background: none;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid rgba;
+    background:#7f7f7f;
+    background:rgba(255,255,255,0.80);
+    position:absolute;
+    left:425px;
+    right:0;
+}
