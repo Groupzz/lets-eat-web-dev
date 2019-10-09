@@ -174,8 +174,11 @@ li div{
     cursor:  pointer;
 }
 /* restaurant list end */
-#map {
+.mapcontainer{
     height: 350px;
     width: 450px;
+}
+#map {
+    height: 100%;
 }
 /* Content Area end */

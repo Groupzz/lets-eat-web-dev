@@ -30,6 +30,12 @@
         function helpSec() {
             window.location.href = "/help";
         }
+        function account() {
+            window.location.href = '/accountInterface';
+        }
+        function logoff() {
+            window.location.href = '/logout';
+        }
         // ajax -- I don't know what this is for
         $("#inpt_search").on('focus', function () {
             $(this).parent('label').addClass('active');
@@ -53,19 +59,36 @@
 <!--                <input class="searchBar" type="search" name="search" placeholder="Deliciousness is just a click away.....">-->
 <!--            </form>-->
 <!--        </div>-->
-        <div class="dropdown">
-            <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
-            </button>
-            <div class="dropdown-content">
-                <li onclick="loginSec()">Log In</li>
-                <li onclick = "signUpSec()">Sign Up</li>
-                <li onclick = "groupVoteSec()">Group Vote</li>
-                <li onclick = "advancedSearch()">Advanced Search</li>
-                <li onclick="aboutUsSec()">About Us</li>
-                <li onclick="helpSec()">Help</li>
-                <li onclick="yelpSite()">Yelp</li>
+        <%if(userInfo!=null){%>
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+                </button>
+                <div class="dropdown-content">
+                    <p style="font-size: large; margin-top: 15px; margin-bottom: 0px">Hello, <%=un%></p>
+                    <li onclick="account()">My Account</li>
+                    <li onclick = "groupVoteSec()">Group Vote</li>
+                    <li onclick = "advancedSearch()">Advanced Search</li>
+                    <li onclick="aboutUsSec()">About Us</li>
+                    <li onclick="helpSec()">Help</li>
+                    <li onclick="yelpSite()">Yelp</li>
+                    <li onclick="logoff()">Log Out</li>
+                </div>
             </div>
-        </div>
+        <%}else{%>
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+                </button>
+                <div class="dropdown-content">
+                    <li onclick="loginSec()">Log In</li>
+                    <li onclick = "signUpSec()">Sign Up</li>
+                    <li onclick = "groupVoteSec()">Group Vote</li>
+                    <li onclick = "advancedSearch()">Advanced Search</li>
+                    <li onclick="aboutUsSec()">About Us</li>
+                    <li onclick="helpSec()">Help</li>
+                    <li onclick="yelpSite()">Yelp</li>
+                </div>
+            </div>
+        <%}%>
     </div>
     <div id="container">
         <div class="search">

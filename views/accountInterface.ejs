@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Welcome, <%=usersDataPack.username%></title>
+        <link rel="stylesheet" href="/stylesheets/accountInterface.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            function logoff() {
+                window.location.href = '/logout';
+            }
+        </script>
     </head>
     <body>
-    <p><%=userInfo%></p>
+    <button onclick="logoff()">Log Out</button>
+    <p><%=userInformation.username%></p>
     </body>
 </html>

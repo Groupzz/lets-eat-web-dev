@@ -6,18 +6,15 @@ var firebase = require("firebase/app");
 var yelp = require('yelp-fusion');
 var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
-const client = yelp.client(API);
+const client = yelp.client('YELP_API');
 require("firebase/firestore");
-// const googleMapsClient = require('@google/maps').createClient({
-//     key: 'AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4'
-// });
 
 // Global variables
 var host, mailOptions,link, buffer = "", usersDataPack = {};
 
 // setup connection to firebase database
 const firebaseConfig = {
-    apiKey: API,
+    apiKey: "FIREBASE-API",
     authDomain: "lets-eat-18b7b.firebaseapp.com",
     databaseURL: "https://lets-eat-18b7b.firebaseio.com",
     projectId: "lets-eat-18b7b",
@@ -53,12 +50,28 @@ function convert(str) {
 
 /* GET index page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' , data: buffer});
+    var un = null;
+    var userInfo = null;
+    if(req.cookies.userInfo != null) {
+        un = req.cookies.userInfo.username;
+        userInfo = req.cookies.userInfo;
+    }
+    var timing = new Date();
+    console.log("customer ", userInfo, " is here ", timing);
+    res.render('index', { title: 'Express' , data: buffer, un, userInfo});
 });
 
 /* GET home page. */
 router.get('/home', function(req,res) {
-  res.render('defaultPage', { title: 'Default' })
+    var un = null;
+    var userInfo = null;
+    if(req.cookies.userInfo != null) {
+        un = req.cookies.userInfo.username;
+        userInfo = req.cookies.userInfo;
+    }
+    var timing = new Date();
+    console.log("customer ", userInfo, " is here ", timing);
+    res.render('defaultPage', { title: 'Default' , data: buffer, un, userInfo })
 });
 
 /* GET login page */
@@ -75,20 +88,116 @@ router.get('/register', function(req,res) {
 
 /* GET about us page */
 router.get('/aboutUs', function(req,res) {
-  res.render('UserManual', { title: 'AboutUs' });
+    var un = null;
+    var userInfo = null;
+    if(req.cookies.userInfo != null) {
+        un = req.cookies.userInfo.username;
+        userInfo = req.cookies.userInfo;
+    }
+    var timing = new Date();
+    console.log("customer ", userInfo, " is here ", timing);
+  res.render('UserManual', { title: 'AboutUs' , data: buffer, un, userInfo});
 });
 
 /* GET help page */
 router.get('/help', function(req,res) {
-    res.render('helpPage', {title: 'Help Page'});
+    var un = null;
+    var userInfo = null;
+    if(req.cookies.userInfo != null) {
+        un = req.cookies.userInfo.username;
+        userInfo = req.cookies.userInfo;
+    }
+    var timing = new Date();
+    console.log("customer ", userInfo, " is here ", timing);
+    res.render('helpPage', {title: 'Help Page' , data: buffer, un, userInfo});
 });
 
+/* GET account page*/
+// Get whatever is needed for the front end
 router.get('/accountInterface', function(req, res) {
+    var userInformation,preferences, dietaryrestrictions,friends = [];
     if (req.cookies.userInfo!=null) {
         var email = req.cookies.userInfo.email;
         var userPacket = req.cookies.userInfo;
+        var username = req.cookies.userInfo.username;
+        console.log(email);
+        console.log(userPacket);
+        // need: all details from users, friends, preferences, dietary restrictions
+        db.collection('users').where('email', '==', email).get()
+            .then((snapshot) => {
+                if (snapshot.empty) {
+                    var text = "Username or Password is wrong";
+                    res.render('signInPage', {title:'Sign In', data: buffer, text})
+                }
+                else {
+                    userInformation = {
+                        email: email,
+                        username: username,
+                        dob: snapshot.docs[0].data().dateofbirth,
+                        fname: snapshot.docs[0].data().firstname,
+                        lname: snapshot.docs[0].data().lastname,
+                        phone: snapshot.docs[0].data().phone,
+                        sq: snapshot.docs[0].data().securityquestion,
+                        sa: snapshot.docs[0].data().securityanswer,
+                        city: snapshot.docs[0].data().city,
+                        state: snapshot.docs[0].data().state,
+                        zipcode: snapshot.docs[0].data().zipcode
+                    };
+                    db.collection('friends').where('username', '==', username).get()
+                        .then((friendslist) => {
+                            friendslist.docs.forEach(doc => {
+                                var friend = {
+                                    friendemail: doc.data().friendemail,
+                                    friendusername: doc.data().friendusername,
+                                    firstname: doc.data().firstname,
+                                    lastname: doc.data().lastname
+                                };
+                                friends.push(friend);
+                            });
 
-        db.collection('users')
+                            db.collection('preferences').where('username', '==', username).get()
+                                .then((preferenceList) => {
+                                    preferences = {
+                                        American: preferenceList.docs[0].data().American,
+                                        Chinese: preferenceList.docs[0].data().Chinese,
+                                        Greek: preferenceList.docs[0].data().Greek,
+                                        Indian: preferenceList.docs[0].data().Indian,
+                                        Italian: preferenceList.docs[0].data().Italian,
+                                        Japanese: preferenceList.docs[0].data().Japanese,
+                                        Mexican: preferenceList.docs[0].data().Mexican,
+                                        Thai: preferenceList.docs[0].data().Thai
+                                    };
+                                    db.collection('dietaryrestriction').where('username', '==', username).get()
+                                        .then((drlist) => {
+                                            dietaryrestrictions = {
+                                                gf: drlist.docs[0].data().GlutenFree,
+                                                halal: drlist.docs[0].data().Hala,
+                                                vegan: drlist.docs[0].data().Vegan,
+                                                veget: drlist.docs[0].data().Vegetarian
+                                            };
+                                            var timing = new Date();
+                                            console.log("Customer ", username," is here at ",timing);
+                                            usersDataPack = req.cookies.userInfo;
+                                            res.render('accountInterface', {title:'Account Interface',
+                                                data:
+                                                    buffer,
+                                                    dietaryrestrictions,
+                                                    preferences,
+                                                    friends,
+                                                    userInformation,
+                                                    usersDataPack
+                                            });
+                                        })
+                                })
+
+                        })
+                }
+
+            })
+            .catch((error) => {
+               console.log(error);
+               res.redirect('/login');
+            });
     }
 });
 
@@ -108,8 +217,16 @@ router.post('/restaurantSearch', function(req,res) {
             restaurants = response.jsonBody.businesses;
             console.log(restaurants);
             var title = "searching for... ";
+            var un = null;
+            var userInfo = null;
+            if(req.cookies.userInfo != null) {
+                un = req.cookies.userInfo.username;
+                userInfo = req.cookies.userInfo;
+            }
+            var timing = new Date();
+            console.log("customer ", userInfo, " is here ", timing);
 
-            res.render('yelpSearchPage', {title: title, data: buffer, restaurants, searchTerm, location});
+            res.render('yelpSearchPage', {title: title, data: buffer, restaurants, searchTerm, location, un, userInfo});
 
         })
         .catch(e => {
@@ -300,7 +417,7 @@ router.post('/signIn', function(req,res) {
     var email = req.body.email;
     var password = req.body.pass;
 
-    let query = db.collection('users').where('email', '==', email).get()
+    db.collection('users').where('email', '==', email).get()
         .then(snapshot => {
             if (snapshot.empty) {
                 console.log("No matching documents.");
@@ -308,24 +425,24 @@ router.post('/signIn', function(req,res) {
                 res.render('signInPage',{title:"login", data:buffer, text});
             }
             else {
-                if(snapshot[0].data().verified == false) {
+                if(snapshot.docs[0].data().verified == false) {
                     res.render("accountFoundButNotVerified", {title: "Please verify your email"});
                 }
                 else {
-                    if(bcrypt.compareSync(password,snapshot[0].data().password)) {
+                    if(bcrypt.compareSync(password,snapshot.docs[0].data().password)) {
                         var userDataPack = {
-                            email: snapshot[0].data().email,
-                            pass: snapshot[0].data().password,
-                            firstName: snapshot[0].data().firstname,
-                            lastName: snapshot[0].data().lastname,
-                            username: snapshot[0].data().username,
-                            docID: snapshot[0].id
+                            email: snapshot.docs[0].data().email,
+                            pass: snapshot.docs[0].data().password,
+                            firstName: snapshot.docs[0].data().firstname,
+                            lastName: snapshot.docs[0].data().lastname,
+                            username: snapshot.docs[0].data().username,
+                            docID: snapshot.docs[0].id
                         };
                         if (req.cookies.userInfo == null) {
                             res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
                             console.log("here is the cookie", req.cookies);
-                            res.redirect("/accountInterface");
                         }
+                        res.redirect("/accountInterface");
                     }
                     else {
                         var text = "Username or Password is wrong";
@@ -337,6 +454,13 @@ router.post('/signIn', function(req,res) {
         .catch(err => {
             console.log("Error getting documents", err);
         });
+});
+
+/* GET log out */
+router.get("/logout", function(req, res){
+    res.clearCookie('userInfo');
+    usersDataPack = {};
+    res.redirect('/home');
 });
 
 module.exports = router;
