@@ -11,6 +11,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--    <script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script>
+        var used = [], i;
+        var name = document.getElementById('restName');
+        var loc = document.getElementById('restLoc');
+        var parent = document.getElementsByClassName('restEle');
+
+        function newRestaurant() {
+            if (used.length <= <%=restaurants.length%>) {
+                i = (Math.random() * <%= restaurants.length %>) | 0;
+                while (used.includes(i)) {
+                    i = (Math.random() * <%= restaurants.length %>) | 0;
+                }
+                console.log(i);
+                used.push(i);
+            } else {
+                console.log("No more");
+            }
+                <!--var -->
+                // while (used.includes(i)) {
+                <!--    i = (Math.random() * parseInt(%=restaurants.length%)) | 0;-->
+                // }
+                <!--parent.id = JSON.stringify(%=restaurants[i].id%);-->
+                <!--name.innerText = JSON.stringify(%=restaurants[i].name%)+" - "+JSON.stringify(%=restaurants[i].price%);-->
+                <!--loc.innerText = JSON.stringify(%=restaurants[i].location.city%)+","+JSON.stringify(%=restaurants[i].location.state%)+" "+JSON.stringify(%=restaurants[i].location.zip_code%);-->
+                // used.push(i);
+            // }
+            // else {
+            //     parent.id = "Done";
+            //     name.innerText = "Do a new search request!";
+            //     loc.innerText = "---";
+            // }
+        }
+
+        newRestaurant();
+
         var reslat,reslng;
         // Functions
         function yelpSite() {
@@ -37,9 +71,6 @@
         function logoff() {
             window.location.href = '/logout';
         }
-        function newRestaurant() {
-
-        }
         // function initialize() {
         //     var mapProp = {
         //         center:new google.maps.LatLng(33.871038, -117.99275),
@@ -60,7 +91,7 @@
         // prompted by your browser. If you see the error "The Geolocation service
         // failed.", it means you probably did not give permission for the browser to
         // locate you.
-        var map, infoWindow;
+        /*var map, infoWindow;
         var positions;
         var dest;
         var marker;
@@ -74,8 +105,8 @@
             infoWindow = new google.maps.InfoWindow;
             // replace with restaurant's lat and lng
             var pos = {
-                lat: <%=posses[i].position.lat%>,
-                lng: <%=posses[i].position.lng%>
+                lat: %=posses[i].position.lat%,
+                lng: %=posses[i].position.lng%
             }
             marker = new google.maps.Marker({position: pos, map: map});
 
@@ -134,10 +165,10 @@
                 'Error: The Geolocation service failed.' :
                 'Error: Your browser doesn\'t support geolocation.');
             infoWindow.open(map);
-        }
+        }*/
     </script>
 </head>
-<body onload="initMap()">
+<body> <!--onload="initMap()">-->
 <div class="wrapper">
     <div class = "top">
         <div class="top_image">
@@ -179,24 +210,23 @@
             </div>
         <%}%>
     <div class="container">
-        <div class="restaurantListContainer">
-            <div id="<%=restaurants[0].id%>" class="restEle">
-                <span class="name"><%=restaurants[0].name%> - <%=restaurants[0].price%></span><span class="location"><%=restaurants[0].location.city%>,<%=restaurants[0].location.state%> <%=restaurants[0].location.zip_code%></span>
+
+        <div class="restaurantListContainer" id="restCon">
+            <div class="restEle">
+                <span class="name" id="restName"><%=restaurants[0].name%> - <%=restaurants[0].price%></span><span class="location" id="restLoc"></span>
             </div>
             <div class="mapcontainer">
                 <div id="map"></div>
             </div>
-            <script>
 
-            </script>
         </div>
         <div class="refreshContainer">
-            <button type="button" onclick="newRestaurant()" id="refresh" class="refreshButton">New Restaurant</button>
+            <input type="button" value="New Restaurant" class ="refreshButton" id="refresh" onclick="newRestaurant()">
         </div>
 
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=GOOGLE-API&callback=initMap">
-        </script>
+<!--        <script async defer-->
+<!--                src="https://maps.googleapis.com/maps/api/js?key=GOOGLE-API&callback=initMap">-->
+<!--        </script>-->
     </div>
 </div>
 </body>

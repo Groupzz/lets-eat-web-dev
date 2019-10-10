@@ -6,7 +6,7 @@ var firebase = require("firebase/app");
 var yelp = require('yelp-fusion');
 var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
-const client = yelp.client('YELP_API');
+const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
 
 // Global variables
@@ -439,7 +439,7 @@ router.post('/signIn', function(req,res) {
                             docID: snapshot.docs[0].id
                         };
                         if (req.cookies.userInfo == null) {
-                            res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
+                            res.cookie("userInfo", userDataPack, {expire: new Date() + 1, secure: true, sameSite: 'None'});
                             console.log("here is the cookie", req.cookies);
                         }
                         res.redirect("/accountInterface");
