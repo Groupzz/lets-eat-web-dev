@@ -10,7 +10,7 @@ const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3s
 require("firebase/firestore");
 
 // Global variables
-var host, mailOptions,link, buffer = "", usersDataPack = {};
+var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], used = [];
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -206,8 +206,6 @@ router.post('/restaurantSearch', function(req,res) {
     var searchTerm = req.body.term;
     var location = req.body.location;
 
-    var restaurants = [];
-
     client.search({
         term: searchTerm,
         location: location,
@@ -215,7 +213,7 @@ router.post('/restaurantSearch', function(req,res) {
         .then(response => {
 
             restaurants = response.jsonBody.businesses;
-            console.log(restaurants);
+            //console.log(restaurants);
             var title = "searching for... ";
             var un = null;
             var userInfo = null;
@@ -223,10 +221,12 @@ router.post('/restaurantSearch', function(req,res) {
                 un = req.cookies.userInfo.username;
                 userInfo = req.cookies.userInfo;
             }
+            //res.cookie("yelpSearch", userDataPack);
+
             var timing = new Date();
             console.log("customer ", userInfo, " is here ", timing);
-
-            res.render('yelpSearchPage', {title: title, data: buffer, restaurants, searchTerm, location, un, userInfo});
+            //restaurants was passed through here
+            res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un, userInfo});
 
         })
         .catch(e => {
@@ -461,6 +461,23 @@ router.get("/logout", function(req, res){
     res.clearCookie('userInfo');
     usersDataPack = {};
     res.redirect('/home');
+});
+
+/* GET a restaurant from the search */
+router.get('/requestRest', function(req, res) {
+   if (used.length <= restaurants.length) {
+       var i = (Math.random() * restaurants.length) | 0;
+       while (used.includes(i)) {
+           i = (Math.random() * restaurants.length) | 0;
+       }
+       used.push(i);
+       console.log(restaurants[i]);
+       res.send({text: restaurants[i]});
+   }
+    if (used.length == restaurants.length) {
+        console.log("choose another one");
+        res.send({text: "Do new search"});
+    }
 });
 
 module.exports = router;

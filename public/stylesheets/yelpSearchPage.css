@@ -182,3 +182,16 @@ li div{
     height: 100%;
 }
 /* Content Area end */
+/* Resturant info modal */
+.restaurantModal {
+
+}
+.restaurantTransDe, .restaurantTransPi {
+    text-decoration: line-through;
+}
+.restaurantYelp, .restaurantDirections {
+    text-decoration: underline;
+}
+.restaurantYelp:hover, .restaurantDirections:hover {
+    background: #e6e6e6;
+}

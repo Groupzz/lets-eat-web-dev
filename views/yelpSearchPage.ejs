@@ -11,36 +11,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--    <script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script>
-        var used = [], i;
-        var name = document.getElementById('restName');
-        var loc = document.getElementById('restLoc');
-        var parent = document.getElementsByClassName('restEle');
-
+        var restaurant;
         function newRestaurant() {
-            if (used.length <= <%=restaurants.length%>) {
-                i = (Math.random() * <%= restaurants.length %>) | 0;
-                while (used.includes(i)) {
-                    i = (Math.random() * <%= restaurants.length %>) | 0;
+            $.ajax({
+                type: "GET",
+                url: "/requestRest",
+                success: function(result){
+                    if (result.text != "Do new Search") {
+                        var name = document.getElementById('restName');
+                        var loc = document.getElementById('restLoc');
+                        restaurant = result.text;
+                        name.innerText = restaurant.name +" - "+restaurant.price;
+                        loc.innerText = restaurant.location.city+", "+restaurant.location.state+" "+restaurant.location.zip_code;
+                    }
+                    else {
+                        var button = document.getElementById('refresh');
+                        button.value = result.text;
+                        button.disabled = true;
+                    }
+                },
+                error: function(e) {
+                    console.log("ERROR: ",e);
                 }
-                console.log(i);
-                used.push(i);
-            } else {
-                console.log("No more");
-            }
-                <!--var -->
-                // while (used.includes(i)) {
-                <!--    i = (Math.random() * parseInt(%=restaurants.length%)) | 0;-->
-                // }
-                <!--parent.id = JSON.stringify(%=restaurants[i].id%);-->
-                <!--name.innerText = JSON.stringify(%=restaurants[i].name%)+" - "+JSON.stringify(%=restaurants[i].price%);-->
-                <!--loc.innerText = JSON.stringify(%=restaurants[i].location.city%)+","+JSON.stringify(%=restaurants[i].location.state%)+" "+JSON.stringify(%=restaurants[i].location.zip_code%);-->
-                // used.push(i);
-            // }
-            // else {
-            //     parent.id = "Done";
-            //     name.innerText = "Do a new search request!";
-            //     loc.innerText = "---";
-            // }
+            });
         }
 
         newRestaurant();
@@ -71,6 +64,22 @@
         function logoff() {
             window.location.href = '/logout';
         }
+        $('.restButton').click(function(){
+           $('.modal-title').html(restaurant.name);
+           $('.restaurantImage').attr('src',restaurant.image_url);
+           $('.restaurantPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
+           for (var i = 0; i < restaurant.transactions.length; i++) {
+               if (restaurant.transactions[i] == 'delivery') {
+                    $('.restaurantTransDe').css('text-decoration','none');
+               }
+               if (restaurant.transactions[i] == 'pickup') {
+                    $('.restaurantTransPi').css('text-decoration','none');
+               }
+           }
+           $('.RestaurantLocation').html(restaurant.location.display_address[0] + "\t" + restaurant.display_phone + "<br/>" + restaurant.location.display_address[1]);
+           $('.restaurantYelp').attr('href',restaurant.url);
+           $('#restaurantModal').modal({show:true});
+        });
         // function initialize() {
         //     var mapProp = {
         //         center:new google.maps.LatLng(33.871038, -117.99275),
@@ -169,65 +178,81 @@
     </script>
 </head>
 <body> <!--onload="initMap()">-->
-<div class="wrapper">
-    <div class = "top">
-        <div class="top_image">
-            <img src="/images/logo2.gif" alt="Avatar" class = "round-image" onclick = "home()">
-        </div>
-        <!--        <div id="searchBarContainer">-->
-        <!--            <form>-->
-        <!--                <input class="searchBar" type="search" name="search" placeholder="Deliciousness is just a click away.....">-->
-        <!--            </form>-->
-        <!--        </div>-->
-        <%if(userInfo!=null){%>
-            <div class="dropdown">
-                <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
-                </button>
-                <div class="dropdown-content">
-                    <p style="font-size: large; margin-top: 15px; margin-bottom: 0px">Hello, <%=un%></p>
-                    <li onclick="account()">My Account</li>
-                    <li onclick = "groupVoteSec()">Group Vote</li>
-                    <li onclick = "advancedSearch()">Advanced Search</li>
-                    <li onclick="aboutUsSec()">About Us</li>
-                    <li onclick="helpSec()">Help</li>
-                    <li onclick="yelpSite()">Yelp</li>
-                    <li onclick="logoff()">Log Out</li>
+    <div class="wrapper">
+        <div class = "top">
+            <div class="top_image">
+                <img src="/images/logo2.gif" alt="Avatar" class = "round-image" onclick = "home()">
+            </div>
+            <!--        <div id="searchBarContainer">-->
+            <!--            <form>-->
+            <!--                <input class="searchBar" type="search" name="search" placeholder="Deliciousness is just a click away.....">-->
+            <!--            </form>-->
+            <!--        </div>-->
+            <%if(userInfo!=null){%>
+                <div class="dropdown">
+                    <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <p style="font-size: large; margin-top: 15px; margin-bottom: 0px">Hello, <%=un%></p>
+                        <li onclick="account()">My Account</li>
+                        <li onclick = "groupVoteSec()">Group Vote</li>
+                        <li onclick = "advancedSearch()">Advanced Search</li>
+                        <li onclick="aboutUsSec()">About Us</li>
+                        <li onclick="helpSec()">Help</li>
+                        <li onclick="yelpSite()">Yelp</li>
+                        <li onclick="logoff()">Log Out</li>
+                    </div>
                 </div>
-            </div>
-        <%}else{%>
-            <div class="dropdown">
-                <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
-                </button>
-                <div class="dropdown-content">
-                    <li onclick="loginSec()">Log In</li>
-                    <li onclick = "signUpSec()">Sign Up</li>
-                    <li onclick = "groupVoteSec()">Group Vote</li>
-                    <li onclick = "advancedSearch()">Advanced Search</li>
-                    <li onclick="aboutUsSec()">About Us</li>
-                    <li onclick="helpSec()">Help</li>
-                    <li onclick="yelpSite()">Yelp</li>
+            <%}else{%>
+                <div class="dropdown">
+                    <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <li onclick="loginSec()">Log In</li>
+                        <li onclick = "signUpSec()">Sign Up</li>
+                        <li onclick = "groupVoteSec()">Group Vote</li>
+                        <li onclick = "advancedSearch()">Advanced Search</li>
+                        <li onclick="aboutUsSec()">About Us</li>
+                        <li onclick="helpSec()">Help</li>
+                        <li onclick="yelpSite()">Yelp</li>
+                    </div>
                 </div>
-            </div>
-        <%}%>
-    <div class="container">
+            <%}%>
+        <div class="container">
 
-        <div class="restaurantListContainer" id="restCon">
-            <div class="restEle">
-                <span class="name" id="restName"><%=restaurants[0].name%> - <%=restaurants[0].price%></span><span class="location" id="restLoc"></span>
+            <div class="restaurantListContainer" id="restCon">
+                <div class="restEle restButton" onclick="getInfo()">
+                    <span class="name" id="restName"></span><span class="location" id="restLoc"></span>
+                </div>
+                <div class="mapcontainer">
+                    <div id="map"></div>
+                </div>
+
             </div>
-            <div class="mapcontainer">
-                <div id="map"></div>
+            <div class="refreshContainer">
+                <input type="button" value="New Restaurant" class ="refreshButton" id="refresh" onclick="newRestaurant()">
             </div>
 
+    <!--        <script async defer-->
+    <!--                src="https://maps.googleapis.com/maps/api/js?key=GOOGLE-API&callback=initMap">-->
+    <!--        </script>-->
         </div>
-        <div class="refreshContainer">
-            <input type="button" value="New Restaurant" class ="refreshButton" id="refresh" onclick="newRestaurant()">
-        </div>
-
-<!--        <script async defer-->
-<!--                src="https://maps.googleapis.com/maps/api/js?key=GOOGLE-API&callback=initMap">-->
-<!--        </script>-->
     </div>
-</div>
+    <div class="restaurantModal" id="restaurantModal">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+            <img class="restaurantImage">
+            <span class="restaurantPriceandRating"></span>
+            <span class="restaurantTransDe">Delivery</span><span class="restaurantTransPi">Pick Up</span>
+            <span class="RestaurantLocation"></span><span class="isClosed"></span>
+            <span class="restaurantDirections">Get Directions</span>
+            <span class="restaurantYelp">Yelp Page</span>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
 </body>
 </html>
