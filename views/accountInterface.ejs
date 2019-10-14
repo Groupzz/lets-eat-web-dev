@@ -8,10 +8,97 @@
             function logoff() {
                 window.location.href = '/logout';
             }
+            function ajaxChange(dest, id){
+                $.ajax({
+                    type: "GET",
+                    url: window.location + "/" + dest + "?id=" + id,
+                    success: function (result) {
+                        if(dest == "home"){
+                            $(".HomeModal").fadeIn()
+                            $(".PersonalInformationModal").hide();
+                            $(".FriendsModal").hide();
+                            $(".PreferencesModal").hide();
+                            $(".BookmarkModal").hide();
+                        }
+                        if(dest == "personalinfo"){
+                            $(".HomeModal").hide();
+                            $(".PersonalInformationModal").fadeIn();
+                            $(".FriendsModal").hide();
+                            $(".PreferencesModal").hide();
+                            $(".BookmarkModal").hide();
+                        }
+                        if(dest == "friends"){
+                            $(".HomeModal").hide();
+                            $(".PersonalInformationModal").hide();
+                            $(".FriendsModal").fadeIn();
+                            $(".PreferencesModal").hide();
+                            $(".BookmarkModal").hide();
+                        }
+                        if(dest == "preferences"){
+                            $(".HomeModal").hide();
+                            $(".PersonalInformationModal").hide();
+                            $(".FriendsModal").hide();
+                            $(".PreferencesModal").fadeIn();
+                            $(".BookmarkModal").hide();
+                        }
+                        if(dest == "bookmark"){
+                            $(".HomeModal").hide();
+                            $(".PersonalInformationModal").hide();
+                            $(".FriendsModal").hide();
+                            $(".PreferencesModal").hide();
+                            $(".BookmarkModal").fadeIn();
+                        }
+                    },
+                    error: function(e) {
+                        console.log("ERROR: ",e);
+                    }
+                });
+            }
+            $(document).ready(function() {
+                // Modals of each section
+                $(".PersonalInformationModal").hide();
+                $(".FriendsModal").hide();
+                $(".PreferencesModal").hide();
+                $(".BookmarkModal").hide();
+
+                // Buttons to each modal in the side menu
+                $("#HomeButton").click(function() {
+                    ajaxChange("home", <%=usersDataPack.docID%>);
+                });
+                $("#PersonalButton").click(function() {
+                   ajaxChange("personalinfo", <%=usersDataPack.docID%>);
+                });
+                $("#FriendsButton").click(function() {
+                   ajaxChange("friends", <%=usersDataPack.docID%>);
+                });
+                $("#PreferencesButton").click(function() {
+                    ajaxChange("preferences", <%=usersDataPack.docID%>);
+                });
+                $("#BookmarkButton").click(function() {
+                   ajaxChange("bookmark", <%=usersDataPack.docID%>);
+                });
+            })
         </script>
     </head>
     <body>
-    <button onclick="logoff()">Log Out</button>
-    <p><%=userInformation.username%></p>
+        <div class="wrapper">
+            <div class="HomeModal">
+                <span>HOME</span>
+            </div>
+            <div class="PersonalInformationModal">
+                <span>PERSONAL INFORMATION</span>
+            </div>
+            <div class="FriendsModal">
+
+            </div>
+            <div class="PreferencesModal">
+
+            </div>
+            <div class="BookmarkModal">
+
+            </div>
+            <button onclick="logoff()">Log Out</button>
+
+        </div>
     </body>
 </html>

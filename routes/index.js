@@ -14,7 +14,7 @@ var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], u
 
 // setup connection to firebase database
 const firebaseConfig = {
-    apiKey: "FIREBASE-API",
+    apiKey: "AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0",
     authDomain: "lets-eat-18b7b.firebaseapp.com",
     databaseURL: "https://lets-eat-18b7b.firebaseio.com",
     projectId: "lets-eat-18b7b",
@@ -439,7 +439,7 @@ router.post('/signIn', function(req,res) {
                             docID: snapshot.docs[0].id
                         };
                         if (req.cookies.userInfo == null) {
-                            res.cookie("userInfo", userDataPack, {expire: new Date() + 1, secure: true, sameSite: 'None'});
+                            res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
                             console.log("here is the cookie", req.cookies);
                         }
                         res.redirect("/accountInterface");
