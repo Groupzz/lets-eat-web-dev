@@ -333,3 +333,7 @@ textarea:-ms-input-placeholder { color: #999999;}
 .login100-form-btn:hover {
     background-color: #57b846;
 }
+.sep {
+    margin: 45%;
+    font-size: 30px;
+}

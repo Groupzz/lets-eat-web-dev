@@ -10,7 +10,7 @@ const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3s
 require("firebase/firestore");
 
 // Global variables
-var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], used = [];
+var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -48,6 +48,23 @@ function convert(str) {
     return [ date.getFullYear(), mnth, day ].join("-");
 }
 
+/* makes a random id */
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+/* checks if it is an email */
+function checkEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 /* GET index page. */
 router.get('/', function(req, res, next) {
     var un = null;
@@ -79,6 +96,174 @@ router.get('/login', function(req,res) {
     var buffer = "";
     var text = "";
   res.render('signInPage', { title: 'Sign In' , data: buffer, text});
+});
+
+/* GET find password */
+router.get('/recoverpassword', function(req,res) {
+   res.render('recoverPassword', {title: "Recover Password"});
+});
+
+/* POST to find password with email */
+router.post('/FindPasswordEmail', function(req, res, next){
+    var findPassUsr = req.body.email;
+
+    db.collection('users').where('email', '==', findPassUsr).get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                console.log("This is null");
+                res.render('AccountNotFound', {title:'account not found'});
+            }
+            else {
+                secq = snapshot.docs[0].data().securityquestion;
+                useremail = findPassUsr;
+                var text = "";
+                res.render('passwordEmail', {title: "Password Recover with Email", data: buffer, secq, useremail, text});
+            }
+        })
+});
+
+/* POST checks answer */
+router.post('/checkEmailandAnswer', function(req,res) {
+    var answer = req.body.guessedAnswer;
+    var links = makeid(20);
+    randPassFind.push(links);
+    db.collection('users').where('email', '==', useremail).get()
+        .then((snapshot) => {
+            if(snapshot.docs[0].data().securityanswer === answer) {
+                host = req.get('host');
+                    link = "http://" + req.get('host') + "/PasswordChange?id=" + links;
+                    mailOptions = {
+                        to: useremail,
+                        subject: "Please confirm your Email account",
+                        html: "Hello,<br> Please Click on the link to reset the password for your account using " + useremail + ".<br><a href=" + link + ">Click here to verify</a>"
+                    };
+                    smtpTransport.sendMail(mailOptions, function (error, response) {
+                        if (error) {
+                            console.log(error);
+                            res.end("error");
+                        } else {
+                            console.log("Message sent: " + response.message);
+                            res.render('PasswordChangeRequestSent', {title: "Please Verify"});
+                        }
+                    });
+            } else {
+                var text = "Answer is incorrect";
+                res.render('passwordEmail', {title: "Password Recover with Email", data: buffer, secq, useremail, text});
+            }
+        })
+});
+
+/* POST change password with username */
+router.post('/FindPasswordUsername', function(req, res, next){
+    var findPassUsr = req.body.username;
+    db.collection('users').where('username', '==', findPassUsr).get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                console.log("This is null");
+                res.render('AccountNotFound', {title:'account not found'});
+            }
+            else {
+                var secq = snapshot.docs[0].data().securityquestion;
+                userName = findPassUsr;
+                var text = "";
+                res.render('passwordUsername', {title: "Password Recover with Username", data: buffer, secq, userName, text});
+            }
+        })
+});
+
+/* POST checks answer */
+router.post('/checkUsernameandAnswer', function(req,res) {
+    var answer = req.body.guessedAnswer;
+    var links = makeid(20);
+    randPassFind.push(links);
+    db.collection('users').where('username', '==', userName).get()
+        .then((snapshot) => {
+            if(snapshot.docs[0].data().securityanswer === answer) {
+                host = req.get('host');
+                link = "http://" + req.get('host') + "/PasswordChange?id=" + links;
+                mailOptions = {
+                    to: snapshot.docs[0].data().email,
+                    subject: "Please confirm your Email account",
+                    html: "Hello,<br> Please Click on the link to reset the password for your account using " + userName + ".<br><a href=" + link + ">Click here to verify</a>"
+                };
+                smtpTransport.sendMail(mailOptions, function (error, response) {
+                    if (error) {
+                        console.log(error);
+                        res.end("error");
+                    } else {
+                        console.log("Message sent: " + response.message);
+                        res.render('PasswordChangeRequestSent', {title: "Please Verify"});
+                    }
+                });
+            } else {
+                var text = "Answer is incorrect";
+                res.render('passwordUsername', {title: "Password Recover with Username", data: buffer, secq, userName, text});
+            }
+        })
+});
+
+/* GET Change Password */
+router.get("/PasswordChange", function(req, res, next){
+    console.log(req.protocol+":/"+req.get('host'));
+    if((req.protocol+"://"+req.get('host'))==("http://"+host))
+    {
+        console.log("Domain is matched. Information is from Authentic email");
+        for(var i in randPassFind) {
+            if (req.query.id == randPassFind[i]) {
+                console.log("Please fill out the form to change the password");
+                randPassFind[i] = "";
+                console.log(randPassFind);
+                var text = "";
+                res.render('ChangePassword', {title: "Reset Password", data: buffer, text});
+            }
+        }
+    }
+    else
+    {
+        res.end("<h1>Request is from unknown source");
+    }
+});
+
+/* POST change password */
+router.post('/changepassword', function(req, res) {
+    var creds = req.body.creds;
+    var pass = req.body.pass;
+    if(checkEmail(creds)) {
+        db.collection('users').where('email', '==', creds).get()
+            .then((snapshot) => {
+                if(snapshot.empty) {
+                    console.log("Wrong email used");
+                    var text = "Wrong email used. Make sure to use the email mentioned in your email.";
+                    res.render('ChangePassword', {title: "Reset Password", data: buffer, text})
+                } else {
+                    secq = "";
+                    useremail = "";
+                    console.log("correct");
+                    db.collection('users').doc(snapshot.docs[0].id).update({
+                        password: bcrypt.hashSync(pass, null, null),
+                    });
+                    res.redirect('/login')
+                }
+            })
+    } else {
+        console.log("This is a username");
+        db.collection('users').where('username', '==', creds).get()
+            .then((snapshot) => {
+                if(snapshot.empty) {
+                    console.log("Wrong email used");
+                    var text = "Wrong username used. Make sure to use the username mentioned in your email.";
+                    res.render('ChangePassword', {title: "Reset Password", data: buffer, text})
+                } else {
+                    secq = "";
+                    userName = "";
+                    db.collection('users').doc(snapshot.docs[0].id).update({
+                        password: bcrypt.hashSync(pass, null, null),
+                    });
+                    console.log("correct");
+                    res.redirect('/login')
+                }
+            })
+    }
 });
 
 /* GET sign up page */
