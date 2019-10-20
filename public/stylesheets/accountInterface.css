@@ -1,5 +1,5 @@
 body, html {
-    background-image: url('../images/accbg.jpg');
+    background-image: url('/images/accbg.jpg');
     background-repeat: no-repeat; /* image is small so does not repeat */
     background-size: cover;
     height: 100%;
