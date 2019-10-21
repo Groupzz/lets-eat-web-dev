@@ -19,11 +19,23 @@
                 url: "/requestRest",
                 success: function(result){
                     if (result.text != "Do new Search") {
-                        var name = document.getElementById('restName');
-                        var loc = document.getElementById('restLoc');
                         restaurant = result.text;
-                        name.innerText = restaurant.name +" - "+restaurant.price;
-                        loc.innerText = restaurant.location.city+", "+restaurant.location.state+" "+restaurant.location.zip_code;
+                        $('.restName').html(restaurant.name);
+                        $('.restImage').attr('src',restaurant.image_url);
+                        $('.restPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
+                        /*$('.restPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
+                        for (var i = 0; i < restaurant.transactions.length; i++) {
+                            if (restaurant.transactions[i] == 'delivery') {
+                                $('.restTransDe').css('text-decoration','none');
+                            }
+                            if (restaurant.transactions[i] == 'pickup') {
+                                $('.restTransPi').css('text-decoration','none');
+                            }
+                        }
+                        $('.restLocation').html(restaurant.location.display_address[0] + "\t" + restaurant.display_phone + "<br/>" + restaurant.location.display_address[1]);
+                        $('.restYelp').attr('href',restaurant.url);*/
+                        //name.innerText = restaurant.name +" - "+restaurant.price;
+                        //loc.innerText = restaurant.location.city+", "+restaurant.location.state+" "+restaurant.location.zip_code;
                     }
                     else {
                         var button = document.getElementById('refresh');
@@ -65,22 +77,6 @@
         function logoff() {
             window.location.href = '/logout';
         }
-        $('.restButton').click(function(){
-           $('.modal-title').html(restaurant.name);
-           $('.restaurantImage').attr('src',restaurant.image_url);
-           $('.restaurantPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
-           for (var i = 0; i < restaurant.transactions.length; i++) {
-               if (restaurant.transactions[i] == 'delivery') {
-                    $('.restaurantTransDe').css('text-decoration','none');
-               }
-               if (restaurant.transactions[i] == 'pickup') {
-                    $('.restaurantTransPi').css('text-decoration','none');
-               }
-           }
-           $('.RestaurantLocation').html(restaurant.location.display_address[0] + "\t" + restaurant.display_phone + "<br/>" + restaurant.location.display_address[1]);
-           $('.restaurantYelp').attr('href',restaurant.url);
-           $('#restaurantModal').modal({show:true});
-        });
         // function initialize() {
         //     var mapProp = {
         //         center:new google.maps.LatLng(33.871038, -117.99275),
@@ -219,11 +215,21 @@
                     </div>
                 </div>
             <%}%>
+        </div>
         <div class="container">
-
             <div class="restaurantListContainer" id="restCon">
-                <div class="restEle restButton" onclick="getInfo()">
-                    <span class="name" id="restName"></span><span class="location" id="restLoc"></span>
+                <div class="restEle">
+                    <img class="restImage" id="restImage">
+                    <div class="nameContainer">
+                        <span class="restName" id="restName"></span>
+                    </div>
+                    <div class="prandraContainer">
+                        <span class="restPriceandRating"></span>
+                    </div>
+<!--                    <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>-->
+<!--                    <span class="restLocation"></span><span class="isClosed"></span>-->
+<!--                    <span class="restDirections">Get Directions</span>-->
+<!--                    <span class="resYelp">Yelp Page</span>-->
                 </div>
 <!--                <div class="mapcontainer">-->
 <!--                    <div id="map"></div>-->
@@ -239,21 +245,6 @@
     <!--        </script>-->
         </div>
     </div>
-    <div class="restaurantModal" id="restaurantModal">
-        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
-        <div class="modal-header">
-            <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body">
-            <img class="restaurantImage">
-            <span class="restaurantPriceandRating"></span>
-            <span class="restaurantTransDe">Delivery</span><span class="restaurantTransPi">Pick Up</span>
-            <span class="RestaurantLocation"></span><span class="isClosed"></span>
-            <span class="restaurantDirections">Get Directions</span>
-            <span class="restaurantYelp">Yelp Page</span>
-        </div>
-        <div class="modal-footer">
-        </div>
-    </div>
+
 </body>
 </html>

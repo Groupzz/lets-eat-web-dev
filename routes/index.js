@@ -8,6 +8,7 @@ var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
+require("firebase/auth");
 
 // Global variables
 var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
@@ -23,8 +24,10 @@ const firebaseConfig = {
     appId: "1:852218951035:web:f66d1e057e50f8d4"
 };
 firebase.initializeApp(firebaseConfig);
-// Create the database connection
+// Create the database connection and authentication
 const db = firebase.firestore();
+// Update firestore settings
+const auth = firebase.auth();
 
 // Sending emails to the user
 let smtpTransport = nodemailer.createTransport({
@@ -522,41 +525,47 @@ router.post('/registerUser', function(req,res) {
         securityanswer: seca,
         verified: false,
     };
-        db.collection('users').add(
-            userInfo
-        )
-            .then(function (docRef) {
-                console.log("Document written with users ID: ", docRef.id);
-                db.collection('preferences').add(
-                    prefs
-                )
-                    .then(function (docRef2) {
-                        console.log("Document written with preferences ID: ", docRef2.id);
-                        host = req.get('host');
-                        link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
-                        mailOptions = {
-                            to: email,
-                            subject: "Let's Eat! Please Confirm Your Email Account",
-                            html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
-                        };
 
-                        smtpTransport.sendMail(mailOptions, function (error, response) {
-                            if (error) {
-                                console.log(error);
-                                res.end("error");
-                            } else {
-                                console.log("Message sent: " + response.message);
-                                res.redirect('/home');
-                            }
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log("Error adding preferences document: ", error);
-                    });
-            })
-            .catch(function (error) {
-                console.log("Error adding users document: ", error);
-            });
+    // Takes in username and password and gives the credential
+    auth.createUserWithEmailAndPassword(email, pass)
+        .then(cred => {
+            console.log(cred.user);
+        })
+        // db.collection('users').add(
+        //     userInfo
+        // )
+        //     .then(function (docRef) {
+        //         console.log("Document written with users ID: ", docRef.id);
+        //         db.collection('preferences').add(
+        //             prefs
+        //         )
+        //             .then(function (docRef2) {
+        //                 console.log("Document written with preferences ID: ", docRef2.id);
+        //                 host = req.get('host');
+        //                 link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
+        //                 mailOptions = {
+        //                     to: email,
+        //                     subject: "Let's Eat! Please Confirm Your Email Account",
+        //                     html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
+        //                 };
+        //
+        //                 smtpTransport.sendMail(mailOptions, function (error, response) {
+        //                     if (error) {
+        //                         console.log(error);
+        //                         res.end("error");
+        //                     } else {
+        //                         console.log("Message sent: " + response.message);
+        //                         res.redirect('/home');
+        //                     }
+        //                 })
+        //             })
+        //             .catch(function (error) {
+        //                 console.log("Error adding preferences document: ", error);
+        //             });
+        //     })
+        //     .catch(function (error) {
+        //         console.log("Error adding users document: ", error);
+        //     });
 });
 
 /* GET verify account */

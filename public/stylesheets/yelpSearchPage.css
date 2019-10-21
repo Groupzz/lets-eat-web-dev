@@ -148,20 +148,20 @@ img {
     color: #555;
     position: relative;
     border-bottom: 1px solid #e6e6e6;
-    height: 46px;
+    height: 500px;
 }
-.restEle:nth-child(even){
-    padding: 20px;
-    background: #f2f2f2;
-}
+/*.restEle:nth-child(even){*/
+/*    padding: 20px;*/
+/*    background: #f2f2f2;*/
+/*}*/
 .restEle span {
     didsplay: block;
 }
-.restEle span:nth-child(2){
-    font-size: 16px;
-    margin-top: 6px;
-    color: #999;
-}
+/*.restEle span:nth-child(2){*/
+/*    font-size: 16px;*/
+/*    margin-top: 6px;*/
+/*    color: #999;*/
+/*}*/
 li div{
     position: absolute;
     top: 0;
@@ -173,6 +173,15 @@ li div{
     font-weight:  bold;
     cursor:  pointer;
 }
+.restTransDe, .restTransPi {
+    text-decoration: line-through;
+}
+.restYelp, .restDirections {
+    text-decoration: underline;
+}
+.restYelp:hover, .restDirections:hover {
+    background: #e6e6e6;
+}
 /* restaurant list end */
 .mapcontainer{
     height: 350px;
@@ -182,16 +191,10 @@ li div{
     height: 100%;
 }
 /* Content Area end */
-/* Resturant info modal */
-.restaurantModal {
-
-}
-.restaurantTransDe, .restaurantTransPi {
-    text-decoration: line-through;
-}
-.restaurantYelp, .restaurantDirections {
-    text-decoration: underline;
-}
-.restaurantYelp:hover, .restaurantDirections:hover {
-    background: #e6e6e6;
+.restImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 30%;
 }
