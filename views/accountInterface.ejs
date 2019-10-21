@@ -88,19 +88,19 @@
         
           <div class="mySlides fade">
             <div class="numbertext">1 / 3</div>
-            <img src='/images/img_american.jpg' style="width:100%">
+            <img src='./images/img_american.jpg' style="width:100%">
             <div class="text">Caption One</div>
           </div>
         
           <div class="mySlides fade">
             <div class="numbertext">2 / 3</div>
-            <img src='/images/img_chinese.jpg' style="width:100%">
+            <img src='./images/img_chinese.jpg' style="width:100%">
             <div class="text">Caption Two</div>
           </div>
         
           <div class="mySlides fade">
             <div class="numbertext">3 / 3</div>
-            <img src='/images/img_indian.jpg' style="width:100%">
+            <img src='./images/img_indian.jpg' style="width:100%">
             <div class="text">Caption Three</div>
           </div>
         
@@ -115,6 +115,25 @@
           <span class="dot" onclick="currentSlide(1)"></span> 
           <span class="dot" onclick="currentSlide(2)"></span> 
           <span class="dot" onclick="currentSlide(3)"></span> 
+        </div>
+        
+        <!---Formats the sign up information box--->
+        <form method="POST" action="http://104.237.158.50:8080/registerUser">
+        <div class="box">
+        <h1><center>Personal Info</center></h1>
+    
+        <!--User info-->
+        <label for="username">Username: </label><input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" required/><br>
+        <label for="first name">First Name: </label><input type="text" name="FirstName" value="" onFocus="field_focus(this, 'First Name');" onblur="field_blur(this, 'First Name');" class="First Name" required/><br>
+        <label for="last name">Last Name: </label><input type="text" name="LastName" value="" onFocus="field_focus(this, 'Last Name');" onblur="field_blur(this, 'Last Name');" class="Last Name" required/><br>
+        <label for="email">E-mail: </label><input type="Email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" class="Email" required/><br>
+        <label for="password">Password: </label><input type="Password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" class="Password" required id="myPw"/><br>
+        <input type="checkbox" onclick="hidePassword()">Show Password<br>
+        <label for="city">City: </label><input type="text" name="City" value="" onFocus="field_focus(this, 'City');" onblur="field_blur(this, 'City');" class="City" required/><br>
+        <label for="state">State: </label><input type="text" name="State" value="" onFocus="field_focus(this, 'State');" onblur="field_blur(this, 'State');" class="State" required/><br>
+        <label for="secq">Security Question: </label><input type="text" name="SecurityQuestion" value="" onFocus="field_focus(this, 'Security Question');" onblur="field_blur(this, 'Security Question');" class="Security Question" required/><br>
+        <label for="answer">Answer:</label><input type="Password" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" required id="myAns"/><br>
+        <input type="checkbox" onclick="hideAnswer()">Show Answer<br>
         </div>
         
         <div class="wrapper">
@@ -172,6 +191,24 @@
           }
           slides[slideIndex-1].style.display = "block";  
           dots[slideIndex-1].className += " active";
+        }
+        
+        function hidePassword() {
+            var x = document.getElementById("myPw");
+            if (x.type === "password") {
+              x.type = "text";
+            } else {
+              x.type = "password";
+            }
+        }
+        
+        function hideAnswer() {
+            var x = document.getElementById("myAns");
+            if (x.type === "password") {
+              x.type = "text";
+            } else {
+              x.type = "password";
+            }
         }
         </script>
         
