@@ -523,87 +523,133 @@ router.post('/registerUser', function(req,res) {
         phone: phone,
         securityquestion: secq,
         securityanswer: seca,
-        verified: false,
+        verified: false
+    };
+
+    var actionCodeSettings = {
+        url: 'http://localhost:3000/verify?mode&oobcode',
+        // iOS: {
+        //     bundleId: 'com.example.ios'
+        // },
+        // android: {
+        //     packageName: 'com.example.android',
+        //     installApp: true,
+        //     minimumVersion: '12'
+        // },
+        handleCodeInApp: true
     };
 
     // Takes in username and password and gives the credential
     auth.createUserWithEmailAndPassword(email, pass)
         .then(cred => {
             console.log(cred.user);
+            db.collection('users').add(
+                userInfo
+            )
+                .then(function (docRef) {
+                    console.log("Document written with users ID: ", docRef.id);
+                    db.collection('preferences').add(
+                        prefs
+                    )
+                        .then(function (docRef2) {
+                            console.log("Document written with preferences ID: ", docRef2.id);
+                            auth.currentUser.sendEmailVerification(actionCodeSettings)
+                                .then(function() {
+                                    console.log("Email sent" + actionCodeSettings.url);
+                                    res.redirect('/home');
+                                })
+                                .catch(function() {
+                                   console.log("ERROR");
+                                   res.end("error");
+                                });
+                            // host = req.get('host');
+                            // link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
+                            // mailOptions = {
+                            //     to: email,
+                            //     subject: "Let's Eat! Please Confirm Your Email Account",
+                            //     html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
+                            // };
+                            //
+                            // smtpTransport.sendMail(mailOptions, function (error, response) {
+                            //     if (error) {
+                            //         console.log(error);
+                            //         res.end("error");
+                            //     } else {
+                            //         console.log("Message sent: " + response.message);
+                            //         res.redirect('/home');
+                            //     }
+                            // })
+                        })
+                        .catch(function (error) {
+                            console.log("Error adding preferences document: ", error);
+                        });
+                })
+                .catch(function (error) {
+                    console.log("Error adding users document: ", error);
+                });
         })
-        // db.collection('users').add(
-        //     userInfo
-        // )
-        //     .then(function (docRef) {
-        //         console.log("Document written with users ID: ", docRef.id);
-        //         db.collection('preferences').add(
-        //             prefs
-        //         )
-        //             .then(function (docRef2) {
-        //                 console.log("Document written with preferences ID: ", docRef2.id);
-        //                 host = req.get('host');
-        //                 link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
-        //                 mailOptions = {
-        //                     to: email,
-        //                     subject: "Let's Eat! Please Confirm Your Email Account",
-        //                     html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
-        //                 };
-        //
-        //                 smtpTransport.sendMail(mailOptions, function (error, response) {
-        //                     if (error) {
-        //                         console.log(error);
-        //                         res.end("error");
-        //                     } else {
-        //                         console.log("Message sent: " + response.message);
-        //                         res.redirect('/home');
-        //                     }
-        //                 })
-        //             })
-        //             .catch(function (error) {
-        //                 console.log("Error adding preferences document: ", error);
-        //             });
-        //     })
-        //     .catch(function (error) {
-        //         console.log("Error adding users document: ", error);
-        //     });
+        .catch(error => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+           console.log(errorCode);
+           console.log(errorMessage);
+        });
+
 });
 
 /* GET verify account */
 router.get('/verify', function(req,res){
-    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
-        console.log("Domain is matched. Information is from Authentic email");
-        const verifyPromise = new Promise((res, rej) => {
-            db.collection('users').get()
-                .then((snapshot) => {
-                    var theName;
-                    // loop through each document in the database
-                    snapshot.docs.forEach(doc => {
-                        // grab the data and push it to a list
-                        if (doc.data().password === req.query.id) {
-                            theName = doc.data().firstname;
-                            var docId = doc.id;
-
-                            db.collection('users').doc(docId).update({
-                                verified: true,
-                            });
-                            console.log(theName);
-                            res(theName);
-                        }
-                    });
-
-                });
+    var query = require('url').parse(req.url, true).query;
+    var actionCode = query.oobcode;
+    console.log("In verify"+actionCode);
+    console.log(query);
+    console.log(auth.currentUser.emailVerified);
+    // res.redirect('/home');
+    auth.applyActionCode()
+        .then((resp) => {
+            console.log(auth.currentUser.emailVerified);
+            console.log(resp);
         })
-            .then(fName => {
-                console.log(fName);
-                // res.redirect('/login');
-                res.render('RegisteredNotification', {title: "Success!", data: buffer, fName});
-            })
-            .catch(err => {
-               console.log(err);
-            });
-    } else {
-        res.end("<h1>Request id from unknown source</h1>");
-    }
+        .catch((err) => {
+            console.log(err);
+        })
+    // if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
+    //     console.log("Domain is matched. Information is from Authentic email");
+    //     const verifyPromise = new Promise((res, rej) => {
+    //         db.collection('users').get()
+    //             .then((snapshot) => {
+    //                 var theName;
+    //                 // loop through each document in the database
+    //                 snapshot.docs.forEach(doc => {
+    //                     // grab the data and push it to a list
+    //                     if (doc.data().password === req.query.id) {
+    //                         theName = doc.data().firstname;
+    //                         var docId = doc.id;
+    //
+    //                         db.collection('users').doc(docId).update({
+    //                             verified: true,
+    //                         });
+    //                         auth.applyActionCode()
+    //                         auth.
+    //                         console.log(theName);
+    //                         res(theName);
+    //                     }
+    //                 });
+    //
+    //             });
+    //     })
+    //         .then(fName => {
+    //             console.log(fName);
+    //             // res.redirect('/login');
+    //             res.render('RegisteredNotification', {title: "Success!", data: buffer, fName});
+    //         })
+    //         .catch(err => {
+    //            console.log(err);
+    //         });
+    // } else {
+    //     res.end("<h1>Request id from unknown source</h1>");
+    // }
 });
 
 /* Post request to sign in */
