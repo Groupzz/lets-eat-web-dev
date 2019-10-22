@@ -527,7 +527,7 @@ router.post('/registerUser', function(req,res) {
     };
 
     var actionCodeSettings = {
-        url: 'http://localhost:3000/verify?mode&oobcode',
+        url: 'http://localhost:3000/verify',
         // iOS: {
         //     bundleId: 'com.example.ios'
         // },
@@ -602,7 +602,6 @@ router.post('/registerUser', function(req,res) {
 router.get('/verify', function(req,res){
     var query = require('url').parse(req.url, true).query;
     var actionCode = query.oobcode;
-    console.log("In verify"+actionCode);
     console.log(query);
     console.log(auth.currentUser.emailVerified);
     // res.redirect('/home');
