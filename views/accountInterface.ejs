@@ -140,6 +140,7 @@
                         <label for="answer">Answer:</label><input type="Password" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" required id="myAns"/><br>
                         <input type="checkbox" onclick="hideAnswer()">Show Answer<br>
                     </div>
+                </form>
             </div>
             <div class="FriendsModal">
 
@@ -154,12 +155,12 @@
         </div>
         
         <div class="sidenav">
-            <span id="HomeButton">Home</span>
-            <span id="PersonalButton">Personal Info</span>
-            <span id="FriendsButton">Friends</span>
-            <span id="PreferencesButton">Preferences</span>
-            <span id="BookmarkButton">Bookmarks</span>
-            <span onclick="logoff()">Logout</span
+            <a id="HomeButton">Home</a>
+            <a id="PersonalButton">Personal Info</a>
+            <a id="FriendsButton">Friends</a>
+            <a id="PreferencesButton">Preferences</a>
+            <a id="BookmarkButton">Bookmarks</a>
+            <a onclick="logoff()">Logout</a>
         </div>
         
         <script>

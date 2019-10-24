@@ -400,6 +400,27 @@ router.get('/accountInterface', function(req, res) {
     };
     res.render('accountInterface', {title:'Account Interface', data: buffer, usersDataPack});
 });
+/* Changing navigation */
+router.get('/accountInterface/personalinfo', function (req, res) {
+    var text = 'Personal Info';
+    res.send({description: text});
+});
+router.get('accountInterface/friends', function (req, res) {
+    var text = 'Friends';
+    res.send({description: text});
+});
+router.get('/accountInterface/preferences', function (req, res) {
+    var text = 'Preferences';
+    res.send({description: text});
+});
+router.get('/accountInterface/home', function (req, res) {
+    var text = 'Home';
+    res.send({description: text});
+});
+router.get('/accountInterface/bookmark', function (req, res) {
+    var text = 'Bookmarks';
+    res.send({description: text});
+});
 
 /* POST restaurant search */
 router.post('/restaurantSearch', function(req,res) {
