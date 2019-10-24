@@ -9,6 +9,13 @@ var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
 require("firebase/auth");
+var admin = require('firebase-admin');
+// var serviceAccount = require("C:/Users/Deathrabbit/Downloads/serviceAccountKey.json");
+
+admin.initializeApp();
+    // credential: admin.credential.cert(serviceAccount),
+    // databaseURL: "https://lets-eat-18b7b.firebaseio.com"
+// });
 
 // Global variables
 var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
@@ -303,90 +310,95 @@ router.get('/help', function(req,res) {
 /* GET account page*/
 // Get whatever is needed for the front end
 router.get('/accountInterface', function(req, res) {
-    var userInformation,preferences, dietaryrestrictions,friends = [];
-    if (req.cookies.userInfo!=null) {
-        var email = req.cookies.userInfo.email;
-        var userPacket = req.cookies.userInfo;
-        var username = req.cookies.userInfo.username;
-        console.log(email);
-        console.log(userPacket);
-        // need: all details from users, friends, preferences, dietary restrictions
-        db.collection('users').where('email', '==', email).get()
-            .then((snapshot) => {
-                if (snapshot.empty) {
-                    var text = "Username or Password is wrong";
-                    res.render('signInPage', {title:'Sign In', data: buffer, text})
-                }
-                else {
-                    userInformation = {
-                        email: email,
-                        username: username,
-                        dob: snapshot.docs[0].data().dateofbirth,
-                        fname: snapshot.docs[0].data().firstname,
-                        lname: snapshot.docs[0].data().lastname,
-                        phone: snapshot.docs[0].data().phone,
-                        sq: snapshot.docs[0].data().securityquestion,
-                        sa: snapshot.docs[0].data().securityanswer,
-                        city: snapshot.docs[0].data().city,
-                        state: snapshot.docs[0].data().state,
-                        zipcode: snapshot.docs[0].data().zipcode
-                    };
-                    db.collection('friends').where('username', '==', username).get()
-                        .then((friendslist) => {
-                            friendslist.docs.forEach(doc => {
-                                var friend = {
-                                    friendemail: doc.data().friendemail,
-                                    friendusername: doc.data().friendusername,
-                                    firstname: doc.data().firstname,
-                                    lastname: doc.data().lastname
-                                };
-                                friends.push(friend);
-                            });
-
-                            db.collection('preferences').where('username', '==', username).get()
-                                .then((preferenceList) => {
-                                    preferences = {
-                                        American: preferenceList.docs[0].data().American,
-                                        Chinese: preferenceList.docs[0].data().Chinese,
-                                        Greek: preferenceList.docs[0].data().Greek,
-                                        Indian: preferenceList.docs[0].data().Indian,
-                                        Italian: preferenceList.docs[0].data().Italian,
-                                        Japanese: preferenceList.docs[0].data().Japanese,
-                                        Mexican: preferenceList.docs[0].data().Mexican,
-                                        Thai: preferenceList.docs[0].data().Thai
-                                    };
-                                    db.collection('dietaryrestriction').where('username', '==', username).get()
-                                        .then((drlist) => {
-                                            dietaryrestrictions = {
-                                                gf: drlist.docs[0].data().GlutenFree,
-                                                halal: drlist.docs[0].data().Hala,
-                                                vegan: drlist.docs[0].data().Vegan,
-                                                veget: drlist.docs[0].data().Vegetarian
-                                            };
-                                            var timing = new Date();
-                                            console.log("Customer ", username," is here at ",timing);
-                                            usersDataPack = req.cookies.userInfo;
-                                            res.render('accountInterface', {title:'Account Interface',
-                                                data:
-                                                    buffer,
-                                                    dietaryrestrictions,
-                                                    preferences,
-                                                    friends,
-                                                    userInformation,
-                                                    usersDataPack
-                                            });
-                                        })
-                                })
-
-                        })
-                }
-
-            })
-            .catch((error) => {
-               console.log(error);
-               res.redirect('/login');
-            });
-    }
+    // var userInformation,preferences, dietaryrestrictions,friends = [];
+    // if (req.cookies.userInfo!=null) {
+    //     var email = req.cookies.userInfo.email;
+    //     var userPacket = req.cookies.userInfo;
+    //     var username = req.cookies.userInfo.username;
+    //     console.log(email);
+    //     console.log(userPacket);
+    //     // need: all details from users, friends, preferences, dietary restrictions
+    //     db.collection('users').where('email', '==', email).get()
+    //         .then((snapshot) => {
+    //             if (snapshot.empty) {
+    //                 var text = "Username or Password is wrong";
+    //                 res.render('signInPage', {title:'Sign In', data: buffer, text})
+    //             }
+    //             else {
+    //                 userInformation = {
+    //                     email: email,
+    //                     username: username,
+    //                     dob: snapshot.docs[0].data().dateofbirth,
+    //                     fname: snapshot.docs[0].data().firstname,
+    //                     lname: snapshot.docs[0].data().lastname,
+    //                     phone: snapshot.docs[0].data().phone,
+    //                     sq: snapshot.docs[0].data().securityquestion,
+    //                     sa: snapshot.docs[0].data().securityanswer,
+    //                     city: snapshot.docs[0].data().city,
+    //                     state: snapshot.docs[0].data().state,
+    //                     zipcode: snapshot.docs[0].data().zipcode
+    //                 };
+    //                 db.collection('friends').where('username', '==', username).get()
+    //                     .then((friendslist) => {
+    //                         friendslist.docs.forEach(doc => {
+    //                             var friend = {
+    //                                 friendemail: doc.data().friendemail,
+    //                                 friendusername: doc.data().friendusername,
+    //                                 firstname: doc.data().firstname,
+    //                                 lastname: doc.data().lastname
+    //                             };
+    //                             friends.push(friend);
+    //                         });
+    //
+    //                         db.collection('preferences').where('username', '==', username).get()
+    //                             .then((preferenceList) => {
+    //                                 preferences = {
+    //                                     American: preferenceList.docs[0].data().American,
+    //                                     Chinese: preferenceList.docs[0].data().Chinese,
+    //                                     Greek: preferenceList.docs[0].data().Greek,
+    //                                     Indian: preferenceList.docs[0].data().Indian,
+    //                                     Italian: preferenceList.docs[0].data().Italian,
+    //                                     Japanese: preferenceList.docs[0].data().Japanese,
+    //                                     Mexican: preferenceList.docs[0].data().Mexican,
+    //                                     Thai: preferenceList.docs[0].data().Thai
+    //                                 };
+    //                                 db.collection('dietaryrestriction').where('username', '==', username).get()
+    //                                     .then((drlist) => {
+    //                                         dietaryrestrictions = {
+    //                                             gf: drlist.docs[0].data().GlutenFree,
+    //                                             halal: drlist.docs[0].data().Hala,
+    //                                             vegan: drlist.docs[0].data().Vegan,
+    //                                             veget: drlist.docs[0].data().Vegetarian
+    //                                         };
+    //                                         var timing = new Date();
+    //                                         console.log("Customer ", username," is here at ",timing);
+    //                                         usersDataPack = req.cookies.userInfo;
+    //                                         res.render('accountInterface', {title:'Account Interface',
+    //                                             data:
+    //                                                 buffer,
+    //                                                 dietaryrestrictions,
+    //                                                 preferences,
+    //                                                 friends,
+    //                                                 userInformation,
+    //                                                 usersDataPack
+    //                                         });
+    //                                     })
+    //                             })
+    //
+    //                     })
+    //             }
+    //
+    //         })
+    //         .catch((error) => {
+    //            console.log(error);
+    //            res.redirect('/login');
+    //         });
+    // }
+    var usersDataPack = {
+        username: 'Test',
+        docID: 0
+    };
+    res.render('accountInterface', {title:'Account Interface', data: buffer, usersDataPack});
 });
 
 /* POST restaurant search */
@@ -513,7 +525,7 @@ router.post('/registerUser', function(req,res) {
     var userInfo = {
         username: un,
         email: email,
-        password: bcrypt.hashSync(pass, null, null),
+        // password: bcrypt.hashSync(pass, null, null),
         firstname: fn,
         lastname: ln,
         dateofbirth: dob,
@@ -522,12 +534,12 @@ router.post('/registerUser', function(req,res) {
         zipcode: zip,
         phone: phone,
         securityquestion: secq,
-        securityanswer: seca,
-        verified: false
+        securityanswer: seca
+        // verified: false
     };
 
     var actionCodeSettings = {
-        url: 'http://localhost:3000/verify?mode&oobcode',
+        url: 'http://localhost:3000/verify',
         // iOS: {
         //     bundleId: 'com.example.ios'
         // },
@@ -594,6 +606,7 @@ router.post('/registerUser', function(req,res) {
 
            console.log(errorCode);
            console.log(errorMessage);
+            res.send('error');
         });
 
 });
@@ -601,19 +614,63 @@ router.post('/registerUser', function(req,res) {
 /* GET verify account */
 router.get('/verify', function(req,res){
     var query = require('url').parse(req.url, true).query;
-    var actionCode = query.oobcode;
-    console.log("In verify"+actionCode);
+    var checked = false;
+    // var actionCode = query.oobcode;
+    // console.log("In verify"+actionCode);
     console.log(query);
-    console.log(auth.currentUser.emailVerified);
-    // res.redirect('/home');
-    auth.applyActionCode()
-        .then((resp) => {
-            console.log(auth.currentUser.emailVerified);
-            console.log(resp);
+    console.log(auth.currentUser.emailVerified + " " + auth.currentUser.email);
+    admin.auth().updateUser(auth.currentUser.uid, {
+        emailVerified: true
+    })
+        .then(r => {
+        console.log(auth.currentUser.emailVerified);
+        console.log(r);
         })
-        .catch((err) => {
+        .catch(err => {
             console.log(err);
         })
+
+    // res.redirect('/home');
+    // auth.onAuthStateChanged(function(user) {
+    //     const promise = new Promise((resolve, reject) => {
+    //         if (user) {
+    //             console.log("user logged in");
+    //             auth.signOut()
+    //                 .then(function () {
+    //                     console.log("signed out");
+    //                     res.redirect('/home');
+    //                     // auth.signInWithEmailAndPassword('hilario.jessica97@gmail.com','Aaqwertyuiop1')
+    //                     //     .then(function() {
+    //                     //         console.log("Signed in");
+    //                     //         console.log(auth.currentUser.emailVerified);
+    //                     //         res.redirect('/home');
+    //                     //     })
+    //                     //     .catch(function(error) {
+    //                     //         var errorCode = error.code;
+    //                     //         var errorMessage = error.message;
+    //                     //         console.log("Could not sign in");
+    //                     //         console.log(auth.currentUser.emailVerified);
+    //                     //         res.redirect('/');
+    //                     //     });
+    //
+    //                 })
+    //                 .catch(function () {
+    //                     console.log("could not sign out");
+    //                 })
+    //
+    //         } else {
+    //             console.log("user is not logged in.")
+    //         }
+    // });
+
+    // auth.applyActionCode()
+    //     .then((resp) => {
+    //         console.log(auth.currentUser.emailVerified);
+    //         console.log(resp);
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     })
     // if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
     //     console.log("Domain is matched. Information is from Authentic email");
     //     const verifyPromise = new Promise((res, rej) => {
@@ -630,8 +687,6 @@ router.get('/verify', function(req,res){
     //                         db.collection('users').doc(docId).update({
     //                             verified: true,
     //                         });
-    //                         auth.applyActionCode()
-    //                         auth.
     //                         console.log(theName);
     //                         res(theName);
     //                     }
@@ -657,43 +712,56 @@ router.post('/signIn', function(req,res) {
     var email = req.body.email;
     var password = req.body.pass;
 
-    db.collection('users').where('email', '==', email).get()
-        .then(snapshot => {
-            if (snapshot.empty) {
-                console.log("No matching documents.");
-                var text = "Email or Password is wrong.";
-                res.render('signInPage',{title:"login", data:buffer, text});
-            }
-            else {
-                if(snapshot.docs[0].data().verified == false) {
-                    res.render("accountFoundButNotVerified", {title: "Please verify your email"});
-                }
-                else {
-                    if(bcrypt.compareSync(password,snapshot.docs[0].data().password)) {
-                        var userDataPack = {
-                            email: snapshot.docs[0].data().email,
-                            pass: snapshot.docs[0].data().password,
-                            firstName: snapshot.docs[0].data().firstname,
-                            lastName: snapshot.docs[0].data().lastname,
-                            username: snapshot.docs[0].data().username,
-                            docID: snapshot.docs[0].id
-                        };
-                        if (req.cookies.userInfo == null) {
-                            res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
-                            console.log("here is the cookie", req.cookies);
-                        }
-                        res.redirect("/accountInterface");
-                    }
-                    else {
-                        var text = "Username or Password is wrong";
-                        res.render('signInPage', {title: "login", data: buffer, text});
-                    }
-                }
-            }
+    auth.signInWithEmailAndPassword(email,password)
+        .then(function() {
+            console.log("Signed in");
+            console.log(auth.currentUser.emailVerified);
+            res.redirect('/home');
         })
-        .catch(err => {
-            console.log("Error getting documents", err);
+        .catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log("Could not sign in");
+            console.log(auth.currentUser.emailVerified);
+            res.redirect('/');
         });
+    // db.collection('users').where('email', '==', email).get()
+    //     .then(snapshot => {
+    //         if (snapshot.empty) {
+    //             console.log("No matching documents.");
+    //             var text = "Email or Password is wrong.";
+    //             res.render('signInPage',{title:"login", data:buffer, text});
+    //         }
+    //         else {
+    //             if(snapshot.docs[0].data().verified == false) {
+    //                 res.render("accountFoundButNotVerified", {title: "Please verify your email"});
+    //             }
+    //             else {
+    //                 if(bcrypt.compareSync(password,snapshot.docs[0].data().password)) {
+    //                     var userDataPack = {
+    //                         email: snapshot.docs[0].data().email,
+    //                         pass: snapshot.docs[0].data().password,
+    //                         firstName: snapshot.docs[0].data().firstname,
+    //                         lastName: snapshot.docs[0].data().lastname,
+    //                         username: snapshot.docs[0].data().username,
+    //                         docID: snapshot.docs[0].id
+    //                     };
+    //                     if (req.cookies.userInfo == null) {
+    //                         res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
+    //                         console.log("here is the cookie", req.cookies);
+    //                     }
+    //                     res.redirect("/accountInterface");
+    //                 }
+    //                 else {
+    //                     var text = "Username or Password is wrong";
+    //                     res.render('signInPage', {title: "login", data: buffer, text});
+    //                 }
+    //             }
+    //         }
+    //     })
+    //     .catch(err => {
+    //         console.log("Error getting documents", err);
+    //     });
 });
 
 /* GET log out */

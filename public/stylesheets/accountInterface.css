@@ -120,7 +120,7 @@ body, html {
   padding: 8px 0;
 }
 
-.sidenav a {
+.sidenav span {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
@@ -128,7 +128,7 @@ body, html {
   display: block;
 }
 
-.sidenav a:hover {
+.sidenav span:hover {
   color: #ff80d5;
 }
 
