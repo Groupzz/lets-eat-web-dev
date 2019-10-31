@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome, <%=usersDataPack.username%></title>
+        <title>Welcome, <%=username%></title>
         <link rel="stylesheet" href="/stylesheets/accountInterface.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
@@ -62,19 +62,19 @@
                 $(".BookmarkModal").hide();
                 // Buttons to each modal in the side menu
                 $("#HomeButton").click(function() {
-                    ajaxChange("home", <%=usersDataPack.docID%>);
+                    ajaxChange("home", <%=docID%>);
                 });
                 $("#PersonalButton").click(function() {
-                   ajaxChange("personalinfo", <%=usersDataPack.docID%>);
+                   ajaxChange("personalinfo", <%=docID%>);
                 });
                 $("#FriendsButton").click(function() {
-                   ajaxChange("friends", <%=usersDataPack.docID%>);
+                   ajaxChange("friends", <%=docID%>);
                 });
                 $("#PreferencesButton").click(function() {
-                    ajaxChange("preferences", <%=usersDataPack.docID%>);
+                    ajaxChange("preferences", <%=docID%>);
                 });
                 $("#BookmarkButton").click(function() {
-                   ajaxChange("bookmark", <%=usersDataPack.docID%>);
+                   ajaxChange("bookmark", <%=docID%>);
                 });
             })
         </script>

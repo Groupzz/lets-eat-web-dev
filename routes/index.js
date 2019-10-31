@@ -9,16 +9,9 @@ var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
 require("firebase/auth");
-var admin = require('firebase-admin');
-// var serviceAccount = require("C:/Users/Deathrabbit/Downloads/serviceAccountKey.json");
-
-admin.initializeApp();
-    // credential: admin.credential.cert(serviceAccount),
-    // databaseURL: "https://lets-eat-18b7b.firebaseio.com"
-// });
 
 // Global variables
-var host, mailOptions,link, buffer = "", usersDataPack = {}, restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
+var host, mailOptions,link, buffer = "", restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -78,27 +71,43 @@ function checkEmail(email) {
 /* GET index page. */
 router.get('/', function(req, res, next) {
     var un = null;
-    var userInfo = null;
-    if(req.cookies.userInfo != null) {
-        un = req.cookies.userInfo.username;
-        userInfo = req.cookies.userInfo;
-    }
-    var timing = new Date();
-    console.log("customer ", userInfo, " is here ", timing);
-    res.render('index', { title: 'Express' , data: buffer, un, userInfo});
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            un = user.displayName;
+            var timing = new Date();
+            console.log("Index: customer ", un, " is here ", timing);
+            res.render('index', { title: 'Express' , data: buffer, un});
+            // db.collection('users').doc(auth.currentUser.uid).get()
+            //     .then((snapshot) =>{
+            //         if(snapshot.empty) {
+            //             console.log("Nothing stored");
+            //         } else {
+            //
+            //         }
+            //     });
+        } else {
+            console.log("Index:",un);
+            res.render('index', { title: 'Express' , data: buffer, un});
+        }
+    });
 });
 
 /* GET home page. */
 router.get('/home', function(req,res) {
     var un = null;
-    var userInfo = null;
-    if(req.cookies.userInfo != null) {
-        un = req.cookies.userInfo.username;
-        userInfo = req.cookies.userInfo;
-    }
-    var timing = new Date();
-    console.log("customer ", userInfo, " is here ", timing);
-    res.render('defaultPage', { title: 'Default' , data: buffer, un, userInfo })
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            un = user.displayName;
+            var timing = new Date();
+            console.log("Home: customer ", un, " is here ", timing);
+            res.render('defaultPage', { title: 'Default' , data: buffer, un});
+        } else {
+            console.log("Home:",un);
+            res.render('defaultPage', { title: 'Default' , data: buffer, un});
+        }
+    });
 });
 
 /* GET login page */
@@ -284,32 +293,53 @@ router.get('/register', function(req,res) {
 /* GET about us page */
 router.get('/aboutUs', function(req,res) {
     var un = null;
-    var userInfo = null;
-    if(req.cookies.userInfo != null) {
-        un = req.cookies.userInfo.username;
-        userInfo = req.cookies.userInfo;
-    }
-    var timing = new Date();
-    console.log("customer ", userInfo, " is here ", timing);
-  res.render('UserManual', { title: 'AboutUs' , data: buffer, un, userInfo});
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            un = user.displayName;
+            var timing = new Date();
+            console.log("AboutUS: customer ", un, " is here ", timing);
+            res.render('UserManual', { title: 'AboutUs' , data: buffer, un});
+        } else {
+            console.log("AboutUS: ",un);
+            res.render('UserManual', { title: 'AboutUs' , data: buffer, un});
+        }
+    });
 });
 
 /* GET help page */
 router.get('/help', function(req,res) {
     var un = null;
-    var userInfo = null;
-    if(req.cookies.userInfo != null) {
-        un = req.cookies.userInfo.username;
-        userInfo = req.cookies.userInfo;
-    }
-    var timing = new Date();
-    console.log("customer ", userInfo, " is here ", timing);
-    res.render('helpPage', {title: 'Help Page' , data: buffer, un, userInfo});
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            un = user.displayName;
+            var timing = new Date();
+            console.log("Help: customer ", un, " is here ", timing);
+            res.render('helpPage', {title: 'Help Page' , data: buffer, un});
+        } else {
+            console.log("Help:",un);
+            res.render('helpPage', {title: 'Help Page' , data: buffer, un});
+        }
+    });
 });
 
 /* GET account page*/
 // Get whatever is needed for the front end
 router.get('/accountInterface', function(req, res) {
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            var username = user.displayName;
+            var docId = user.uid;
+            var timing = new Date();
+            console.log("Customer ", username," is here at ",timing);
+            res.render('accountInterface', {title:'Account Interface', data: buffer, username, docId});
+        } else {
+            console.log("User is not logged in");
+            res.redirect('/home');
+        }
+    });
     // var userInformation,preferences, dietaryrestrictions,friends = [];
     // if (req.cookies.userInfo!=null) {
     //     var email = req.cookies.userInfo.email;
@@ -372,15 +402,14 @@ router.get('/accountInterface', function(req, res) {
     //                                         };
     //                                         var timing = new Date();
     //                                         console.log("Customer ", username," is here at ",timing);
-    //                                         usersDataPack = req.cookies.userInfo;
     //                                         res.render('accountInterface', {title:'Account Interface',
     //                                             data:
     //                                                 buffer,
     //                                                 dietaryrestrictions,
     //                                                 preferences,
     //                                                 friends,
-    //                                                 userInformation,
-    //                                                 usersDataPack
+    //                                                 userInformation
+    //
     //                                         });
     //                                     })
     //                             })
@@ -394,11 +423,7 @@ router.get('/accountInterface', function(req, res) {
     //            res.redirect('/login');
     //         });
     // }
-    var usersDataPack = {
-        username: 'Test',
-        docID: 0
-    };
-    res.render('accountInterface', {title:'Account Interface', data: buffer, usersDataPack});
+    res.render('accountInterface', {title:'Account Interface', data: buffer});
 });
 /* Changing navigation */
 router.get('/accountInterface/personalinfo', function (req, res) {
@@ -437,18 +462,20 @@ router.post('/restaurantSearch', function(req,res) {
             //console.log(restaurants);
             var title = "searching for... ";
             var un = null;
-            var userInfo = null;
-            if(req.cookies.userInfo != null) {
-                un = req.cookies.userInfo.username;
-                userInfo = req.cookies.userInfo;
-            }
-            //res.cookie("yelpSearch", userDataPack);
-
-            var timing = new Date();
-            console.log("customer ", userInfo, " is here ", timing);
-            //restaurants was passed through here
-            res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un, userInfo});
-
+            auth.onAuthStateChanged(function(user) {
+                // Signed in
+                if(user) {
+                    un = user.displayName;
+                    var timing = new Date();
+                    console.log("Yelp: customer ", un, " is here ", timing);
+                    //restaurants was passed through here
+                    res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                } else {
+                    console.log("Yelp:",un);
+                    //restaurants was passed through here
+                    res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                }
+            });
         })
         .catch(e => {
             console.log(e);
@@ -539,14 +566,12 @@ router.post('/registerUser', function(req,res) {
         Italian: it,
         Japanese: ja,
         Mexican: me,
-        Thai: th,
-        username: un,
+        Thai: th
     };
 
     var userInfo = {
         username: un,
         email: email,
-        // password: bcrypt.hashSync(pass, null, null),
         firstname: fn,
         lastname: ln,
         dateofbirth: dob,
@@ -556,7 +581,6 @@ router.post('/registerUser', function(req,res) {
         phone: phone,
         securityquestion: secq,
         securityanswer: seca
-        // verified: false
     };
 
     var actionCodeSettings = {
@@ -576,49 +600,41 @@ router.post('/registerUser', function(req,res) {
     auth.createUserWithEmailAndPassword(email, pass)
         .then(cred => {
             console.log(cred.user);
-            db.collection('users').add(
-                userInfo
-            )
-                .then(function (docRef) {
-                    console.log("Document written with users ID: ", docRef.id);
-                    db.collection('preferences').add(
-                        prefs
+            auth.currentUser.updateProfile({
+                displayName: un
+            })
+                .then(function() {
+                    console.log("Successfully updated user", auth.currentUser.displayName);
+                    db.collection('users').doc(cred.user.uid).set(
+                        userInfo
                     )
-                        .then(function (docRef2) {
-                            console.log("Document written with preferences ID: ", docRef2.id);
-                            auth.currentUser.sendEmailVerification(actionCodeSettings)
-                                .then(function() {
-                                    console.log("Email sent" + actionCodeSettings.url);
-                                    res.redirect('/home');
+                        .then(function () {
+                            console.log("Users document created");
+                            db.collection('preferences').doc(cred.user.uid).set(
+                                prefs
+                            )
+                                .then(function () {
+                                    console.log("Preferences document created");
+                                    auth.currentUser.sendEmailVerification(actionCodeSettings)
+                                        .then(function() {
+                                            console.log("Email sent" + actionCodeSettings.url);
+                                            res.redirect('/home');
+                                        })
+                                        .catch(function() {
+                                            console.log("ERROR");
+                                            res.end("error");
+                                        });
                                 })
-                                .catch(function() {
-                                   console.log("ERROR");
-                                   res.end("error");
+                                .catch(function (error) {
+                                    console.log("Error adding preferences document: ", error);
                                 });
-                            // host = req.get('host');
-                            // link = "http://" + req.get('host') + '/verify?id=' + userInfo.password;
-                            // mailOptions = {
-                            //     to: email,
-                            //     subject: "Let's Eat! Please Confirm Your Email Account",
-                            //     html: "Hello! <br> To continue on to deliciousness, please verify your email by clicking on the link in the email.<br><a href=" + link + ">Click here to verify</a>"
-                            // };
-                            //
-                            // smtpTransport.sendMail(mailOptions, function (error, response) {
-                            //     if (error) {
-                            //         console.log(error);
-                            //         res.end("error");
-                            //     } else {
-                            //         console.log("Message sent: " + response.message);
-                            //         res.redirect('/home');
-                            //     }
-                            // })
                         })
                         .catch(function (error) {
-                            console.log("Error adding preferences document: ", error);
+                            console.log("Error adding users document: ", error);
                         });
                 })
-                .catch(function (error) {
-                    console.log("Error adding users document: ", error);
+                .catch(function(error) {
+                   console.log("Couldn't update user");
                 });
         })
         .catch(error => {
@@ -634,98 +650,7 @@ router.post('/registerUser', function(req,res) {
 
 /* GET verify account */
 router.get('/verify', function(req,res){
-    var query = require('url').parse(req.url, true).query;
-    var checked = false;
-    // var actionCode = query.oobcode;
-    // console.log("In verify"+actionCode);
-    console.log(query);
-    console.log(auth.currentUser.emailVerified + " " + auth.currentUser.email);
-    admin.auth().updateUser(auth.currentUser.uid, {
-        emailVerified: true
-    })
-        .then(r => {
-        console.log(auth.currentUser.emailVerified);
-        console.log(r);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-
-    // res.redirect('/home');
-    // auth.onAuthStateChanged(function(user) {
-    //     const promise = new Promise((resolve, reject) => {
-    //         if (user) {
-    //             console.log("user logged in");
-    //             auth.signOut()
-    //                 .then(function () {
-    //                     console.log("signed out");
-    //                     res.redirect('/home');
-    //                     // auth.signInWithEmailAndPassword('hilario.jessica97@gmail.com','Aaqwertyuiop1')
-    //                     //     .then(function() {
-    //                     //         console.log("Signed in");
-    //                     //         console.log(auth.currentUser.emailVerified);
-    //                     //         res.redirect('/home');
-    //                     //     })
-    //                     //     .catch(function(error) {
-    //                     //         var errorCode = error.code;
-    //                     //         var errorMessage = error.message;
-    //                     //         console.log("Could not sign in");
-    //                     //         console.log(auth.currentUser.emailVerified);
-    //                     //         res.redirect('/');
-    //                     //     });
-    //
-    //                 })
-    //                 .catch(function () {
-    //                     console.log("could not sign out");
-    //                 })
-    //
-    //         } else {
-    //             console.log("user is not logged in.")
-    //         }
-    // });
-
-    // auth.applyActionCode()
-    //     .then((resp) => {
-    //         console.log(auth.currentUser.emailVerified);
-    //         console.log(resp);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
-    //     console.log("Domain is matched. Information is from Authentic email");
-    //     const verifyPromise = new Promise((res, rej) => {
-    //         db.collection('users').get()
-    //             .then((snapshot) => {
-    //                 var theName;
-    //                 // loop through each document in the database
-    //                 snapshot.docs.forEach(doc => {
-    //                     // grab the data and push it to a list
-    //                     if (doc.data().password === req.query.id) {
-    //                         theName = doc.data().firstname;
-    //                         var docId = doc.id;
-    //
-    //                         db.collection('users').doc(docId).update({
-    //                             verified: true,
-    //                         });
-    //                         console.log(theName);
-    //                         res(theName);
-    //                     }
-    //                 });
-    //
-    //             });
-    //     })
-    //         .then(fName => {
-    //             console.log(fName);
-    //             // res.redirect('/login');
-    //             res.render('RegisteredNotification', {title: "Success!", data: buffer, fName});
-    //         })
-    //         .catch(err => {
-    //            console.log(err);
-    //         });
-    // } else {
-    //     res.end("<h1>Request id from unknown source</h1>");
-    // }
+    res.redirect('/home');
 });
 
 /* Post request to sign in */
@@ -736,60 +661,26 @@ router.post('/signIn', function(req,res) {
     auth.signInWithEmailAndPassword(email,password)
         .then(function() {
             console.log("Signed in");
-            console.log(auth.currentUser.emailVerified);
-            res.redirect('/home');
+            res.redirect("/accountInterface");
         })
         .catch(function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log("Could not sign in");
-            console.log(auth.currentUser.emailVerified);
-            res.redirect('/');
+            var text = "Username or Password is wrong";
+            res.render('signInPage', {title: "login", data: buffer, text});
         });
-    // db.collection('users').where('email', '==', email).get()
-    //     .then(snapshot => {
-    //         if (snapshot.empty) {
-    //             console.log("No matching documents.");
-    //             var text = "Email or Password is wrong.";
-    //             res.render('signInPage',{title:"login", data:buffer, text});
-    //         }
-    //         else {
-    //             if(snapshot.docs[0].data().verified == false) {
-    //                 res.render("accountFoundButNotVerified", {title: "Please verify your email"});
-    //             }
-    //             else {
-    //                 if(bcrypt.compareSync(password,snapshot.docs[0].data().password)) {
-    //                     var userDataPack = {
-    //                         email: snapshot.docs[0].data().email,
-    //                         pass: snapshot.docs[0].data().password,
-    //                         firstName: snapshot.docs[0].data().firstname,
-    //                         lastName: snapshot.docs[0].data().lastname,
-    //                         username: snapshot.docs[0].data().username,
-    //                         docID: snapshot.docs[0].id
-    //                     };
-    //                     if (req.cookies.userInfo == null) {
-    //                         res.cookie("userInfo", userDataPack, {expire: new Date() + 1});
-    //                         console.log("here is the cookie", req.cookies);
-    //                     }
-    //                     res.redirect("/accountInterface");
-    //                 }
-    //                 else {
-    //                     var text = "Username or Password is wrong";
-    //                     res.render('signInPage', {title: "login", data: buffer, text});
-    //                 }
-    //             }
-    //         }
-    //     })
-    //     .catch(err => {
-    //         console.log("Error getting documents", err);
-    //     });
 });
 
 /* GET log out */
 router.get("/logout", function(req, res){
-    res.clearCookie('userInfo');
-    usersDataPack = {};
-    res.redirect('/home');
+    auth.signOut().then(function() {
+        console.log("Sign out successful");
+        res.redirect('/home');
+    }).catch(function(error) {
+        console.log("Sign out unsuccessful");
+        res.redirect('/home');
+    });
 });
 
 /* GET a restaurant from the search */
