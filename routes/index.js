@@ -95,8 +95,8 @@ router.get('/', function(req, res, next) {
 
 /* GET home page. */
 router.get('/home', function(req,res) {
-    var un = null;
     auth.onAuthStateChanged(function(user) {
+        var un = null;
         // Signed in
         if(user) {
             un = user.displayName;
@@ -331,10 +331,10 @@ router.get('/accountInterface', function(req, res) {
         // Signed in
         if(user) {
             var username = user.displayName;
-            var docId = user.uid;
+            var docID = user.uid;
             var timing = new Date();
-            console.log("Customer ", username," is here at ",timing);
-            res.render('accountInterface', {title:'Account Interface', data: buffer, username, docId});
+            console.log("Account: Customer ", username," is here at ",timing);
+            res.render('accountInterface', {title:'Account Interface', data: buffer, username, docID});
         } else {
             console.log("User is not logged in");
             res.redirect('/home');
@@ -423,7 +423,7 @@ router.get('/accountInterface', function(req, res) {
     //            res.redirect('/login');
     //         });
     // }
-    res.render('accountInterface', {title:'Account Interface', data: buffer});
+    // res.render('accountInterface', {title:'Account Interface', data: buffer});
 });
 /* Changing navigation */
 router.get('/accountInterface/personalinfo', function (req, res) {
