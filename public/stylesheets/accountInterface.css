@@ -16,7 +16,7 @@ body, html {
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 600px;
+  max-width: 2000px;
   position: relative;
   margin: auto;
 }
@@ -166,5 +166,44 @@ label {
 }
 h1 {
   color: #eee
+}
+
+.search-container button {
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 11px;
+  border: none;
+  cursor: pointer;
+  color: #24478f
+}
+
+.search-container button:hover {
+  background: #eee;
+  color: #ff80d5;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .search-container {
+    float: none;
+  }
+  .topnav a, .topnav input[type=text], .topnav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+}
+
+.logout {
+  position: fixed;
+  right: 10px;
+  top: 5px;
 }
 /* END OF CONTENT */
