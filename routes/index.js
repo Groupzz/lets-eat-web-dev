@@ -423,11 +423,11 @@ router.get('/accountInterface', function(req, res) {
     //            res.redirect('/login');
     //         });
     // }
-    // res.render('accountInterface', {title:'Account Interface', data: buffer});
 });
 /* Changing navigation */
 router.get('/accountInterface/personalinfo', function (req, res) {
     var text = 'Personal Info';
+    console.log(text);
     res.send({description: text});
 });
 router.get('accountInterface/friends', function (req, res) {
@@ -451,35 +451,45 @@ router.get('/accountInterface/bookmark', function (req, res) {
 router.post('/restaurantSearch', function(req,res) {
     var searchTerm = req.body.term;
     var location = req.body.location;
+    var lat = req.body.lat;
+    var long = req.body.long;
 
-    client.search({
-        term: searchTerm,
-        location: location,
-    })
-        .then(response => {
+    if(location === 'near me') {
+         console.log(location);
+    } else {
+        console.log(location);
+    }
+    var text = "yes";
+    return res.send({text: text});
 
-            restaurants = response.jsonBody.businesses;
-            //console.log(restaurants);
-            var title = "searching for... ";
-            var un = null;
-            auth.onAuthStateChanged(function(user) {
-                // Signed in
-                if(user) {
-                    un = user.displayName;
-                    var timing = new Date();
-                    console.log("Yelp: customer ", un, " is here ", timing);
-                    //restaurants was passed through here
-                    res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
-                } else {
-                    console.log("Yelp:",un);
-                    //restaurants was passed through here
-                    res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
-                }
-            });
-        })
-        .catch(e => {
-            console.log(e);
-        });
+    // client.search({
+    //     term: searchTerm,
+    //     location: location,
+    // })
+    //     .then(response => {
+    //
+    //         restaurants = response.jsonBody.businesses;
+    //         //console.log(restaurants);
+    //         var title = "searching for... ";
+    //         var un = null;
+    //         auth.onAuthStateChanged(function(user) {
+    //             // Signed in
+    //             if(user) {
+    //                 un = user.displayName;
+    //                 var timing = new Date();
+    //                 console.log("Yelp: customer ", un, " is here ", timing);
+    //                 //restaurants was passed through here
+    //                 res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+    //             } else {
+    //                 console.log("Yelp:",un);
+    //                 //restaurants was passed through here
+    //                 res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+    //             }
+    //         });
+    //     })
+    //     .catch(e => {
+    //         console.log(e);
+    //     });
 });
 
 /* GET check username */

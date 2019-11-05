@@ -22,6 +22,7 @@
                             $(".BookmarkModal").hide();
                         }
                         if(dest == "personalinfo"){
+                            console.log('personal info');
                             $(".HomeModal").hide();
                             $(".PersonalInformationModal").fadeIn();
                             $(".FriendsModal").hide();
@@ -61,22 +62,22 @@
                 $(".FriendsModal").hide();
                 $(".PreferencesModal").hide();
                 $(".BookmarkModal").hide();
-                // Buttons to each modal in the side menu
-                $("#HomeButton").click(function() {
-                    ajaxChange("home", <%=docID%>);
-                });
+                <!-- Buttons to each modal in the side menu-->
+                <!--$("#HomeButton").click(function() {-->
+                <!--    ajaxChange("home", %=docID%);-->
+                <!--});-->
                 $("#PersonalButton").click(function() {
                    ajaxChange("personalinfo", <%=docID%>);
                 });
-                $("#FriendsButton").click(function() {
-                   ajaxChange("friends", <%=docID%>);
-                });
-                $("#PreferencesButton").click(function() {
-                    ajaxChange("preferences", <%=docID%>);
-                });
-                $("#BookmarkButton").click(function() {
-                   ajaxChange("bookmark", <%=docID%>);
-                });
+                <!--$("#FriendsButton").click(function() {-->
+                <!--   ajaxChange("friends", %=docID%);-->
+                <!--});-->
+                <!--$("#PreferencesButton").click(function() {-->
+                <!--    ajaxChange("preferences", %=docID%);-->
+                <!--});-->
+                <!--$("#BookmarkButton").click(function() {-->
+                <!--   ajaxChange("bookmark", %=docID%);-->
+                <!--});-->
             })
         </script>
     </head>

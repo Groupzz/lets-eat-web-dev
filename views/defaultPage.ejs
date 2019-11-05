@@ -11,7 +11,22 @@
     <link rel='stylesheet'  href='/fonts/font-awesome-4.7.0/css/font-awesome.min.css'>
     <link rel='stylesheet' href='/stylesheets/defaultPage.css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4"></script>
     <script>
+        // Geolocation
+        x = navigator.geolocation;
+        x.getCurrentPosition(success, failure);
+        var mylat,mylong;
+        function success(position) {
+            mylat = position.coords.latitude;
+            mylong = position.coords.longitude;
+
+            console.log(mylat);
+            console.log(mylong);
+        }
+        function failure() {
+            console.log("It didn't work");
+        }
         // Functions
         function yelpSite() {
             window.open('https://www.yelp.com/');
@@ -46,6 +61,25 @@
             if($(this).val().length == 0)
                 $(this).parent('label').removeClass('active');
         });
+        function searchQuery() {
+            console.log("about to go to post");
+            var term = document.getElementsByClassName('input');
+            var location = document.getElementsByClassName('location');
+            if (location.toString().toLowerCase() === "near me") {
+                lat = position.coords.latitude;
+                long = position.coords.longitude;
+            }
+            $.post("/restaurantSearch",
+                {
+                    term: term,
+                    location: location.toLowerCase(),
+                    lat: lat,
+                    long: long
+                },
+                function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                })
+        }
     </script>
 </head>
 <body>
@@ -93,11 +127,11 @@
     </div>
     <div id="container">
         <div class="search">
-             <form id="searchForm" method="post" action="/restaurantSearch">
-                 <input class="input" name = "term" type="search" placeholder="I'm in the mood for...">
-                 <input class = "location" name="location" type="search" placeholder="at...">
-                 <input class="searchFood" type="submit" value="Submit"/>
-             </form>
+           <class id="searchForm"><!--   method="post" action="/restaurantSearch">-->
+                 <input class="input" type="search" placeholder="I'm in the mood for...">
+                 <input class = "location" type="search" placeholder="at... or 'near me'">
+                 <input id="searchFood" class="searchFood" type="button" value="Submit" onclick="searchQuery()"/>
+           </class>
         </div>
 <!--        <div class="FriendsActivityContainer">-->
 <!--            <span class="friendsMessage">Log in/Sign up to see what your friends are up to!</span>-->
