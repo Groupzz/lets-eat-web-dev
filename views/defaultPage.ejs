@@ -62,23 +62,23 @@
                 $(this).parent('label').removeClass('active');
         });
         function searchQuery() {
-            console.log("about to go to post");
-            var term = document.getElementsByClassName('input');
-            var location = document.getElementsByClassName('location');
-            if (location.toString().toLowerCase() === "near me") {
-                lat = position.coords.latitude;
-                long = position.coords.longitude;
-            }
-            $.post("/restaurantSearch",
-                {
-                    term: term,
-                    location: location.toLowerCase(),
-                    lat: lat,
-                    long: long
+            var term = document.getElementsByClassName('input').value;
+            var location = document.getElementsByClassName('location').value;
+            console.log(term);
+            // if (location.toString().toLowerCase() === "near me") {
+            //     lat = position.coords.latitude;
+            //     long = position.coords.longitude;
+            // }
+            $.ajax({
+                type: "POST",
+                url: "/restaurantSearch?term=" + term + "%location=" + location + "%lat=" + mylat + "%long=" + mylong,
+                success: function (result) {
+                    console.log("Did it");
                 },
-                function (data, status) {
-                    console.log("Data: " + data + "\nStatus: " + status);
-                })
+                error: function (e) {
+                    console.log(e);
+                }
+            });
         }
     </script>
 </head>
@@ -127,11 +127,11 @@
     </div>
     <div id="container">
         <div class="search">
-           <class id="searchForm"><!--   method="post" action="/restaurantSearch">-->
-                 <input class="input" type="search" placeholder="I'm in the mood for...">
-                 <input class = "location" type="search" placeholder="at... or 'near me'">
-                 <input id="searchFood" class="searchFood" type="button" value="Submit" onclick="searchQuery()"/>
-           </class>
+           <form id="searchForm" method="post" action="/restaurantSearch">
+               <input class="input" name="term" type="search" placeholder="I'm in the mood for...">
+               <input class = "location" name="location" type="search" placeholder="at... or 'near me'">
+               <input id="searchFood" class="searchFood" type="submit" value="Submit" /> <!-- button -->
+           </form>
         </div>
 <!--        <div class="FriendsActivityContainer">-->
 <!--            <span class="friendsMessage">Log in/Sign up to see what your friends are up to!</span>-->

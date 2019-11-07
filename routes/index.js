@@ -451,11 +451,9 @@ router.get('/accountInterface/bookmark', function (req, res) {
 router.post('/restaurantSearch', function(req,res) {
     var searchTerm = req.body.term;
     var location = req.body.location;
-    var lat = req.body.lat;
-    var long = req.body.long;
 
     if(location === 'near me') {
-         console.log(location);
+         console.log("near me"+location);
     } else {
         console.log(location);
     }
