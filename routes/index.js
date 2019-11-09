@@ -78,14 +78,6 @@ router.get('/', function(req, res, next) {
             var timing = new Date();
             console.log("Index: customer ", un, " is here ", timing);
             res.render('index', { title: 'Express' , data: buffer, un});
-            // db.collection('users').doc(auth.currentUser.uid).get()
-            //     .then((snapshot) =>{
-            //         if(snapshot.empty) {
-            //             console.log("Nothing stored");
-            //         } else {
-            //
-            //         }
-            //     });
         } else {
             console.log("Index:",un);
             res.render('index', { title: 'Express' , data: buffer, un});
@@ -117,7 +109,7 @@ router.get('/login', function(req,res) {
   res.render('signInPage', { title: 'Sign In' , data: buffer, text});
 });
 
-/* GET find password */
+/* GET find password FIXX*/
 router.get('/recoverpassword', function(req,res) {
    res.render('recoverPassword', {title: "Recover Password"});
 });
@@ -141,7 +133,7 @@ router.post('/FindPasswordEmail', function(req, res, next){
         })
 });
 
-/* POST checks answer */
+/* POST checks answer FIXX*/
 router.post('/checkEmailandAnswer', function(req,res) {
     var answer = req.body.guessedAnswer;
     var links = makeid(20);
@@ -172,7 +164,7 @@ router.post('/checkEmailandAnswer', function(req,res) {
         })
 });
 
-/* POST change password with username */
+/* POST change password with username FIXX*/
 router.post('/FindPasswordUsername', function(req, res, next){
     var findPassUsr = req.body.username;
     db.collection('users').where('username', '==', findPassUsr).get()
@@ -190,7 +182,7 @@ router.post('/FindPasswordUsername', function(req, res, next){
         })
 });
 
-/* POST checks answer */
+/* POST checks answer FIXX*/
 router.post('/checkUsernameandAnswer', function(req,res) {
     var answer = req.body.guessedAnswer;
     var links = makeid(20);
@@ -221,7 +213,7 @@ router.post('/checkUsernameandAnswer', function(req,res) {
         })
 });
 
-/* GET Change Password */
+/* GET Change Password FIXX*/
 router.get("/PasswordChange", function(req, res, next){
     console.log(req.protocol+":/"+req.get('host'));
     if((req.protocol+"://"+req.get('host'))==("http://"+host))
@@ -243,7 +235,7 @@ router.get("/PasswordChange", function(req, res, next){
     }
 });
 
-/* POST change password */
+/* POST change password FIXXXX*/
 router.post('/changepassword', function(req, res) {
     var creds = req.body.creds;
     var pass = req.body.pass;
@@ -574,7 +566,8 @@ router.post('/registerUser', function(req,res) {
         Italian: it,
         Japanese: ja,
         Mexican: me,
-        Thai: th
+        Thai: th,
+        uid: "N/A"
     };
 
     var userInfo = {
@@ -588,7 +581,8 @@ router.post('/registerUser', function(req,res) {
         zipcode: zip,
         phone: phone,
         securityquestion: secq,
-        securityanswer: seca
+        securityanswer: seca,
+        uid: 'N/A'
     };
 
     var actionCodeSettings = {
@@ -613,12 +607,14 @@ router.post('/registerUser', function(req,res) {
             })
                 .then(function() {
                     console.log("Successfully updated user", auth.currentUser.displayName);
-                    db.collection('users').doc(cred.user.uid).set(
+                    userInfo.uid = cred.user.uid;
+                    prefs.uid = cred.user.uid;
+                    db.collection('users').add(
                         userInfo
                     )
                         .then(function () {
                             console.log("Users document created");
-                            db.collection('preferences').doc(cred.user.uid).set(
+                            db.collection('preferences').add(
                                 prefs
                             )
                                 .then(function () {
