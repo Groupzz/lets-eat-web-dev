@@ -80,6 +80,10 @@
                 }
             });
         }
+        $('#searchForm').submit(function() {
+            var location = document.getElementsByClassName('location').value;
+            return true; // return false to cancel form action
+        })
     </script>
 </head>
 <body>
