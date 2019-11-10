@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href='/images/logo2.gif'>
+    <title>Welcome, <%=username%></title>
+    <link rel="stylesheet" href="/stylesheets/accountInterface.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function logoff() {
+            window.location.href = "/logout";
+        }
+        function homePage() {
+            window.location.href = "/accountInterface";
+        }
+        function bookmarkPage() {
+            window.location.href = "/accountInterface/bookmark";
+        }
+        function personalInfoPage() {
+            window.location.href = "/accountInterface/personalinfo"
+        }
+        function friendsPage() {
+            window.location.href = "/accountInterface/friends";
+        }
+        function prefPage() {
+            window.location.href = "/accountInterface/preferences";
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="BookmarkModal">
+    <span>BOOKMARKS</span>
+    <!---Formats the bookmarks box--->
+    <form method="POST" action="/registerUser"> <!--maybe change this-->
+        <div class="box">
+            <h1><center>Bookmarks</center></h1>
+            <center>
+                <ul style="list-style-type:none;">
+                    <li>Bookmark 1 - Restaurant, Location</li>
+                    <li>Bookmark 2 - Restaurant, Location</li>
+                    <li>Bookmark 3 - Restaurant, Location</li>
+                </ul>
+            </center>
+        </div>
+    </form>
+</div>
+<div class="sidenav">
+    <a href="/accountInterface">Home</a>
+    <a href="/accountInterface/personalinfo">Personal Info</a>
+    <a href="/accountInterface/friends">Friends</a>
+    <a href="/accountInterface/preferences">Preferences</a>
+    <a href="/accountInterface/bookmark" class="active">Bookmarks</a>
+    <a href="/logout">Logout</a>
+</div>
+</div>
+</body>
+</html>

@@ -326,6 +326,7 @@ router.get('/accountInterface', function(req, res) {
             var docID = user.uid;
             var timing = new Date();
             console.log("Account: Customer ", username," is here at ",timing);
+
             res.render('accountInterface', {title:'Account Interface', data: buffer, username, docID});
         } else {
             console.log("User is not logged in");
@@ -418,25 +419,68 @@ router.get('/accountInterface', function(req, res) {
 });
 /* Changing navigation */
 router.get('/accountInterface/personalinfo', function (req, res) {
-    var text = 'Personal Info';
-    console.log(text);
-    res.send({description: text});
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            var username = user.displayName;
+            var docID = user.uid;
+            var timing = new Date();
+            console.log("Customer ", username," is here at ",timing);
+
+            res.render('PersonalInformation', {title:'Personal Information', data: buffer, username, docID});
+        } else {
+            console.log("User is not logged in");
+            res.redirect('/home');
+        }
+    });
 });
-router.get('accountInterface/friends', function (req, res) {
-    var text = 'Friends';
-    res.send({description: text});
+router.get('/accountInterface/friends', function (req, res) {
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            var username = user.displayName;
+            var docID = user.uid;
+            var timing = new Date();
+            console.log("Customer ", username," is here at ",timing);
+
+            res.render('Friends', {title:'Friends', data: buffer, username, docID});
+        } else {
+            console.log("User is not logged in");
+            res.redirect('/home');
+        }
+    });
 });
 router.get('/accountInterface/preferences', function (req, res) {
-    var text = 'Preferences';
-    res.send({description: text});
-});
-router.get('/accountInterface/home', function (req, res) {
-    var text = 'Home';
-    res.send({description: text});
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            var username = user.displayName;
+            var docID = user.uid;
+            var timing = new Date();
+            console.log("Customer ", username," is here at ",timing);
+
+            res.render('Preferences', {title:'Preferences', data: buffer, username, docID});
+        } else {
+            console.log("User is not logged in");
+            res.redirect('/home');
+        }
+    });
 });
 router.get('/accountInterface/bookmark', function (req, res) {
-    var text = 'Bookmarks';
-    res.send({description: text});
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            var username = user.displayName;
+            var docID = user.uid;
+            var timing = new Date();
+            console.log("Customer ", username," is here at ",timing);
+
+            res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID});
+        } else {
+            console.log("User is not logged in");
+            res.redirect('/home');
+        }
+    });
 });
 
 /* POST restaurant search */

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href='/images/logo2.gif'>
+    <title>Welcome, <%=username%></title>
+    <link rel="stylesheet" href="/stylesheets/accountInterface.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function logoff() {
+            window.location.href = "/logout";
+        }
+        function homePage() {
+            window.location.href = "/accountInterface";
+        }
+        function bookmarkPage() {
+            window.location.href = "/accountInterface/bookmark";
+        }
+        function personalInfoPage() {
+            window.location.href = "/accountInterface/personalinfo"
+        }
+        function friendsPage() {
+            window.location.href = "/accountInterface/friends";
+        }
+        function prefPage() {
+            window.location.href = "/accountInterface/preferences";
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="PersonalInformationModal">
+        <span>PERSONAL INFORMATION</span>
+        <!---Formats the sign up information box--->
+        <form method="POST" action="/registerUser">
+            <div class="box">
+                <h1><center>Personal Info</center></h1>
+
+                <!--User info-->
+                <center><button type="button" onclick="alert('You may now edit')">Edit</button></center><br>
+                <label for="username">Username: </label><input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" required/><br>
+                <label for="first name">First Name: </label><input type="text" name="FirstName" value="" onFocus="field_focus(this, 'First Name');" onblur="field_blur(this, 'First Name');" class="First Name" required/><br>
+                <label for="last name">Last Name: </label><input type="text" name="LastName" value="" onFocus="field_focus(this, 'Last Name');" onblur="field_blur(this, 'Last Name');" class="Last Name" required/><br>
+                <label for="email">E-mail: </label><input type="Email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" class="Email" required/><br>
+                <label for="password">Password: </label><input type="Password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" class="Password" required id="myPw"/><br>
+                <input type="checkbox" onclick="hidePassword()">Show Password<br>
+                <label for="city">City: </label><input type="text" name="City" value="" onFocus="field_focus(this, 'City');" onblur="field_blur(this, 'City');" class="City" required/><br>
+                <label for="state">State: </label><input type="text" name="State" value="" onFocus="field_focus(this, 'State');" onblur="field_blur(this, 'State');" class="State" required/><br>
+                <label for="secq">Security Question: </label><input type="text" name="SecurityQuestion" value="" onFocus="field_focus(this, 'Security Question');" onblur="field_blur(this, 'Security Question');" class="Security Question" required/><br>
+                <label for="answer">Answer:</label><input type="Password" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" required id="myAns"/><br>
+                <input type="checkbox" onclick="hideAnswer()">Show Answer<br>
+            </div>
+        </form>
+
+        <center><button type="submit">Submit</button></center>
+
+    </div>
+<div class="sidenav">
+    <a href="/accountInterface">Home</a>
+    <a href="/accountInterface/personalinfo" class="active">Personal Info</a>
+    <a href="/accountInterface/friends">Friends</a>
+    <a href="/accountInterface/preferences">Preferences</a>
+    <a href="/accountInterface/bookmark">Bookmarks</a>
+    <a href="/logout">Logout</a>
+</div>
+
+</div>
+
+<script>
+
+    function hidePassword() {
+        var x = document.getElementById("myPw");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+    function hideAnswer() {
+        var x = document.getElementById("myAns");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href='/images/logo2.gif'>
+    <title>Welcome, <%=username%></title>
+    <link rel="stylesheet" href="/stylesheets/accountInterface.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function logoff() {
+            window.location.href = "/logout";
+        }
+        function homePage() {
+            window.location.href = "/accountInterface";
+        }
+        function bookmarkPage() {
+            window.location.href = "/accountInterface/bookmark";
+        }
+        function personalInfoPage() {
+            window.location.href = "/accountInterface/personalinfo"
+        }
+        function friendsPage() {
+            window.location.href = "/accountInterface/friends";
+        }
+        function prefPage() {
+            window.location.href = "/accountInterface/preferences";
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="PreferencesModal">
+    <div class ="preferences">
+        <form method="POST" action="/registerUser"> <!--maybe change this-->
+            <h1><center>Preferences</center></h1>
+            <center><button type="button" onclick="alert('You may now edit')">Edit</button></center>
+            <p align = "left"><input type="checkbox" name="American" value="American">American<br></p>
+            <p align = "left"><input type="checkbox" name="Mexican" value="Mexican">Mexican<br></p>
+            <p align = "left"><input type="checkbox" name="Chinese" value="Chinese">Chinese<br></p>
+            <p align = "left"><input type="checkbox" name="Japanese" value="Japanese">Japanese<br></p>
+            <p align = "left"><input type="checkbox" name="Thai" value="Thai">Thai<br></p>
+            <p align = "left"><input type="checkbox" name="Italian" value="Italian">Italian<br></p>
+            <p align = "left"><input type="checkbox" name="Indian" value="Indian">Indian<br></p>
+            <p align = "left"><input type="checkbox" name="Greek" value="Greek">Greek<br></p>
+            <div class="search-container"><center>
+                    <form action="/action_page.php">
+                        <button type="submit">Submit</button>
+                    </form></center>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="sidenav">
+    <a href="/accountInterface">Home</a>
+    <a href="/accountInterface/personalinfo">Personal Info</a>
+    <a href="/accountInterface/friends">Friends</a>
+    <a href="/accountInterface/preferences" class="active">Preferences</a>
+    <a href="/accountInterface/bookmark">Bookmarks</a>
+    <a href="/logout">Logout</a>
+</div>
+</div>
+</body>
+</html>
