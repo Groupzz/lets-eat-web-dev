@@ -52,25 +52,6 @@
         function logoff() {
             window.location.href = '/logout';
         }
-        // function searchQuery() {
-        //     var term = document.getElementsByClassName('input').value;
-        //     var location = document.getElementsByClassName('location').value;
-        //     console.log(term);
-        //     // if (location.toString().toLowerCase() === "near me") {
-        //     //     lat = position.coords.latitude;
-        //     //     long = position.coords.longitude;
-        //     // }
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/restaurantSearch?term=" + term + "%location=" + location + "%lat=" + mylat + "%long=" + mylong,
-        //         success: function (result) {
-        //             console.log("Did it");
-        //         },
-        //         error: function (e) {
-        //             console.log(e);
-        //         }
-        //     });
-        // }
         beforeSubmit = function(){
             if (1 == 1){
                 var locationBox = document.getElementsByClassName('location');//[0].value;
@@ -117,7 +98,6 @@
                 <div class="dropdown-content">
                     <li onclick="loginSec()">Log In</li>
                     <li onclick = "signUpSec()">Sign Up</li>
-                    <li onclick = "groupVoteSec()">Group Vote</li>
                     <li onclick = "advancedSearch()">Advanced Search</li>
                     <li onclick="aboutUsSec()">About Us</li>
                     <li onclick="helpSec()">Help</li>
