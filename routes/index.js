@@ -480,13 +480,12 @@ router.post('/restaurantSearch', function(req,res) {
     var location = req.body.location;
     var loc = location.split(",");
     console.log(loc);
-    if (validate(location)) {
+    if (loc.length != 2) {
         client.search({
             term: searchTerm,
             location: location,
         })
             .then(response => {
-
                 restaurants = response.jsonBody.businesses;
                 var title = "searching for... ";
                 var un = null;

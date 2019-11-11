@@ -21,7 +21,7 @@
                     if (result.text != "Do new Search") {
                         restaurant = result.text;
                         $('.restName').html(restaurant.name);
-                        $('.restImage').attr('src',restaurant.image_url);
+                        $('.imageBox').css("background-image","url('"+restaurant.image_url+"')");
                         $('.restPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
                         /*$('.restPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
                         for (var i = 0; i < restaurant.transactions.length; i++) {
@@ -218,7 +218,7 @@
         <div class="container">
             <div class="restaurantListContainer" id="restCon">
                 <div class="restEle">
-                    <img class="restImage" id="restImage">
+                    <div class="imageBox" id="imageBox"></div>
                     <div class="nameContainer">
                         <span class="restName" id="restName"></span>
                     </div>

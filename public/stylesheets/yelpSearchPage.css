@@ -191,10 +191,9 @@ li div{
     height: 100%;
 }
 /* Content Area end */
-.restImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 30%;
+.imageBox {
     height: 30%;
+    width: 30%;
+    background-size: 100%;
+    padding: 0px 0px 0px 0px;
 }
