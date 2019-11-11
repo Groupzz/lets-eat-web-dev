@@ -52,38 +52,35 @@
         function logoff() {
             window.location.href = '/logout';
         }
-        // ajax -- I don't know what this is for
-        $("#inpt_search").on('focus', function () {
-            $(this).parent('label').addClass('active');
-        });
-
-        $("#inpt_search").on('blur', function () {
-            if($(this).val().length == 0)
-                $(this).parent('label').removeClass('active');
-        });
-        function searchQuery() {
-            var term = document.getElementsByClassName('input').value;
-            var location = document.getElementsByClassName('location').value;
-            console.log(term);
-            // if (location.toString().toLowerCase() === "near me") {
-            //     lat = position.coords.latitude;
-            //     long = position.coords.longitude;
-            // }
-            $.ajax({
-                type: "POST",
-                url: "/restaurantSearch?term=" + term + "%location=" + location + "%lat=" + mylat + "%long=" + mylong,
-                success: function (result) {
-                    console.log("Did it");
-                },
-                error: function (e) {
-                    console.log(e);
+        // function searchQuery() {
+        //     var term = document.getElementsByClassName('input').value;
+        //     var location = document.getElementsByClassName('location').value;
+        //     console.log(term);
+        //     // if (location.toString().toLowerCase() === "near me") {
+        //     //     lat = position.coords.latitude;
+        //     //     long = position.coords.longitude;
+        //     // }
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/restaurantSearch?term=" + term + "%location=" + location + "%lat=" + mylat + "%long=" + mylong,
+        //         success: function (result) {
+        //             console.log("Did it");
+        //         },
+        //         error: function (e) {
+        //             console.log(e);
+        //         }
+        //     });
+        // }
+        beforeSubmit = function(){
+            if (1 == 1){
+                var locationBox = document.getElementsByClassName('location');//[0].value;
+                if (locationBox[0].value === "near me") {
+                    locationBox[0].value = (mylat+","+mylong);
                 }
-            });
+                console.log(locationBox[0].value);
+            }
+            $("#searchForm").submit();
         }
-        $('#searchForm').submit(function() {
-            var location = document.getElementsByClassName('location').value;
-            return true; // return false to cancel form action
-        })
     </script>
 </head>
 <body>
@@ -134,7 +131,7 @@
            <form id="searchForm" method="post" action="/restaurantSearch">
                <input class="input" name="term" type="search" placeholder="I'm in the mood for...">
                <input class = "location" name="location" type="search" placeholder="at... or 'near me'">
-               <input id="searchFood" class="searchFood" type="submit" value="Submit" /> <!-- button -->
+               <input id="searchFood" class="searchFood" type="button" value="Submit" onclick="beforeSubmit()"/> <!-- button -->
            </form>
         </div>
 <!--        <div class="FriendsActivityContainer">-->

@@ -4,14 +4,13 @@ var express = require('express');
 var router = express.Router();
 var firebase = require("firebase/app");
 var yelp = require('yelp-fusion');
-var nodemailer = require("nodemailer");
 var bcrypt = require('bcrypt-nodejs');
 const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
 require("firebase/firestore");
 require("firebase/auth");
 
 // Global variables
-var host, mailOptions,link, buffer = "", restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
+var host,link, buffer = "", restaurants = [], used = [], randPassFind = [], useremail, userName, secq;
 
 // setup connection to firebase database
 const firebaseConfig = {
@@ -28,20 +27,6 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 // Update firestore settings
 const auth = firebase.auth();
-
-// Sending emails to the user
-let smtpTransport = nodemailer.createTransport({
-  host: "smtp.gmail.com", // hostname
-  secureConnection: false, // TLS requires secureConnection to be false
-  port: 587, // port for secure SMTP
-  tls: {
-    ciphers:'SSLv3'
-  },
-  auth: {
-    user: 'letseatsc@gmail.com',
-    pass: 'Aaqwertyuiop1'
-  }
-});
 
 /* converts to a regular date */
 function convert(str) {
@@ -66,6 +51,12 @@ function makeid(length) {
 function checkEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
+}
+
+/* Validates that there is only letters */
+function validate(check){
+    var re = /^[A-Za-z]+$/;
+    return (re.test(check))
 }
 
 /* GET index page. */
@@ -143,20 +134,20 @@ router.post('/checkEmailandAnswer', function(req,res) {
             if(snapshot.docs[0].data().securityanswer === answer) {
                 host = req.get('host');
                     link = "http://" + req.get('host') + "/PasswordChange?id=" + links;
-                    mailOptions = {
-                        to: useremail,
-                        subject: "Please confirm your Email account",
-                        html: "Hello,<br> Please Click on the link to reset the password for your account using " + useremail + ".<br><a href=" + link + ">Click here to verify</a>"
-                    };
-                    smtpTransport.sendMail(mailOptions, function (error, response) {
-                        if (error) {
-                            console.log(error);
-                            res.end("error");
-                        } else {
-                            console.log("Message sent: " + response.message);
-                            res.render('PasswordChangeRequestSent', {title: "Please Verify"});
-                        }
-                    });
+                    // mailOptions = {
+                    //     to: useremail,
+                    //     subject: "Please confirm your Email account",
+                    //     html: "Hello,<br> Please Click on the link to reset the password for your account using " + useremail + ".<br><a href=" + link + ">Click here to verify</a>"
+                    // };
+                    // smtpTransport.sendMail(mailOptions, function (error, response) {
+                    //     if (error) {
+                    //         console.log(error);
+                    //         res.end("error");
+                    //     } else {
+                    //         console.log("Message sent: " + response.message);
+                    //         res.render('PasswordChangeRequestSent', {title: "Please Verify"});
+                    //     }
+                    // });
             } else {
                 var text = "Answer is incorrect";
                 res.render('passwordEmail', {title: "Password Recover with Email", data: buffer, secq, useremail, text});
@@ -192,20 +183,20 @@ router.post('/checkUsernameandAnswer', function(req,res) {
             if(snapshot.docs[0].data().securityanswer === answer) {
                 host = req.get('host');
                 link = "http://" + req.get('host') + "/PasswordChange?id=" + links;
-                mailOptions = {
-                    to: snapshot.docs[0].data().email,
-                    subject: "Please confirm your Email account",
-                    html: "Hello,<br> Please Click on the link to reset the password for your account using " + userName + ".<br><a href=" + link + ">Click here to verify</a>"
-                };
-                smtpTransport.sendMail(mailOptions, function (error, response) {
-                    if (error) {
-                        console.log(error);
-                        res.end("error");
-                    } else {
-                        console.log("Message sent: " + response.message);
-                        res.render('PasswordChangeRequestSent', {title: "Please Verify"});
-                    }
-                });
+                // mailOptions = {
+                //     to: snapshot.docs[0].data().email,
+                //     subject: "Please confirm your Email account",
+                //     html: "Hello,<br> Please Click on the link to reset the password for your account using " + userName + ".<br><a href=" + link + ">Click here to verify</a>"
+                // };
+                // smtpTransport.sendMail(mailOptions, function (error, response) {
+                //     if (error) {
+                //         console.log(error);
+                //         res.end("error");
+                //     } else {
+                //         console.log("Message sent: " + response.message);
+                //         res.render('PasswordChangeRequestSent', {title: "Please Verify"});
+                //     }
+                // });
             } else {
                 var text = "Answer is incorrect";
                 res.render('passwordUsername', {title: "Password Recover with Username", data: buffer, secq, userName, text});
@@ -487,43 +478,65 @@ router.get('/accountInterface/bookmark', function (req, res) {
 router.post('/restaurantSearch', function(req,res) {
     var searchTerm = req.body.term;
     var location = req.body.location;
+    var loc = location.split(",");
+    console.log(loc);
+    if (validate(location)) {
+        client.search({
+            term: searchTerm,
+            location: location,
+        })
+            .then(response => {
 
-    if(location === 'near me') {
-         console.log("near me"+location);
+                restaurants = response.jsonBody.businesses;
+                var title = "searching for... ";
+                var un = null;
+                auth.onAuthStateChanged(function(user) {
+                    // Signed in
+                    if(user) {
+                        un = user.displayName;
+                        var timing = new Date();
+                        console.log("Yelp: customer ", un, " is here ", timing);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                    } else {
+                        console.log("Yelp:",un);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                    }
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            });
     } else {
-        console.log(location);
+        client.search({
+            term: searchTerm,
+            latitude: loc[0],
+            longitude: loc[1]
+        })
+            .then(response => {
+                restaurants = response.jsonBody.businesses;
+                var title = "searching for... ";
+                var un = null;
+                auth.onAuthStateChanged(function(user) {
+                    // Signed in
+                    if(user) {
+                        un = user.displayName;
+                        var timing = new Date();
+                        console.log("Yelp: customer ", un, " is here ", timing);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                    } else {
+                        console.log("Yelp:",un);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                    }
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
-    var text = "yes";
-    return res.send({text: text});
-
-    // client.search({
-    //     term: searchTerm,
-    //     location: location,
-    // })
-    //     .then(response => {
-    //
-    //         restaurants = response.jsonBody.businesses;
-    //         //console.log(restaurants);
-    //         var title = "searching for... ";
-    //         var un = null;
-    //         auth.onAuthStateChanged(function(user) {
-    //             // Signed in
-    //             if(user) {
-    //                 un = user.displayName;
-    //                 var timing = new Date();
-    //                 console.log("Yelp: customer ", un, " is here ", timing);
-    //                 //restaurants was passed through here
-    //                 res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
-    //             } else {
-    //                 console.log("Yelp:",un);
-    //                 //restaurants was passed through here
-    //                 res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
-    //             }
-    //         });
-    //     })
-    //     .catch(e => {
-    //         console.log(e);
-    //     });
 });
 
 /* GET check username */
