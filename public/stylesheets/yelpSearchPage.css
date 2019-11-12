@@ -183,9 +183,12 @@ li div{
     background: #e6e6e6;
 }
 /* restaurant list end */
-.mapcontainer{
-    height: 350px;
-    width: 450px;
+.nameandclosedContainer{
+    height: 150px;
+    width: 900px;
+}
+.isClosed {
+    margin-left: 40px;
 }
 #map {
     height: 100%;
@@ -205,24 +208,39 @@ li div{
     height: 30%;
     font-size: 30px;
 }
-.prandraContainer {
+.pranrdaContainer {
     position: fixed;
-    left: 5%;
-    margin-top: 15%;
+    left: 16%;
+    margin-top: 1%;
 }
 .restTransDe {
     position: fixed;
-    left: 5%;
-    margin-top: 17%;
+    left: 16%;
+    margin-top: 3%;
 }
 .restTransPi {
     margin-left: 2%;
     position: fixed;
-    left: 12%;
-    margin-top: 17%;
+    left: 22%;
+    margin-top: 3%;
 }
 .restLocation {
     position: fixed;
-    left: 12%;
-    margin-top: 20%;
+    left: 16%;
+    margin-top: 7%;
+}
+.restPhone {
+    position: fixed;
+    left: 16%;
+    margin-top: 5%;
+}
+.restYelp {
+    position: fixed;
+    left: 16%;
+    margin-top: 12%;
+    text-decoration: underline;
+}
+.restYelp:hover {
+    color: #dbc8a7;
+    cursor: pointer;
 }

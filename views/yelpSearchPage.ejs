@@ -22,22 +22,41 @@
                         restaurant = result.text;
                         $('.restName').html(restaurant.name);
                         $('.imageBox').css("background-image","url('"+restaurant.image_url+"')");
-                        $('.restPriceandRating').html(restaurant.price + "\t\t" + restaurant.rating);
+                        if (restaurant.price) {
+                            $('.restPriceandRating').html("Price: "+restaurant.price + " Rating: " + restaurant.rating);
+                        } else {
+                            $('.restPriceandRating').html("Price Not Given Rating:" + restaurant.rating);
+                        }
+                        if (restaurant.is_closed === false) {
+                            $('.isClosed').html("Open");
+                            $('.isClosed').css('color','green');
+                        } else {
+                            $('.isClosed').html("Closed");
+                            $('.isClosed').css('color','red');
+                        }
                         for (var i = 0; i < restaurant.transactions.length; i++) {
-                            if (restaurant.transactions[i] == 'delivery') {
+                            if (restaurant.transactions[i] === 'delivery') {
                                 $('.restTransDe').css('text-decoration','none');
                             }
-                            if (restaurant.transactions[i] == 'pickup') {
+                            if (restaurant.transactions[i] === 'pickup') {
                                 $('.restTransPi').css('text-decoration','none');
                             }
                         }
-                        $('.restLocation').html(restaurant.location.display_address[0] + "\t" + restaurant.display_phone + "<br/>" + restaurant.location.display_address[1]);
-                        $('.restYelp').attr('href',restaurant.url);
+                        $('.restPhone').html(restaurant.display_phone);
+                        if (restaurant.location.display_address.length === 2) {
+                            $('.restLocation').html(restaurant.location.display_address[0] + "<br/>" + restaurant.location.display_address[1]);
+                        } else {
+                            $('.restLocation').html(restaurant.location.display_address[0] + "<br/>" + restaurant.location.display_address[1] + "<br/>" + restaurant.location.display_address[2]);
+                        }
                     }
                     else {
-                        var button = document.getElementById('refresh');
-                        button.value = result.text;
-                        button.disabled = true;
+                        console.log('ENd of list');
+                        $('.refreshButton').attr('disable', true);
+                        $('.refreshButton').attr('value','Do New Search')
+                        $('.restEle').html('Do new Search');
+                        // var button = document.getElementById('refresh');
+                        // button.value = result.text;
+                        // button.disabled = true;
                     }
                 },
                 error: function(e) {
@@ -73,6 +92,9 @@
         }
         function logoff() {
             window.location.href = '/logout';
+        }
+        function directYelp() {
+            window.location.href = restaurant.url;
         }
         // function initialize() {
         //     var mapProp = {
@@ -216,16 +238,16 @@
             <div class="restaurantListContainer" id="restCon">
                 <div class="restEle">
                     <div class="imageBox" id="imageBox"></div>
-                    <div class="nameContainer">
-                        <span class="restName" id="restName"></span>
+                    <div class="nameandclosedContainer">
+                        <span class="restName" id="restName"></span><span class="isClosed"></span>
                     </div>
-                    <div class="prandraContainer">
+                    <div class="pranrdaContainer">
                         <span class="restPriceandRating"></span>
                     </div>
                     <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>
-                    <span class="restLocation"></span><span class="isClosed"></span>
+                    <span class="restLocation"></span><span class="restPhone"></span>
 <!--                    <span class="restDirections">Get Directions</span>-->
-                    <span class="restYelp">Yelp Page</span>
+                    <span class="restYelp" onclick="directYelp()">Yelp Page</span>
                 </div>
 <!--                <div class="mapcontainer">-->
 <!--                    <div id="map"></div>-->
