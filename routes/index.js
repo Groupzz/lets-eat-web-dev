@@ -745,7 +745,7 @@ router.get("/logout", function(req, res){
 
 /* GET a restaurant from the search */
 router.get('/requestRest', function(req, res) {
-   if (used.length <= restaurants.length) {
+    if (used.length <= restaurants.length) {
        var i = (Math.random() * restaurants.length) | 0;
        while (used.includes(i)) {
            i = (Math.random() * restaurants.length) | 0;
@@ -753,10 +753,11 @@ router.get('/requestRest', function(req, res) {
        used.push(i);
        console.log(restaurants[i]);
        res.send({text: restaurants[i]});
-   }
-    if (used.length == restaurants.length) {
+    }
+    else if (used.length == restaurants.length) {
         console.log("choose another one");
-        res.send({text: "Do new search"});
+        var text = "Do new search";
+        res.send({text: text});
     }
 });
 

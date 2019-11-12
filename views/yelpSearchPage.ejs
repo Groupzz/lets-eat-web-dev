@@ -18,7 +18,7 @@
                 type: "GET",
                 url: "/requestRest",
                 success: function(result){
-                    if (result.text != "Do new Search") {
+                    if (result.text !== "Do new Search") {
                         restaurant = result.text;
                         $('.restName').html(restaurant.name);
                         $('.imageBox').css("background-image","url('"+restaurant.image_url+"')");
