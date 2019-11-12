@@ -641,16 +641,13 @@ router.post('/registerUser', function(req,res) {
         uid: 'N/A'
     };
 
+    var friends = {
+        friends: [],
+        uid: 'N/A'
+    };
+
     var actionCodeSettings = {
         url: 'http://localhost:3000/verify',
-        // iOS: {
-        //     bundleId: 'com.example.ios'
-        // },
-        // android: {
-        //     packageName: 'com.example.android',
-        //     installApp: true,
-        //     minimumVersion: '12'
-        // },
         handleCodeInApp: true
     };
 
@@ -665,6 +662,7 @@ router.post('/registerUser', function(req,res) {
                     console.log("Successfully updated user", auth.currentUser.displayName);
                     userInfo.uid = cred.user.uid;
                     prefs.uid = cred.user.uid;
+                    friends.uid = cred.user.uid;
                     db.collection('users').add(
                         userInfo
                     )
@@ -675,14 +673,23 @@ router.post('/registerUser', function(req,res) {
                             )
                                 .then(function () {
                                     console.log("Preferences document created");
-                                    auth.currentUser.sendEmailVerification(actionCodeSettings)
+                                    db.collection('friends').add(
+                                        friends
+                                    )
                                         .then(function() {
-                                            console.log("Email sent" + actionCodeSettings.url);
-                                            res.redirect('/home');
+                                            console.log("Friends Document created");
+                                            auth.currentUser.sendEmailVerification(actionCodeSettings)
+                                                .then(function() {
+                                                    console.log("Email sent" + actionCodeSettings.url);
+                                                    res.redirect('/home');
+                                                })
+                                                .catch(function() {
+                                                    console.log("ERROR");
+                                                    res.end("error");
+                                                });
                                         })
-                                        .catch(function() {
-                                            console.log("ERROR");
-                                            res.end("error");
+                                        .catch(function (error) {
+                                            console.log("Error adding friends document: ", error);
                                         });
                                 })
                                 .catch(function (error) {
