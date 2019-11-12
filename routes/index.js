@@ -496,11 +496,11 @@ router.post('/restaurantSearch', function(req,res) {
                         var timing = new Date();
                         console.log("Yelp: customer ", un, " is here ", timing);
                         //restaurants was passed through here
-                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
                     } else {
                         console.log("Yelp:",un);
                         //restaurants was passed through here
-                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
                     }
                 });
             })
@@ -524,11 +524,11 @@ router.post('/restaurantSearch', function(req,res) {
                         var timing = new Date();
                         console.log("Yelp: customer ", un, " is here ", timing);
                         //restaurants was passed through here
-                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
                     } else {
                         console.log("Yelp:",un);
                         //restaurants was passed through here
-                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, location, un});
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
                     }
                 });
             })
