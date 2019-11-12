@@ -22,8 +22,7 @@
                         restaurant = result.text;
                         $('.restName').html(restaurant.name);
                         $('.imageBox').css("background-image","url('"+restaurant.image_url+"')");
-                        $('.restPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
-                        /*$('.restPriceandRating').html(restaurant.price + "\t"+restaurant.rating);
+                        $('.restPriceandRating').html(restaurant.price + "\t\t" + restaurant.rating);
                         for (var i = 0; i < restaurant.transactions.length; i++) {
                             if (restaurant.transactions[i] == 'delivery') {
                                 $('.restTransDe').css('text-decoration','none');
@@ -33,9 +32,7 @@
                             }
                         }
                         $('.restLocation').html(restaurant.location.display_address[0] + "\t" + restaurant.display_phone + "<br/>" + restaurant.location.display_address[1]);
-                        $('.restYelp').attr('href',restaurant.url);*/
-                        //name.innerText = restaurant.name +" - "+restaurant.price;
-                        //loc.innerText = restaurant.location.city+", "+restaurant.location.state+" "+restaurant.location.zip_code;
+                        $('.restYelp').attr('href',restaurant.url);
                     }
                     else {
                         var button = document.getElementById('refresh');
@@ -225,10 +222,10 @@
                     <div class="prandraContainer">
                         <span class="restPriceandRating"></span>
                     </div>
-<!--                    <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>-->
-<!--                    <span class="restLocation"></span><span class="isClosed"></span>-->
+                    <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>
+                    <span class="restLocation"></span><span class="isClosed"></span>
 <!--                    <span class="restDirections">Get Directions</span>-->
-<!--                    <span class="resYelp">Yelp Page</span>-->
+                    <span class="restYelp">Yelp Page</span>
                 </div>
 <!--                <div class="mapcontainer">-->
 <!--                    <div id="map"></div>-->

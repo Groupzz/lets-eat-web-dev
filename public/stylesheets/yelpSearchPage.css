@@ -193,7 +193,36 @@ li div{
 /* Content Area end */
 .imageBox {
     height: 30%;
-    width: 30%;
+    width: 25%;
     background-size: 100%;
     padding: 0px 0px 0px 0px;
+    border-radius: 5px;
+    float: left;
+}
+.restName {
+    margin-left: 15%;
+    width: 30%;
+    height: 30%;
+    font-size: 30px;
+}
+.prandraContainer {
+    position: fixed;
+    left: 5%;
+    margin-top: 15%;
+}
+.restTransDe {
+    position: fixed;
+    left: 5%;
+    margin-top: 17%;
+}
+.restTransPi {
+    margin-left: 2%;
+    position: fixed;
+    left: 12%;
+    margin-top: 17%;
+}
+.restLocation {
+    position: fixed;
+    left: 12%;
+    margin-top: 20%;
 }
