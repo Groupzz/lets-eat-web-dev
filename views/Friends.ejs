@@ -34,7 +34,7 @@
 <div class="FriendsModal">
     <span>FRIENDS</span>
     <!---Formats the friends information box--->
-    <form method="POST" action="/registerUser"> <!--maybe change this-->
+    <form method="POST"> <!--maybe change this-->
         <div class="box">
             <h1><center>Friends</center></h1>
             <center>
@@ -45,14 +45,14 @@
                 </ul>
             </center>
         </div>
+    </form>
 
         <div class="search-container"><center>
-                <form action="/action_page.php">
-                    <input type="text" placeholder="Search for Friends.." name="search">
+                <form method="POST" action="/friendSearch">
+                    <input type="text" placeholder="Search for Friends.." name="friendUser">
                     <button type="submit">Search</button>
                 </form></center>
         </div>
-    </form>
 </div>
 
     <div class="sidenav">

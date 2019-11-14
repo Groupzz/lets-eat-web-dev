@@ -24,6 +24,9 @@
             function prefPage() {
                 window.location.href = "/accountInterface/preferences";
             }
+            function home() {
+                window.location.href = "/home";
+            }
         </script>
     </head>
     
@@ -31,28 +34,30 @@
         
         <div class="wrapper">
             <div class="HomeModal">
-                <span>HOME</span>
-                    <img src="./images/logo2.gif" alt="Logo" class="center" style="padding-left: 30px; padding-bottom: 50px;"> <!-- for logo -->
-                    
+                    <img src="./images/logo2.gif" alt="Logo" class="center logo" onclick="home()"> <!-- for logo -->
+
+                    <div class="WelcomeMessageContainer center">
+                        <span class="WelcomeMessage">Welcome, <%=username%></span>
+                    </div>
                     <!-- Slideshow container -->
                     <div class="slideshow-container">
                     
                       <div class="mySlides fade">
                         <div class="numbertext">1 / 3</div>
                         <img src='/images/img_american.jpg' style="width:100%">
-                        <div class="text">Caption One</div>
+<!--                        <div class="text">Caption One</div>-->
                       </div>
                     
                       <div class="mySlides fade">
                         <div class="numbertext">2 / 3</div>
                         <img src='/images/img_chinese.jpg' style="width:100%">
-                        <div class="text">Caption Two</div>
+<!--                        <div class="text">Caption Two</div>-->
                       </div>
                     
                       <div class="mySlides fade">
                         <div class="numbertext">3 / 3</div>
                         <img src='/images/img_indian.jpg' style="width:100%">
-                        <div class="text">Caption Three</div>
+<!--                        <div class="text">Caption Three</div>-->
                       </div>
                     
                       <!-- Next and previous buttons -->

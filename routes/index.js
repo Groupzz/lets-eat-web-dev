@@ -768,4 +768,31 @@ router.get('/requestRest', function(req, res) {
     }
 });
 
+/* GET a friend through search */
+router.post('/friendSearch', function(req,res) {
+    var un = null;
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            var friendUser = req.body.friendUser;
+            db.collection('users'). where('username','==',friendUser).get()
+                .then((friend) => {
+                    db.collection('friends').doc(user.uid).get()
+                        .then((friends)=> {
+                            console.log(friends);
+                            un = user.displayName;
+                            var timing = new Date();
+                            console.log("search: customer ", un, " is here ", timing);
+                            res.redirect('/accountInterface/friends')
+                        })
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            console.log("search:",un);
+        }
+    });
+});
+
 module.exports = router;
