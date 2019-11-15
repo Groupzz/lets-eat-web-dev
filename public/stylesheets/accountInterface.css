@@ -24,8 +24,6 @@ body, html {
 /* Hide the images by default */
 .mySlides {
   display: none;
-  border: 1px groove rgb(169,169,169);
-  border-radius: 3px;
 }
 
 /* Next & previous buttons */

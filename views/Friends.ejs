@@ -24,6 +24,9 @@
         function prefPage() {
             window.location.href = "/accountInterface/preferences";
         }
+        function home() {
+            window.location.href = "/home";
+        }
     </script>
 </head>
 
@@ -32,7 +35,7 @@
 <div class="wrapper">
 
 <div class="FriendsModal">
-    <span>FRIENDS</span>
+    <img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"> <!-- for logo -->
     <!---Formats the friends information box--->
     <form method="POST"> <!--maybe change this-->
         <div class="box">

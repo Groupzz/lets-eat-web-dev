@@ -24,6 +24,9 @@
         function prefPage() {
             window.location.href = "/accountInterface/preferences";
         }
+        function home() {
+            window.location.href = "/home";
+        }
     </script>
 </head>
 
@@ -32,6 +35,7 @@
 <div class="wrapper">
 <div class="PreferencesModal">
     <div class ="preferences">
+        <img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"> <!-- for logo -->
         <form method="POST" action="/registerUser"> <!--maybe change this-->
             <h1><center>Preferences</center></h1>
             <center><button type="button" onclick="alert('You may now edit')">Edit</button></center>

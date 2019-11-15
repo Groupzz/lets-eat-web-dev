@@ -24,6 +24,9 @@
         function prefPage() {
             window.location.href = "/accountInterface/preferences";
         }
+        function home() {
+            window.location.href = "/home";
+        }
     </script>
 </head>
 
@@ -31,14 +34,15 @@
 
 <div class="wrapper">
     <div class="PersonalInformationModal">
+        <img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"> <!-- for logo -->
         <!---Formats the sign up information box--->
-        <form method="POST" action="/registerUser">
+        <form class="personalInfoContainer" method="POST">
             <div class="box">
                 <h1><center>Personal Info</center></h1>
 
                 <!--User info-->
                 <center><button type="button" onclick="alert('You may now edit')">Edit</button></center><br>
-                <label for="username">Username: </label><input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" required/><br>
+                <label for="username">Username: </label><input type="text" name="Username" value="<%=%>" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" required/><br>
                 <label for="first name">First Name: </label><input type="text" name="FirstName" value="" onFocus="field_focus(this, 'First Name');" onblur="field_blur(this, 'First Name');" class="First Name" required/><br>
                 <label for="last name">Last Name: </label><input type="text" name="LastName" value="" onFocus="field_focus(this, 'Last Name');" onblur="field_blur(this, 'Last Name');" class="Last Name" required/><br>
                 <label for="email">E-mail: </label><input type="Email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" class="Email" required/><br>

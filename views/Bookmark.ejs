@@ -24,6 +24,9 @@
         function prefPage() {
             window.location.href = "/accountInterface/preferences";
         }
+        function home() {
+            window.location.href = "/home";
+        }
     </script>
 </head>
 
@@ -31,6 +34,7 @@
 
 <div class="wrapper">
 <div class="BookmarkModal">
+    <img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"> <!-- for logo -->
     <!---Formats the bookmarks box--->
     <form method="POST" action="/registerUser"> <!--maybe change this-->
         <div class="box">
