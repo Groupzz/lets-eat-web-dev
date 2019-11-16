@@ -415,6 +415,7 @@ router.get('/accountInterface/personalinfo', function (req, res) {
         if(user) {
             var username = user.displayName;
             var docID = user.uid;
+            db.collection('users').where()
             var timing = new Date();
             console.log("Customer ", username," is here at ",timing);
 
@@ -623,7 +624,7 @@ router.post('/registerUser', function(req,res) {
         Japanese: ja,
         Mexican: me,
         Thai: th,
-        uid: "N/A"
+        id: "N/A"
     };
 
     var userInfo = {
@@ -638,12 +639,13 @@ router.post('/registerUser', function(req,res) {
         phone: phone,
         securityquestion: secq,
         securityanswer: seca,
-        uid: 'N/A'
+        friendsDocID: 'N/A',
+        id: 'N/A'
     };
 
     var friends = {
         friends: [],
-        uid: 'N/A'
+        id: 'N/A'
     };
 
     var actionCodeSettings = {
@@ -660,9 +662,9 @@ router.post('/registerUser', function(req,res) {
             })
                 .then(function() {
                     console.log("Successfully updated user", auth.currentUser.displayName);
-                    userInfo.uid = cred.user.uid;
-                    prefs.uid = cred.user.uid;
-                    friends.uid = cred.user.uid;
+                    userInfo.id = cred.user.uid;
+                    prefs.id = cred.user.uid;
+                    friends.id = cred.user.uid;
                     db.collection('users').add(
                         userInfo
                     )
