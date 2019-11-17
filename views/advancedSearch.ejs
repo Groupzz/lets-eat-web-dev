@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href='/images/logo2.gif'>
+    <title>Welcome, <%=username%></title>
+    <link rel="stylesheet" href="/stylesheets/advancedSearch.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+<div class="wrapper">
+    <center><img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"></center><br> <!-- for logo -->
+    <div class = "box">
+        <div class="topnav">
+            <div class="search-container">
+              <form action="/action_page.php">
+                <h1><center>Advanced Search</center></h1>
+                <br><center><input type="text" placeholder="Search.." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button></center>
+              </form>
+            </div>
+            <form method="POST" action="/pref"> <!--maybe change this-->
+                <h1><center>Cuisine</center></h1>
+                <p align = "left"><input type="checkbox" name="American" value="American">American<br></p>
+                <p align = "left"><input type="checkbox" name="Mexican" value="Mexican">Mexican<br></p>
+                <p align = "left"><input type="checkbox" name="Japanese" value="Japanese">Japanese<br></p>
+                <p align = "left"><input type="checkbox" name="Korean" value="Korean">Korean<br></p>
+                <p align = "left"><input type="checkbox" name="Chinese" value="Chinese">Chinese<br></p>
+                <p align = "left"><input type="checkbox" name="Indian" value="Indian">Indian<br></p>           
+                <p align = "left"><input type="checkbox" name="Thai" value="Thai">Thai<br></p>
+                <p align = "left"><input type="checkbox" name="Mediterranean" value="Mediterranean">Mediterranean<br></p>
+                <p align = "left"><input type="checkbox" name="Italian" value="Italian">Italian<br></p>
+                <p align = "left"><input type="checkbox" name="French" value="French">French<br></p>
+            </form>
+            <form method="POST" action="/price"> <!--maybe change this-->
+                <h1><center>Price Range</center></h1>
+                <p align = "left"><input type="checkbox" name="$" value="$">$<br></p>
+                <p align = "left"><input type="checkbox" name="$$" value="$$">$$<br></p>
+                <p align = "left"><input type="checkbox" name="$$$" value="$$$">$$$<br></p>
+                <p align = "left"><input type="checkbox" name="$$$$" value="$$$$">$$$$<br></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
