@@ -1,5 +1,7 @@
 'use strict';
 
+//import {FieldValueImpl as FieldValue} from "@firebase/firestore/dist/src/api/field_value";
+const FieldValue = require('firebase-admin').firestore.FieldValue;
 var express = require('express');
 var router = express.Router();
 var firebase = require("firebase/app");
@@ -241,7 +243,7 @@ router.post('/changepassword', function(req, res) {
                     secq = "";
                     useremail = "";
                     console.log("correct");
-                    db.collection('users').doc(snapshot.docs[0].id).update({
+                    db.collection('users').doc(snapshot.docs[0].data().id).update({
                         password: bcrypt.hashSync(pass, null, null),
                     });
                     res.redirect('/login')
@@ -807,12 +809,12 @@ router.post('/friendSearch', function(req,res) {
             var friendUser = req.body.friendUser;
             db.collection('users').where('username','==',user.displayName).get()
                 .then((current) => {
-                    console.log(current.docs[0].friendsDocID);
-                    db.collection('friends').doc(current.docs[0].friendsDocID).get()
-                        .then((friends)=> {
-                            console.log(friends);
+                    console.log(current.docs[0].data().friendsDocID);
+                    db.collection('friends').doc(current.docs[0].data().friendsDocID).get()
+                        .then((friendss) => {
+                            console.log(friendss);
                             var isFound = false;
-                            var friendList = friends.docs[0].friends;
+                            var friendList = friendss.docs[0].data().friends;
                             friendList.forEach(function(item) {
                                 if (item === friendUser) {
                                     console.log("already have that person as a friend");
@@ -838,25 +840,43 @@ router.post('/friendSearch', function(req,res) {
                                             var timing = new Date();
                                             console.log("Customer ", username, " is here at ", timing);
 
-                                            res.render('Friends', {
-                                                title: 'Friends',
-                                                data: buffer,
-                                                username,
-                                                docID,
-                                                unavailable
-                                            });
+                                            res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
                                         } else {
-                                            db.collection('friends').doc(current.docs[0].friendsDocID).update({
-                                                friends: FieldValue.
+                                            db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
+                                                friends: FieldValue.arrayUnion(friendUser)
                                             })
+                                                .then(function(curFriendsUpdate) {
+                                                    console.log("Added for current to friends");
+                                                    console.log(curFriendsUpdate);
+                                                    db.collection('users').where('username','==',friendUser).get()
+                                                        .then((friendUser) => {
+                                                            db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
+                                                                friends: FieldValue.arrayUnion(user.displayName)
+                                                            })
+                                                                .then(function(frFriendsUpdate) {
+                                                                    console.log("Added for other user to friends");
+                                                                    console.log(frFriendsUpdate);
+                                                                    var username = user.displayName;
+                                                                    var unavailable = "";
+                                                                    var docID = user.uid;
+                                                                    var timing = new Date();
+                                                                    console.log("Customer ", username, " is here at ", timing);
+                                                                    res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                                                                })
+                                                                .catch(function(error) {
+                                                                    console.log(error);
+                                                                });
+                                                        })
+                                                        .catch(function(error) {
+                                                            console.log(error)
+                                                        });
+                                                })
+                                                .catch(function(error) {
+                                                    console.log(error);
+                                                });
                                         }
                                 })
                             }
-
-                            un = user.displayName;
-                            var timing = new Date();
-                            console.log("search: customer ", un, " is here ", timing);
-                            res.redirect('/accountInterface/friends')
                         })
                 })
                 .catch((err) => {
