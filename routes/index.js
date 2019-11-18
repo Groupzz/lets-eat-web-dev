@@ -415,7 +415,6 @@ router.get('/accountInterface/personalinfo', function (req, res) {
         if(user) {
             var username = user.displayName;
             var docID = user.uid;
-            db.collection('users').where()
             var timing = new Date();
             console.log("Customer ", username," is here at ",timing);
 
@@ -641,6 +640,7 @@ router.post('/registerUser', function(req,res) {
         securityanswer: seca,
         friendsDocID: 'N/A',
         likedRestaurantsID: 'N/A',
+        preferencesID: 'N/A',
         id: 'N/A'
     };
 
@@ -692,9 +692,10 @@ router.post('/registerUser', function(req,res) {
                                             )
                                                 .then(function(likedRef) {
                                                     console.log("LikedRestaurants Document created");
-                                                    db.collection('users').where('id', '==', cred.user.uid).update({
+                                                    db.collection('users').doc(userRef.id).update({
                                                         friendsDocID: friendRef.id,
-                                                        likedRestaurantsID: likedRef.id
+                                                        likedRestaurantsID: likedRef.id,
+                                                        preferencesID: prefRef.id
                                                     })
                                                         .then(function() {
                                                             console.log("Updated friendsID and likedRestaurantsID");
@@ -803,11 +804,25 @@ router.post('/friendSearch', function(req,res) {
         // Signed in
         if(user) {
             var friendUser = req.body.friendUser;
-            db.collection('users'). where('username','==',friendUser).get()
-                .then((friend) => {
-                    db.collection('friends').doc(user.uid).get()
+            db.collection('users').where('username','==',user.displayName).get()
+                .then((current) => {
+                    console.log(current.docs[0].friendsDocID);
+                    db.collection('friends').doc(current.docs[0].friendsDocID).get()
                         .then((friends)=> {
                             console.log(friends);
+                            var isFound = false;
+                            var friendList = friends.docs[0].friends;
+                            friendList.forEach(function(item) {
+                                if (item === friendUser) {
+                                    console.log("already have that person as a friend");
+                                    isFound = true;
+                                }
+                            });
+
+                            if (isFound) {
+
+                            }
+
                             un = user.displayName;
                             var timing = new Date();
                             console.log("search: customer ", un, " is here ", timing);
