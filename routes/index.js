@@ -432,9 +432,10 @@ router.get('/accountInterface/friends', function (req, res) {
             var username = user.displayName;
             var docID = user.uid;
             var timing = new Date();
+            var unavailable = "";
             console.log("Customer ", username," is here at ",timing);
 
-            res.render('Friends', {title:'Friends', data: buffer, username, docID});
+            res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
         } else {
             console.log("User is not logged in");
             res.redirect('/home');
@@ -820,7 +821,34 @@ router.post('/friendSearch', function(req,res) {
                             });
 
                             if (isFound) {
+                                var username = user.displayName;
+                                var unavailable = "User is either in your friends list";
+                                var docID = user.uid;
+                                var timing = new Date();
+                                console.log("Customer ", username," is here at ",timing);
 
+                                res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                            } else {
+                                db.collection('users').where('username','==',friendUser).get()
+                                    .then((users) => {
+                                        if (users.empty) {
+                                            var username = user.displayName;
+                                            var unavailable = "User does not exist";
+                                            var docID = user.uid;
+                                            var timing = new Date();
+                                            console.log("Customer ", username, " is here at ", timing);
+
+                                            res.render('Friends', {
+                                                title: 'Friends',
+                                                data: buffer,
+                                                username,
+                                                docID,
+                                                unavailable
+                                            });
+                                        } else {
+                                            db.collection('')
+                                        }
+                                })
                             }
 
                             un = user.displayName;

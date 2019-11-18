@@ -228,4 +228,8 @@ h1 {
   right: 10px;
   top: 5px;
 }
+
+.FriendUnavailable {
+  color: red;
+}
 /* END OF CONTENT */
