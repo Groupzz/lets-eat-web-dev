@@ -640,11 +640,17 @@ router.post('/registerUser', function(req,res) {
         securityquestion: secq,
         securityanswer: seca,
         friendsDocID: 'N/A',
+        likedRestaurantsID: 'N/A',
         id: 'N/A'
     };
 
     var friends = {
         friends: [],
+        id: 'N/A'
+    };
+
+    var likedRestaurants = {
+      restaurantIDs: [],
         id: 'N/A'
     };
 
@@ -665,29 +671,49 @@ router.post('/registerUser', function(req,res) {
                     userInfo.id = cred.user.uid;
                     prefs.id = cred.user.uid;
                     friends.id = cred.user.uid;
+                    likedRestaurants.id = cred.user.uid;
                     db.collection('users').add(
                         userInfo
                     )
-                        .then(function () {
+                        .then(function (userRef) {
                             console.log("Users document created");
                             db.collection('preferences').add(
                                 prefs
                             )
-                                .then(function () {
+                                .then(function (prefRef) {
                                     console.log("Preferences document created");
                                     db.collection('friends').add(
                                         friends
                                     )
-                                        .then(function() {
+                                        .then(function(friendRef) {
                                             console.log("Friends Document created");
-                                            auth.currentUser.sendEmailVerification(actionCodeSettings)
-                                                .then(function() {
-                                                    console.log("Email sent" + actionCodeSettings.url);
-                                                    res.redirect('/home');
+                                            db.collection('likedRestaurants').add(
+                                                likedRestaurants
+                                            )
+                                                .then(function(likedRef) {
+                                                    console.log("LikedRestaurants Document created");
+                                                    db.collection('users').where('id', '==', cred.user.uid).update({
+                                                        friendsDocID: friendRef.id,
+                                                        likedRestaurantsID: likedRef.id
+                                                    })
+                                                        .then(function() {
+                                                            console.log("Updated friendsID and likedRestaurantsID");
+                                                            auth.currentUser.sendEmailVerification(actionCodeSettings)
+                                                                .then(function() {
+                                                                    console.log("Email sent" + actionCodeSettings.url);
+                                                                    res.redirect('/home');
+                                                                })
+                                                                .catch(function() {
+                                                                    console.log("ERROR");
+                                                                    res.end("error");
+                                                                });
+                                                        })
+                                                        .catch(function(error) {
+                                                           console.log("Error updated friends and bookmarked id");
+                                                        });
                                                 })
-                                                .catch(function() {
-                                                    console.log("ERROR");
-                                                    res.end("error");
+                                                .catch(function(error) {
+                                                    console.log("Error adding likedRestaurants document: ", error);
                                                 });
                                         })
                                         .catch(function (error) {
