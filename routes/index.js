@@ -846,7 +846,9 @@ router.post('/friendSearch', function(req,res) {
                                                 unavailable
                                             });
                                         } else {
-                                            db.collection('')
+                                            db.collection('friends').doc(current.docs[0].friendsDocID).update({
+                                                friends: FieldValue.
+                                            })
                                         }
                                 })
                             }
