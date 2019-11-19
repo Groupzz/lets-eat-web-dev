@@ -812,10 +812,10 @@ router.post('/friendSearch', function(req,res) {
                     console.log(current.docs[0].data().friendsDocID);
                     db.collection('friends').doc(current.docs[0].data().friendsDocID).get()
                         .then((friendss) => {
-                            console.log(friendss);
+                            console.log("Friends list",friendss.data().friends);
                             var isFound = false;
-                            var friendList = friendss.docs[0].data().friends;
-                            friendList.forEach(function(item) {
+                            var list = friendss.data().friends;
+                            list.forEach(function(item) {
                                 if (item === friendUser) {
                                     console.log("already have that person as a friend");
                                     isFound = true;
@@ -842,6 +842,7 @@ router.post('/friendSearch', function(req,res) {
 
                                             res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
                                         } else {
+                                            const promise = new Promise((res1, rej1) => {
                                             db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
                                                 friends: FieldValue.arrayUnion(friendUser)
                                             })
@@ -874,9 +875,15 @@ router.post('/friendSearch', function(req,res) {
                                                 .catch(function(error) {
                                                     console.log(error);
                                                 });
+                                        })
+                                                .catch(function(error) {
+                                                    console.log(error);
+                                                    res.redirect('/');
+                                                })
                                         }
                                 })
                             }
+
                         })
                 })
                 .catch((err) => {
