@@ -69,6 +69,7 @@ function newFriendList(addFriend, docID) {
             console.log(friends);
             friends.push(addFriend);
             console.log(friends);
+            return friends;
         })
 }
 
@@ -818,9 +819,12 @@ router.post('/friendSearch', function(req,res) {
         // Signed in
         if(user) {
             var friendUser = req.body.friendUser;
+            const promise = new Promise((res1, rej1) => {
             db.collection('users').where('username','==',user.displayName).get()
                 .then((current) => {
                     console.log(current.docs[0].data().friendsDocID);
+                    var newList = newFriendList(friendUser, current.docs[0].data().friendsDocID);
+                    console.log("requestFriend", newList);
                     db.collection('friends').doc(current.docs[0].data().friendsDocID).get()
                         .then((friendss) => {
                             console.log("Friends list",friendss.data().friends);
@@ -853,8 +857,6 @@ router.post('/friendSearch', function(req,res) {
 
                                             res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
                                         } else {
-                                            const promise = new Promise((res1, rej1) => {
-                                                var newList = newFriendList(friendUser, current.docs[0].data().friendsDocID);
                                             db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
                                                 friends: newList
                                             })
@@ -863,8 +865,9 @@ router.post('/friendSearch', function(req,res) {
                                                     console.log(curFriendsUpdate);
                                                     db.collection('users').where('username','==',friendUser).get()
                                                         .then((friendUser) => {
+                                                            newList = newFriendList(user.displayName, friendUser.docs[0].data().friendsDocID);
                                                             db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
-                                                                friends: FieldValue.arrayUnion(user.displayName)
+                                                                friends: newList
                                                             })
                                                                 .then(function(frFriendsUpdate) {
                                                                     console.log("Added for other user to friends");
@@ -887,11 +890,6 @@ router.post('/friendSearch', function(req,res) {
                                                 .catch(function(error) {
                                                     console.log(error);
                                                 });
-                                        })
-                                                .catch(function(error) {
-                                                    console.log(error);
-                                                    res.redirect('/');
-                                                })
                                         }
                                 })
                             }
@@ -900,6 +898,11 @@ router.post('/friendSearch', function(req,res) {
                 })
                 .catch((err) => {
                     console.log(err);
+                });
+            })
+                .catch(function(error) {
+                    console.log(error);
+                    res.redirect('/');
                 });
         } else {
             console.log("search:",un);
