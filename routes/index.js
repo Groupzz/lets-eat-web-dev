@@ -61,6 +61,17 @@ function validate(check){
     return (re.test(check))
 }
 
+/* Returns a new list of friends */
+function newFriendList(addFriend, docID) {
+    db.collection('friends').doc(docID).get()
+        .then((list) => {
+            var friends = list.data().friends;
+            console.log(friends);
+            friends.push(addFriend);
+            console.log(friends);
+        })
+}
+
 /* GET index page. */
 router.get('/', function(req, res, next) {
     var un = null;
@@ -843,8 +854,9 @@ router.post('/friendSearch', function(req,res) {
                                             res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
                                         } else {
                                             const promise = new Promise((res1, rej1) => {
+                                                var newList = newFriendList(friendUser, current.docs[0].data().friendsDocID);
                                             db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
-                                                friends: FieldValue.arrayUnion(friendUser)
+                                                friends: newList
                                             })
                                                 .then(function(curFriendsUpdate) {
                                                     console.log("Added for current to friends");
