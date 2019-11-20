@@ -415,12 +415,21 @@ router.get('/accountInterface/personalinfo', function (req, res) {
     auth.onAuthStateChanged(function(user) {
         // Signed in
         if(user) {
-            var username = user.displayName;
-            var docID = user.uid;
-            var timing = new Date();
-            console.log("Customer ", username," is here at ",timing);
+            db.collection('users').where('id', '==', user.uid).get()
+                .then((uInfo) => {
+                    var userInfo = uInfo.docs[0].data();
+                    var username = user.displayName;
+                    var docID = user.uid;
+                    var timing = new Date();
+                    console.log("Customer ", username," is here at ",timing);
+                    console.log(userInfo);
 
-            res.render('PersonalInformation', {title:'Personal Information', data: buffer, username, docID});
+                    res.render('PersonalInformation', {title:'Personal Information', data: buffer, username, docID});
+                })
+                .catch((error) => {
+                    console.log(error);
+                    res.redirect('/');
+                });
         } else {
             console.log("User is not logged in");
             res.redirect('/home');
