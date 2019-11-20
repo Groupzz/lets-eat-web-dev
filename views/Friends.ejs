@@ -41,10 +41,10 @@
         <div class="box">
             <h1><center>Friends</center></h1>
             <center>
-                <ul style="list-style-type:none;">
-                    <li>Friend 1 - City, State</li>
-                    <li>Friend 2 - City, State</li>
-                    <li>Friend 3 - City, State</li>
+                <ul style="list-style-type:none;font-size: 24px;margin-right:100px;">
+                    <%for (var i = 0; i < friendsList.length; i++) {%>
+                    <li><%=friendsList[i]%></li>
+                    <%}%>
                 </ul>
             </center>
         </div>
