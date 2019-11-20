@@ -823,9 +823,11 @@ router.post('/friendSearch', function(req,res) {
         // Signed in
         if(user) {
             var friendUser = req.body.friendUser;
+            // Looks for the current user to get the friend document id
             db.collection('users').where('username','==',user.displayName).get()
                 .then((current) => {
                     console.log(current.docs[0].data().friendsDocID);
+                    // gets the list of friends from the current user
                     db.collection('friends').doc(current.docs[0].data().friendsDocID).get()
                         .then((friendss) => {
                             console.log("Friends list",friendss.data().friends);
@@ -838,17 +840,18 @@ router.post('/friendSearch', function(req,res) {
                                 }
                             });
 
-
+                            // if user is already in the friends list
                             if (isFound) {
                                 var username = user.displayName;
-                                var unavailable = "User is either in your friends list";
+                                var unavailable = "User is in your friends list";
                                 var docID = user.uid;
                                 var timing = new Date();
                                 var friendsList = list;
                                 console.log("Customer ", username," is here at ",timing);
 
                                 res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable, friendsList});
-                            } else {
+                            } else { // If friend is not in my list
+                                // CHeck is the username they are searching for exists
                                 db.collection('users').where('username','==',friendUser).get()
                                     .then((users) => {
                                         if (users.empty) {
@@ -861,8 +864,9 @@ router.post('/friendSearch', function(req,res) {
 
                                             res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable, friendsList});
                                         } else {
+                                            list.push(friendUser);
                                             db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
-                                                friends: Object.assign({},FieldValue.arrayUnion(friendUser)).elements
+                                                friends: list
                                             })
                                                 .then(function(curFriendsUpdate) {
                                                     console.log("Added for current to friends");
