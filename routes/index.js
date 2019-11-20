@@ -807,93 +807,80 @@ router.post('/friendSearch', function(req,res) {
         // Signed in
         if(user) {
             var friendUser = req.body.friendUser;
-            const promise = new Promise((res1, rej1) => {
             db.collection('users').where('username','==',user.displayName).get()
                 .then((current) => {
                     console.log(current.docs[0].data().friendsDocID);
-                    var newList = newFriendList(friendUser, current.docs[0].data().friendsDocID);
-                    console.log("requestFriend", newList);
-                    res1(newList);
-                })
-                .then((lists) => {
-                    console.log("Current list",lists);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    db.collection('friends').doc(current.docs[0].data().friendsDocID).get()
+                        .then((friendss) => {
+                            console.log("Friends list",friendss.data().friends);
+                            var isFound = false;
+                            var list = friendss.data().friends;
+                            list.forEach(function(item) {
+                                if (item === friendUser) {
+                                    console.log("already have that person as a friend");
+                                    isFound = true;
+                                }
+                            });
 
-                    // db.collection('friends').doc(current.docs[0].data().friendsDocID).get()
-                    //     .then((friendss) => {
-                    //         console.log("Friends list",friendss.data().friends);
-                    //         var isFound = false;
-                    //         var list = friendss.data().friends;
-                    //         list.forEach(function(item) {
-                    //             if (item === friendUser) {
-                    //                 console.log("already have that person as a friend");
-                    //                 isFound = true;
-                    //             }
-                    //         });
-                    //
-                    //
-                    //         if (isFound) {
-                    //             var username = user.displayName;
-                    //             var unavailable = "User is either in your friends list";
-                    //             var docID = user.uid;
-                    //             var timing = new Date();
-                    //             console.log("Customer ", username," is here at ",timing);
-                    //
-                    //             res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
-                    //         } else {
-                    //             db.collection('users').where('username','==',friendUser).get()
-                    //                 .then((users) => {
-                    //                     if (users.empty) {
-                    //                         var username = user.displayName;
-                    //                         var unavailable = "User does not exist";
-                    //                         var docID = user.uid;
-                    //                         var timing = new Date();
-                    //                         console.log("Customer ", username, " is here at ", timing);
-                    //
-                    //                         res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
-                    //                     } else {
-                    //                         db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
-                    //                             friends: newList
-                    //                         })
-                    //                             .then(function(curFriendsUpdate) {
-                    //                                 console.log("Added for current to friends");
-                    //                                 console.log(curFriendsUpdate);
-                    //                                 db.collection('users').where('username','==',friendUser).get()
-                    //                                     .then((friendUser) => {
-                    //                                         newList = newFriendList(user.displayName, friendUser.docs[0].data().friendsDocID);
-                    //                                         db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
-                    //                                             friends: newList
-                    //                                         })
-                    //                                             .then(function(frFriendsUpdate) {
-                    //                                                 console.log("Added for other user to friends");
-                    //                                                 console.log(frFriendsUpdate);
-                    //                                                 var username = user.displayName;
-                    //                                                 var unavailable = "";
-                    //                                                 var docID = user.uid;
-                    //                                                 var timing = new Date();
-                    //                                                 console.log("Customer ", username, " is here at ", timing);
-                    //                                                 res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
-                    //                                             })
-                    //                                             .catch(function(error) {
-                    //                                                 console.log(error);
-                    //                                             });
-                    //                                     })
-                    //                                     .catch(function(error) {
-                    //                                         console.log(error)
-                    //                                     });
-                    //                             })
-                    //                             .catch(function(error) {
-                    //                                 console.log(error);
-                    //                             });
-                    //                     }
-                    //                 })
-                    //         }
-                    //
-                    //     })
-                    })
+
+                            if (isFound) {
+                                var username = user.displayName;
+                                var unavailable = "User is either in your friends list";
+                                var docID = user.uid;
+                                var timing = new Date();
+                                console.log("Customer ", username," is here at ",timing);
+
+                                res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                            } else {
+                                db.collection('users').where('username','==',friendUser).get()
+                                    .then((users) => {
+                                        if (users.empty) {
+                                            var username = user.displayName;
+                                            var unavailable = "User does not exist";
+                                            var docID = user.uid;
+                                            var timing = new Date();
+                                            console.log("Customer ", username, " is here at ", timing);
+
+                                            res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
+                                        } else {
+                                            db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
+                                                friends: Object.assign({},FieldValue.arrayUnion(friendUser))
+                                            })
+                                                .then(function(curFriendsUpdate) {
+                                                    console.log("Added for current to friends");
+                                                    console.log(curFriendsUpdate);
+                                                    db.collection('users').where('username','==',friendUser).get()
+                                                        .then((friendUser) => {
+                                                            // newList = newFriendList(user.displayName, friendUser.docs[0].data().friendsDocID);
+                                                            db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
+                                                                friends: Object.assign({}, FieldValue.arrayUnion(user.displayName))
+                                                            })
+                                                                .then(function(frFriendsUpdate) {
+                                                                    console.log("Added for other user to friends");
+                                                                    console.log(frFriendsUpdate);
+                                                                    var username = user.displayName;
+                                                                    var unavailable = "";
+                                                                    var docID = user.uid;
+                                                                    var timing = new Date();
+                                                                    console.log("Customer ", username, " is here at ", timing);
+                                                                    res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                                                                })
+                                                                .catch(function(error) {
+                                                                    console.log(error);
+                                                                });
+                                                        })
+                                                        .catch(function(error) {
+                                                            console.log(error)
+                                                        });
+                                                })
+                                                .catch(function(error) {
+                                                    console.log(error);
+                                                });
+                                        }
+                                    })
+                            }
+                        })
+                })
                 .catch((error) => {
                     console.log(error);
                     res.redirect('/');
