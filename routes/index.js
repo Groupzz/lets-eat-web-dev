@@ -431,13 +431,20 @@ router.get('/accountInterface/friends', function (req, res) {
     auth.onAuthStateChanged(function(user) {
         // Signed in
         if(user) {
-            var username = user.displayName;
-            var docID = user.uid;
-            var timing = new Date();
-            var unavailable = "";
-            console.log("Customer ", username," is here at ",timing);
+            db.collection('friends').where('id', '==', user.uid).get()
+                .then((friends) => {
+                    var username = user.displayName;
+                    var docID = user.uid;
+                    var timing = new Date();
+                    var unavailable = "";
+                    var friendsList = friends.docs[0].data().friends;
+                    console.log("Customer ", username," is here at ",timing);
 
-            res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                    res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable, friendsList});
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         } else {
             console.log("User is not logged in");
             res.redirect('/home');
@@ -828,9 +835,10 @@ router.post('/friendSearch', function(req,res) {
                                 var unavailable = "User is either in your friends list";
                                 var docID = user.uid;
                                 var timing = new Date();
+                                var friendsList = list;
                                 console.log("Customer ", username," is here at ",timing);
 
-                                res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                                res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable, friendsList});
                             } else {
                                 db.collection('users').where('username','==',friendUser).get()
                                     .then((users) => {
@@ -839,31 +847,26 @@ router.post('/friendSearch', function(req,res) {
                                             var unavailable = "User does not exist";
                                             var docID = user.uid;
                                             var timing = new Date();
+                                            var friendsList = list;
                                             console.log("Customer ", username, " is here at ", timing);
 
-                                            res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable});
+                                            res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable, friendsList});
                                         } else {
                                             db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
-                                                friends: Object.assign({},FieldValue.arrayUnion(friendUser))
+                                                friends: Object.assign({},FieldValue.arrayUnion(friendUser)).elements
                                             })
                                                 .then(function(curFriendsUpdate) {
                                                     console.log("Added for current to friends");
                                                     console.log(curFriendsUpdate);
                                                     db.collection('users').where('username','==',friendUser).get()
                                                         .then((friendUser) => {
-                                                            // newList = newFriendList(user.displayName, friendUser.docs[0].data().friendsDocID);
                                                             db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
-                                                                friends: Object.assign({}, FieldValue.arrayUnion(user.displayName))
+                                                                friends: Object.assign({}, FieldValue.arrayUnion(user.displayName)).elements
                                                             })
                                                                 .then(function(frFriendsUpdate) {
                                                                     console.log("Added for other user to friends");
                                                                     console.log(frFriendsUpdate);
-                                                                    var username = user.displayName;
-                                                                    var unavailable = "";
-                                                                    var docID = user.uid;
-                                                                    var timing = new Date();
-                                                                    console.log("Customer ", username, " is here at ", timing);
-                                                                    res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable});
+                                                                    res.redirect('/accountInterface/friends');
                                                                 })
                                                                 .catch(function(error) {
                                                                     console.log(error);
@@ -892,17 +895,5 @@ router.post('/friendSearch', function(req,res) {
         }
     });
 });
-
-/* Returns a new list of friends */
-function newFriendList(addFriend, docID) {
-    db.collection('friends').doc(docID).get()
-        .then((list) => {
-            var friends = list.data().friends;
-            console.log("initial",friends);
-            friends.push(addFriend);
-            console.log("after",friends);
-            return friends;
-        })
-}
 
 module.exports = router;
