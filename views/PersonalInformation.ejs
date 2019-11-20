@@ -39,6 +39,21 @@
         <h1><center>Personal Info</center></h1>
         <form class="personalInfoContainer">
             <div class="box">
+                <div class="contentContainer">
+                    <span class="containerLabel">Username:</span><span class="usernameContent content"><%=username%></span>
+                </div>
+                <div class="contentContainer">
+                    <span class="containerLabel">Name:</span><span class="fullNameContent content"><%=userInfo.firstname%> <%=userInfo.lastname%></span>
+                </div>
+                <div class="contentContainer">
+                    <span class="containerLabel">Email:</span><span class="emailContent content"><%=userInfo.email%></span>
+                </div>
+                <div class="contentContainer">
+                    <span class="containerLabel">Phone:</span><span class="phoneContent content"><%=userInfo.phone%></span>
+                </div>
+                <div class="contentContainer">
+                    <span class="containerLabel">Location:</span><span class="locationContent content"><%=userInfo.city%>, <%=userInfo.state%> <%=userInfo.sipcode%></span>
+                </div>
 
 
                 <!--User info-->
@@ -57,8 +72,9 @@
 <!--                <input type="checkbox" onclick="hideAnswer()">Show Answer<br>-->
             </div>
         </form>
+        <input class="changePassword" type="button" onclick="changePassword(<%=docID%>)" value="Change Password"/>
 
-        <center><button type="submit">Submit</button></center>
+<!--        <center><button type="submit">Submit</button></center>-->
 
     </div>
 <div class="sidenav">

@@ -424,7 +424,7 @@ router.get('/accountInterface/personalinfo', function (req, res) {
                     console.log("Customer ", username," is here at ",timing);
                     console.log(userInfo);
 
-                    res.render('PersonalInformation', {title:'Personal Information', data: buffer, username, docID});
+                    res.render('PersonalInformation', {title:'Personal Information', data: buffer, username, docID, userInfo});
                 })
                 .catch((error) => {
                     console.log(error);
