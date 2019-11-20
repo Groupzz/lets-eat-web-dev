@@ -851,7 +851,7 @@ router.post('/friendSearch', function(req,res) {
 
                                 res.render('Friends', {title:'Friends', data: buffer, username, docID, unavailable, friendsList});
                             } else { // If friend is not in my list
-                                // CHeck is the username they are searching for exists
+                                // CHeck if the username they are searching for exists
                                 db.collection('users').where('username','==',friendUser).get()
                                     .then((users) => {
                                         if (users.empty) {
@@ -863,27 +863,35 @@ router.post('/friendSearch', function(req,res) {
                                             console.log("Customer ", username, " is here at ", timing);
 
                                             res.render('Friends', {title: 'Friends', data: buffer, username, docID, unavailable, friendsList});
-                                        } else {
+                                        } else { // If it does exist, add to current users friend's list
                                             list.push(friendUser);
                                             db.collection('friends').doc(current.docs[0].data().friendsDocID).update({
                                                 friends: list
                                             })
-                                                .then(function(curFriendsUpdate) {
+                                                .then(function() {
                                                     console.log("Added for current to friends");
-                                                    console.log(curFriendsUpdate);
+                                                    // Now add current user to the searched up friends list by first gettiing document ID from users
                                                     db.collection('users').where('username','==',friendUser).get()
                                                         .then((friendUser) => {
-                                                            db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
-                                                                friends: Object.assign({}, FieldValue.arrayUnion(user.displayName)).elements
-                                                            })
-                                                                .then(function(frFriendsUpdate) {
-                                                                    console.log("Added for other user to friends");
-                                                                    console.log(frFriendsUpdate);
-                                                                    res.redirect('/accountInterface/friends');
+                                                            db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).get()
+                                                                .then((fuser) => {
+                                                                    // Take the friends list out of the friend's side and add the current user
+                                                                    var flist = fuser.data().friends;
+                                                                    flist.push(user.displayName);
+                                                                    db.collection('friends').doc(friendUser.docs[0].data().friendsDocID).update({
+                                                                        friends: flist
+                                                                    })
+                                                                        .then(function() {
+                                                                            console.log("Added for other user to friends");
+                                                                            res.redirect('/accountInterface/friends');
+                                                                        })
+                                                                        .catch(function(error) {
+                                                                            console.log(error);
+                                                                        });
                                                                 })
-                                                                .catch(function(error) {
+                                                                .catch((error) => {
                                                                     console.log(error);
-                                                                });
+                                                                })
                                                         })
                                                         .catch(function(error) {
                                                             console.log(error)
