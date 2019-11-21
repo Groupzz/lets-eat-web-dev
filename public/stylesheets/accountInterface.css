@@ -327,7 +327,7 @@ h1 {
 }
 .modal-top-header{
   height:22px;
-  background: #644612;
+  background: #4682B4;
 }
 .modal-title{
   margin-left:35%;
@@ -348,7 +348,7 @@ h1 {
   font-size:20px;
   padding-top:5px;
   padding-bottom:5px;
-  border: 2px solid #b0553c;
+  border: 2px solid #4682B4;
 }
 .modalSubmitButton{
   font-size: 16px;
@@ -373,5 +373,5 @@ h1 {
   transition: all 0.4s;
 }
 .modalSubmitButton:hover{
-  background:#b0553c;
+  background:#4682B4;
 }
