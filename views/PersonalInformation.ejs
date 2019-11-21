@@ -5,6 +5,7 @@
     <title>Welcome, <%=username%></title>
     <link rel="stylesheet" href="/stylesheets/accountInterface.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function logoff() {
             window.location.href = "/logout";
@@ -28,8 +29,13 @@
             window.location.href = "/home";
         }
         $(document).ready(function() {
+            // Change username
             $('.usernameContainer').click(function() {
-
+                $('#usernameChangeModal').modal({show:true});
+            })
+            $('#submitUsername').click(function() {
+                var id = <%=docID%>;
+                ajaxChangeUserName()
             })
         })
     </script>
