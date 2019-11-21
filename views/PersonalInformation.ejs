@@ -28,16 +28,33 @@
         function home() {
             window.location.href = "/home";
         }
+        var id;
         $(document).ready(function() {
             // Change username
             $('.usernameContainer').click(function() {
+                id = $(this).attr("name");
                 $('#usernameChangeModal').modal({show:true});
             })
             $('#submitUsername').click(function() {
-                var id = <%=docID%>;
-                ajaxChangeUserName()
+                var un = document.getElementById("modalUserNameChange").value;
+                ajaxChangeUserName(id, un);
             })
         })
+
+        function ajaxChangeUserName(id, un) {
+            $.ajax({
+                type : "GET",
+                url: "/ChangeUN?id="+id+"&username="+un,
+                success : function(result){
+                    alert("change made successfully");
+
+                    location.reload();
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
     </script>
 </head>
 
@@ -50,19 +67,19 @@
         <h1><center>Personal Info</center></h1>
         <form class="personalInfoContainer">
             <div class="box">
-                <div class="contentContainer usernameContainer">
+                <div class="contentContainer usernameContainer" name="<%=docID%>">
                     <span class="containerLabel">Username:</span><span class="usernameContent content"><%=username%></span>
                 </div>
-                <div class="contentContainer nameContainer">
+                <div class="contentContainer nameContainer" name="<%=docID%>">
                     <span class="containerLabel">Name:</span><span class="fullNameContent content"><%=userInfo.firstname%> <%=userInfo.lastname%></span>
                 </div>
-                <div class="contentContainer emailContainer">
+                <div class="contentContainer emailContainer" name="<%=docID%>">
                     <span class="containerLabel">Email:</span><span class="emailContent content"><%=userInfo.email%></span>
                 </div>
-                <div class="contentContainer phoneContainer">
+                <div class="contentContainer phoneContainer" name="<%=docID%>">
                     <span class="containerLabel">Phone:</span><span class="phoneContent content"><%=userInfo.phone%></span>
                 </div>
-                <div class="contentContainer locationContainer">
+                <div class="contentContainer locationContainer" name="<%=docID%>">
                     <span class="containerLabel">Location:</span><span class="locationContent content"><%=userInfo.city%>, <%=userInfo.state%> <%=userInfo.sipcode%></span>
                 </div>
             </div>
@@ -70,13 +87,13 @@
         <h1><center>Security</center></h1>
         <form class="personalInfoContainer">
             <div class="box">
-                <div class="contentContainer secqContainer">
+                <div class="contentContainer secqContainer" name="<%=docID%>">
                     <span class="containerLabel1">Security Question:</span><span class="sqContent content"><%=userInfo.securityquestion%></span>
                 </div>
-                <div class="contentContainer secaContainer">
+                <div class="contentContainer secaContainer" name="<%=docID%>">
                     <span class="containerLabel1">Security Answer:</span><span class="saContent content"><%=userInfo.securityanswer%></span>
                 </div>
-                <div class="contentContainer1">
+                <div class="contentContainer1" name="<%=docID%>">
                     <span class="changePassword">Change Password</span>
                 </div>
             </div>
@@ -116,7 +133,23 @@
         }
     }
 </script>
+<div class="changeModal" id="usernameChangeModal">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
+            <h4 class="modal-title">Change Username</h4>
+        </div>
+        <div class="modal-body">
+            <input type = "text" id = "modalUserNameChange" class = "modalNameChangeInput" placeholder = "Username" value = "">
 
+            <input type = "button" id = "submitUsername" class = "modalSubmitButton" value="Submit">
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
