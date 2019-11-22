@@ -12,6 +12,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--    <script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script>
+        x = navigator.geolocation;
+        x.getCurrentPosition(success, failure);
+        var mylat,mylong;
+        function success(position) {
+            mylat = position.coords.latitude;
+            mylong = position.coords.longitude;
+
+            console.log(mylat);
+            console.log(mylong);
+        }
+        function failure() {
+            console.log("It didn't work");
+        }
         var restaurant;
         function newRestaurant() {
             $.ajax({
@@ -93,93 +106,107 @@
         function directYelp() {
             window.location.href = restaurant.url;
         }
-        var directionsService, directionsRenderer, map, startMarker, endMarker,poss;
-        function initMap() {
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer();
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 14
-            });
-            infoWindow = new google.maps.InfoWindow;
-
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent('Current Location');
-                    infoWindow.open(map);
-                    map.setCenter(pos);
-
-                    poss = {
-                        lat: restaurant.coordinates.latitude,
-                        lng: restaurant.coordinates.longitude
+        $(document).ready(function() {
+            $('.restDirections').click(function() {
+                $.ajax({
+                    type : "GET",
+                    url: "/getDirections?mylat="+mylat+"&mylong="+mylong+"&reslat="+reslat+"&reslong"+reslng,
+                    success : function(result){
+                        console.log("Getting directions");
+                    },
+                    error : function(e) {
+                        console.log("ERROR: ", e);
                     }
-
-                    endMarker = new google.maps.Marker({position: poss, map: map});
-                    startMarker = new google.maps.Marker({position: pos, map: map});
-                }, function() {
-                    console.log("Error");
-                    handleLocationError(true, infoWindow, map.getCenter());
                 });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-                directionsRenderer.setMap(map);
-
-                calculateAndDisplayRoute();
-        }
-
-        function calculateAndDisplayRoute() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    startMarker.setMap(null);
-                    endMarker.setMap(null);
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    directionsService.route(
-                        {
-                            origin: {
-                                lat: pos.lat,
-                                lng: pos.lng
-                            },
-                            destination: {
-                                lat: restaurant.coordinates.latitude,
-                                lng: restaurant.coordinates.longitude
-                            },
-                            travelMode: 'DRIVING'
-                        },
-                        function(response, status) {
-                            if (status === 'OK') {
-                                directionsRenderer.setDirections(response);
-                            } else {
-                                window.alert('Directions request failed due to ' + status);
-                            }
-                        });
-                }, function() {
-                    console.log("Error");
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-
-        }
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-            infoWindow.open(map);
-        }
+            });
+        });
+        // var directionsService, directionsRenderer, map, startMarker, endMarker,poss;
+        // function initMap() {
+        //     directionsService = new google.maps.DirectionsService();
+        //     directionsRenderer = new google.maps.DirectionsRenderer();
+        //     map = new google.maps.Map(document.getElementById('map'), {
+        //         zoom: 14
+        //     });
+        //     infoWindow = new google.maps.InfoWindow;
+        //
+        //     // Try HTML5 geolocation.
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(function(position) {
+        //             var pos = {
+        //                 lat: position.coords.latitude,
+        //                 lng: position.coords.longitude
+        //             };
+        //             infoWindow.setPosition(pos);
+        //             infoWindow.setContent('Current Location');
+        //             infoWindow.open(map);
+        //             map.setCenter(pos);
+        //
+        //             poss = {
+        //                 lat: restaurant.coordinates.latitude,
+        //                 lng: restaurant.coordinates.longitude
+        //             }
+        //
+        //             endMarker = new google.maps.Marker({position: poss, map: map});
+        //             startMarker = new google.maps.Marker({position: pos, map: map});
+        //         }, function() {
+        //             console.log("Error");
+        //             handleLocationError(true, infoWindow, map.getCenter());
+        //         });
+        //     } else {
+        //         // Browser doesn't support Geolocation
+        //         handleLocationError(false, infoWindow, map.getCenter());
+        //     }
+        //         directionsRenderer.setMap(map);
+        //
+        //         calculateAndDisplayRoute();
+        // }
+        //
+        // function calculateAndDisplayRoute() {
+        //     if (navigator.geolocation) {
+        //         navigator.geolocation.getCurrentPosition(function(position) {
+        //             startMarker.setMap(null);
+        //             endMarker.setMap(null);
+        //             var pos = {
+        //                 lat: position.coords.latitude,
+        //                 lng: position.coords.longitude
+        //             };
+        //             directionsService.route(
+        //                 {
+        //                     origin: {
+        //                         lat: pos.lat,
+        //                         lng: pos.lng
+        //                     },
+        //                     destination: {
+        //                         lat: restaurant.coordinates.latitude,
+        //                         lng: restaurant.coordinates.longitude
+        //                     },
+        //                     travelMode: 'DRIVING'
+        //                 },
+        //                 function(response, status) {
+        //                     if (status === 'OK') {
+        //                         directionsRenderer.setDirections(response);
+        //                     } else {
+        //                         window.alert('Directions request failed due to ' + status);
+        //                     }
+        //                 });
+        //         }, function() {
+        //             console.log("Error");
+        //             handleLocationError(true, infoWindow, map.getCenter());
+        //         });
+        //     } else {
+        //         // Browser doesn't support Geolocation
+        //         handleLocationError(false, infoWindow, map.getCenter());
+        //     }
+        //
+        // }
+        //
+        // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        //     infoWindow.setPosition(pos);
+        //     infoWindow.setContent(browserHasGeolocation ?
+        //         'Error: The Geolocation service failed.' :
+        //         'Error: Your browser doesn\'t support geolocation.');
+        //     infoWindow.open(map);
+        // }
     </script>
 </head>
 <body> <!--onload="initMap()">-->
@@ -235,22 +262,23 @@
                     </div>
                     <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>
                     <span class="restLocation"></span><span class="restPhone"></span>
-<!--                    <span class="restDirections">Get Directions</span>-->
+                    <span class="restDirections">Get Directions</span>
                     <span class="restYelp" onclick="directYelp()">Yelp Page</span>
 <!--                    <div class="mapcontainer">-->
-                        <div id="map"></div>
+<!--                        <div id="map"></div>-->
 <!--                    </div>-->
+                </div>
+                <div class="refreshContainer">
+                    <input type="button" value="New Restaurant" class ="refreshButton" id="refresh" onclick="newRestaurant()">
                 </div>
 
             </div>
-            <div class="refreshContainer">
-                <input type="button" value="New Restaurant" class ="refreshButton" id="refresh" onclick="newRestaurant()">
-            </div>
 
-            <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4
-&callback=initMap">
-            </script>
+
+<!--            <script async defer-->
+<!--                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4-->
+<!--&callback=initMap">-->
+<!--            </script>-->
         </div>
     </div>
 

@@ -405,12 +405,19 @@ router.get('/accountInterface/bookmark', function (req, res) {
     auth.onAuthStateChanged(function(user) {
         // Signed in
         if(user) {
-            var username = user.displayName;
-            var docID = user.uid;
-            var timing = new Date();
-            console.log("Customer ", username," is here at ",timing);
+            db.collection('likedRestaurants').where('id','==',user.uid).get()
+                .then((bookmarks) => {
+                    var username = user.displayName;
+                    var docID = bookmarks.docs[0].id;
+                    var timing = new Date();
+                    var bkmks = bookmarks.docs[0].data().restaurantIDs;
+                    console.log("Customer ", username," is here at ",timing);
 
-            res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID});
+                    res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID, bkmks});
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         } else {
             console.log("User is not logged in");
             res.redirect('/home');
@@ -841,7 +848,7 @@ router.post('/friendSearch', function(req,res) {
         }
     });
 });
-
+/* Change users personal information */
 router.get('/ChangeUN', function(req,res) {
     var query = require('url').parse(req.url, true).query;
    var id = query.id;
@@ -922,6 +929,7 @@ router.get('/ChangePassword', function(req, res) {
            console.log(error);
        });
 });
+/* Change users preferences */
 router.get('/ChangePrefs', function(req, res) {
     var query = require('url').parse(req.url, true).query;
     var id = query.id, am = false, me = false, ch = false, ja = false, th = false, it = false, ind = false, gr = false;
@@ -951,5 +959,19 @@ router.get('/ChangePrefs', function(req, res) {
         .catch((error) => {
             console.log(error);
         });
+});
+/* Get directions */
+router.get('/getDirections', function(req,res) {
+    var query = require('url').parse(req.url, true).query;
+    var myloc = {
+        lat: query.mylat,
+        long: query.mylong
+    };
+    var resloc = {
+        lat: query.reslat,
+        long: query.reslong
+    };
+
+    res.render('map', {title: 'Directions', data: buffer, myloc, resloc});
 });
 module.exports = router;
