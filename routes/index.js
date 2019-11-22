@@ -381,12 +381,19 @@ router.get('/accountInterface/preferences', function (req, res) {
     auth.onAuthStateChanged(function(user) {
         // Signed in
         if(user) {
-            var username = user.displayName;
-            var docID = user.uid;
-            var timing = new Date();
-            console.log("Customer ", username," is here at ",timing);
+            db.collection('preferences').where('id','==',user.uid).get()
+                .then((preferences) => {
+                    var username = user.displayName;
+                    var docID = preferences.docs[0].id;
+                    var timing = new Date();
+                    var prefs = preferences.docs[0].data();
+                    console.log("Customer ", username," is here at ",timing);
 
-            res.render('Preferences', {title:'Preferences', data: buffer, username, docID});
+                    res.render('Preferences', {title:'Preferences', data: buffer, username, docID, prefs});
+                })
+                .catch((error) => {
+                   console.log(error);
+                });
         } else {
             console.log("User is not logged in");
             res.redirect('/home');
