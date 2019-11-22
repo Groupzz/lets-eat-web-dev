@@ -856,11 +856,12 @@ router.get('/ChangeUN', function(req,res) {
         });
 });
 router.get('/ChangeName', function(req,res) {
-    var id = req.body.id;
-    var fname = req.body.fname;
-    var lname = req.body.lname;
+    var query = require('url').parse(req.url, true).query;
+    var id = query.id;
+    var fname = query.fname;
+    var lname = query.lname;
 
-    db.collection('users').where("id","==",id).update({
+    db.collection('users').doc(id).update({
         firstname: fname,
         lastname: lname
     })
@@ -870,10 +871,11 @@ router.get('/ChangeName', function(req,res) {
         })
 });
 router.get('/ChangePhone', function(req,res) {
-    var id = req.body.id;
-    var ph = req.body.phone;
+    var query = require('url').parse(req.url, true).query;
+    var id = query.id;
+    var ph = query.phone;
 
-    db.collection('users').where("id","==",id).update({
+    db.collection('users').doc(id).update({
         phone: ph
     })
         .then(() => {
@@ -882,12 +884,13 @@ router.get('/ChangePhone', function(req,res) {
         })
 });
 router.get('/ChangeLocation', function(req,res) {
-    var id = req.body.id;
-    var city = req.body.city;
-    var state = req.body.state;
-    var zip = req.body.zip;
+    var query = require('url').parse(req.url, true).query;
+    var id = query.id;
+    var city = query.city;
+    var state = query.state;
+    var zip = query.zip;
 
-    db.collection('users').where("id","==",id).update({
+    db.collection('users').doc(id).update({
         city: city,
         state: state,
         zipcode: zip
