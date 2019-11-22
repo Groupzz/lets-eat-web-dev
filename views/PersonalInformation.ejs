@@ -45,17 +45,13 @@
                 $('#nameChangeModal').modal({show:true});
             })
             $('#submitName').click(function() {
-                var name = document.getElementById("modalNameChange").value;
-                ajaxChangeName(id, name);
+                var fname = document.getElementById("modalFirstNameChange").value;
+                var lname = document.getElementById("modalLastNameChange").value;
+                ajaxChangeName(id, fname, lname);
             })
-            // Change email
+            // Cannot change email
             $('.emailContainer').click(function() {
-                id = $(this).attr("name");
-                $('#emailChangeModal').modal({show:true});
-            })
-            $('#submitEmail').click(function() {
-                var em = document.getElementById("modalEmailChange").value;
-                ajaxChangeEmail(id, em);
+                alert("Cannot change email");
             })
             // Change phone
             $('.phoneContainer').click(function() {
@@ -72,38 +68,14 @@
                 $('#locationChangeModal').modal({show:true});
             })
             $('#submitLocation').click(function() {
-                var lo = document.getElementById("modalLocationChange").value;
-                ajaxChangeLocation(id, lo);
+                var city = document.getElementById("modalCityChange").value;
+                var state = document.getElementById("modalStateChange").value;
+                var zip = document.getElementById("modalZipChange").value;
+                ajaxChangeLocation(id, city, state, zip);
             })
 
 
-            // Change username
-            $('.usernameContainer').click(function() {
-                id = $(this).attr("name");
-                $('#usernameChangeModal').modal({show:true});
-            })
-            $('#submitUsername').click(function() {
-                var un = document.getElementById("modalUserNameChange").value;
-                ajaxChangeUserName(id, un);
-            })
-            // Change username
-            $('.usernameContainer').click(function() {
-                id = $(this).attr("name");
-                $('#usernameChangeModal').modal({show:true});
-            })
-            $('#submitUsername').click(function() {
-                var un = document.getElementById("modalUserNameChange").value;
-                ajaxChangeUserName(id, un);
-            })
-            // Change username
-            $('.usernameContainer').click(function() {
-                id = $(this).attr("name");
-                $('#usernameChangeModal').modal({show:true});
-            })
-            $('#submitUsername').click(function() {
-                var un = document.getElementById("modalUserNameChange").value;
-                ajaxChangeUserName(id, un);
-            })
+          // Change password only
         })
 
         function ajaxChangeUserName(id, un) {
@@ -120,24 +92,10 @@
                 }
             });
         }
-        function ajaxChangeName(id, name) {
+        function ajaxChangeName(id, fname, lname) {
             $.ajax({
                 type : "GET",
-                url: "/ChangeName?id="+id+"&name="+name,
-                success : function(result){
-                    alert("change made successfully");
-
-                    location.reload();
-                },
-                error : function(e) {
-                    console.log("ERROR: ", e);
-                }
-            });
-        }
-        function ajaxChangeEmail(id, em) {
-            $.ajax({
-                type : "GET",
-                url: "/ChangeEmail?id="+id+"&email="+em,
+                url: "/ChangeName?id="+id+"&fname="+fname+"&lname="+lname,
                 success : function(result){
                     alert("change made successfully");
 
@@ -162,10 +120,10 @@
                 }
             });
         }
-        function ajaxChangeLocation(id, lo) {
+        function ajaxChangeLocation(id, city, state, zip) {
             $.ajax({
                 type : "GET",
-                url: "/ChangeLocation?id="+id+"&location="+lo,
+                url: "/ChangeLocation?id="+id+"&city="+city+"&state="+state+"&zip="+zip,
                 success : function(result){
                     alert("change made successfully");
 
@@ -177,35 +135,6 @@
             });
         }
 
-
-        function ajaxChangeUserName(id, un) {
-            $.ajax({
-                type : "GET",
-                url: "/ChangeUN?id="+id+"&username="+un,
-                success : function(result){
-                    alert("change made successfully");
-
-                    location.reload();
-                },
-                error : function(e) {
-                    console.log("ERROR: ", e);
-                }
-            });
-        }
-        function ajaxChangeUserName(id, un) {
-            $.ajax({
-                type : "GET",
-                url: "/ChangeUN?id="+id+"&username="+un,
-                success : function(result){
-                    alert("change made successfully");
-
-                    location.reload();
-                },
-                error : function(e) {
-                    console.log("ERROR: ", e);
-                }
-            });
-        }
     </script>
 </head>
 
@@ -301,9 +230,62 @@
         </div>
     </div>
 </div>
+<div class="changeModal" id="nameChangeModal">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
+            <h4 class="modal-title">Change Name</h4>
+        </div>
+        <div class="modal-body">
+            <input type = "text" id = "modalFirstNameChange" class = "modalNameChangeInput" placeholder = "First Name" value = "">
+            <input type = "text" id = "modalLastNameChange" class = "modalNameChangeInput" placeholder = "Last Name" value = "">
+
+            <input type = "button" id = "submitName" class = "modalSubmitButton" value="Submit">
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+</div>
+<div class="changeModal" id="phoneChangeModal">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
+            <h4 class="modal-title">Change Name</h4>
+        </div>
+        <div class="modal-body">
+            <input type = "text" id = "modalPhoneChange" class = "modalNameChangeInput" placeholder = "Phone Number" value = "">
+
+            <input type = "button" id = "submitPhone" class = "modalSubmitButton" value="Submit">
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+</div>
+<div class="changeModal" id="locationChangeModal">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
+            <h4 class="modal-title">Change Location</h4>
+        </div>
+        <div class="modal-body">
+            <input type = "text" id = "modalCityChange" class = "modalNameChangeInput" placeholder = "City" value = "">
+            <input type = "text" id = "modalStateChange" class = "modalNameChangeInput" placeholder = "State" value = "">
+            <input type = "text" id = "modalZipChange" class = "modalNameChangeInput" placeholder = "Zip Code" value = "">
+
+            <input type = "button" id = "submitLocation" class = "modalSubmitButton" value="Submit">
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+</div>
 </body>
 </html>
-
 
 <!--User info-->
 
