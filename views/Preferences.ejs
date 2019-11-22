@@ -28,6 +28,20 @@
         function home() {
             window.location.href = "/home";
         }
+        function ajaxChangePrefs(id, am, me, ch, ja, th, it, ind, gr) {
+            $.ajax({
+                type : "GET",
+                url: "/ChangePrefs?id="+id+"&am="+am+"&me="+me+"&ch="+ch+"&ja="+ja+"&th="+th+"&it="+it+"&ind="+ind+"&gr="+gr,
+                success : function(result){
+                    alert("change made successfully");
+
+                    location.reload();
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
         $(document).ready(function() {
             var id;
             $('.editPrefs').click(function() {
@@ -35,10 +49,17 @@
                 $('#prefsChangeModal').modal({show:true});
             });
             $('#submitPrefs').click(function() {
-                ajaxChangePrefs(id, );
+                var am = document.getElementById('am').checked;
+                var me = document.getElementById('me').checked;
+                var ch = document.getElementById('ch').checked;
+                var ja = document.getElementById('ja').checked;
+                var th = document.getElementById('th').checked;
+                var it = document.getElementById('it').checked;
+                var ind = document.getElementById('in').checked;
+                var gr = document.getElementById('gr').checked;
+                ajaxChangePrefs(id, am, me, ch, ja, th, it, ind, gr);
             });
         });
-
     </script>
 </head>
 
@@ -51,42 +72,42 @@
         <form method="POST">
             <h1><center>Preferences</center></h1>
             <span class="editPrefs" name="<%=docID%>">Edit</span>
-            <%if (prefs.American){%>
+            <%if (prefs.American == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="American" value="American" disabled>American<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="American" value="American" disabled>American<br></p>
             <%}%>
-            <%if (prefs.Mexican){%>
+            <%if (prefs.Mexican == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Mexican" value="Mexican" disabled>Mexican<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Mexican" value="Mexican" disabled>Mexican<br></p>
             <%}%>
-            <%if (prefs.Chinese){%>
+            <%if (prefs.Chinese == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Chinese" value="Chinese" disabled>Chinese<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Chinese" value="Chinese" disabled>Chinese<br></p>
             <%}%>
-            <%if (prefs.Japanese){%>
+            <%if (prefs.Japanese == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Japanese" value="Japanese" disabled>Japanese<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Japanese" value="Japanese" disabled>Japanese<br></p>
             <%}%>
-            <%if (prefs.Thai){%>
+            <%if (prefs.Thai == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Thai" value="Thai" disabled>Thai<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Thai" value="Thai" disabled>Thai<br></p>
             <%}%>
-            <%if (prefs.Italian){%>
+            <%if (prefs.Italian == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Italian" value="Italian" disabled>Italian<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Italian" value="Italian" disabled>Italian<br></p>
             <%}%>
-            <%if (prefs.Indian){%>
+            <%if (prefs.Indian == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Indian" value="Indian" disabled>Indian<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Indian" value="Indian" disabled>Indian<br></p>
             <%}%>
-            <%if (prefs.Greek){%>
+            <%if (prefs.Greek == true){%>
                 <p align = "left"><input type="checkbox" checked="checked" name="Greek" value="Greek" disabled>Greek<br></p>
             <%} else {%>
                 <p align = "left"><input type="checkbox" name="Greek" value="Greek" disabled>Greek<br></p>

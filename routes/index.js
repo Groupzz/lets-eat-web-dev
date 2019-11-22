@@ -922,4 +922,34 @@ router.get('/ChangePassword', function(req, res) {
            console.log(error);
        });
 });
+router.get('/ChangePrefs', function(req, res) {
+    var query = require('url').parse(req.url, true).query;
+    var id = query.id, am = false, me = false, ch = false, ja = false, th = false, it = false, ind = false, gr = false;
+    if (query.am.match("true")) am = true;
+    if (query.me.match("true")) me = true;
+    if (query.ja.match("true")) ja = true;
+    if (query.ch.match("true")) ch = true;
+    if (query.th.match("true")) th = true;
+    if (query.it.match("true")) it = true;
+    if (query.ind.match("true")) ind = true;
+    if (query.gr.match("true")) gr = true;
+
+    db.collection('preferences').doc(id).update({
+        American: am,
+        Chinese: ch,
+        Greek: gr,
+        Indian: ind,
+        Italian: it,
+        Japanese: ja,
+        Mexican: me,
+        Thai: th
+    })
+        .then(() => {
+            var text = "Changed preferences";
+            return res.send({text: text});
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
 module.exports = router;
