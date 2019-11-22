@@ -326,89 +326,6 @@ router.get('/accountInterface', function(req, res) {
             res.redirect('/home');
         }
     });
-    // var userInformation,preferences, dietaryrestrictions,friends = [];
-    // if (req.cookies.userInfo!=null) {
-    //     var email = req.cookies.userInfo.email;
-    //     var userPacket = req.cookies.userInfo;
-    //     var username = req.cookies.userInfo.username;
-    //     console.log(email);
-    //     console.log(userPacket);
-    //     // need: all details from users, friends, preferences, dietary restrictions
-    //     db.collection('users').where('email', '==', email).get()
-    //         .then((snapshot) => {
-    //             if (snapshot.empty) {
-    //                 var text = "Username or Password is wrong";
-    //                 res.render('signInPage', {title:'Sign In', data: buffer, text})
-    //             }
-    //             else {
-    //                 userInformation = {
-    //                     email: email,
-    //                     username: username,
-    //                     dob: snapshot.docs[0].data().dateofbirth,
-    //                     fname: snapshot.docs[0].data().firstname,
-    //                     lname: snapshot.docs[0].data().lastname,
-    //                     phone: snapshot.docs[0].data().phone,
-    //                     sq: snapshot.docs[0].data().securityquestion,
-    //                     sa: snapshot.docs[0].data().securityanswer,
-    //                     city: snapshot.docs[0].data().city,
-    //                     state: snapshot.docs[0].data().state,
-    //                     zipcode: snapshot.docs[0].data().zipcode
-    //                 };
-    //                 db.collection('friends').where('username', '==', username).get()
-    //                     .then((friendslist) => {
-    //                         friendslist.docs.forEach(doc => {
-    //                             var friend = {
-    //                                 friendemail: doc.data().friendemail,
-    //                                 friendusername: doc.data().friendusername,
-    //                                 firstname: doc.data().firstname,
-    //                                 lastname: doc.data().lastname
-    //                             };
-    //                             friends.push(friend);
-    //                         });
-    //
-    //                         db.collection('preferences').where('username', '==', username).get()
-    //                             .then((preferenceList) => {
-    //                                 preferences = {
-    //                                     American: preferenceList.docs[0].data().American,
-    //                                     Chinese: preferenceList.docs[0].data().Chinese,
-    //                                     Greek: preferenceList.docs[0].data().Greek,
-    //                                     Indian: preferenceList.docs[0].data().Indian,
-    //                                     Italian: preferenceList.docs[0].data().Italian,
-    //                                     Japanese: preferenceList.docs[0].data().Japanese,
-    //                                     Mexican: preferenceList.docs[0].data().Mexican,
-    //                                     Thai: preferenceList.docs[0].data().Thai
-    //                                 };
-    //                                 db.collection('dietaryrestriction').where('username', '==', username).get()
-    //                                     .then((drlist) => {
-    //                                         dietaryrestrictions = {
-    //                                             gf: drlist.docs[0].data().GlutenFree,
-    //                                             halal: drlist.docs[0].data().Hala,
-    //                                             vegan: drlist.docs[0].data().Vegan,
-    //                                             veget: drlist.docs[0].data().Vegetarian
-    //                                         };
-    //                                         var timing = new Date();
-    //                                         console.log("Customer ", username," is here at ",timing);
-    //                                         res.render('accountInterface', {title:'Account Interface',
-    //                                             data:
-    //                                                 buffer,
-    //                                                 dietaryrestrictions,
-    //                                                 preferences,
-    //                                                 friends,
-    //                                                 userInformation
-    //
-    //                                         });
-    //                                     })
-    //                             })
-    //
-    //                     })
-    //             }
-    //
-    //         })
-    //         .catch((error) => {
-    //            console.log(error);
-    //            res.redirect('/login');
-    //         });
-    // }
 });
 /* Changing navigation */
 router.get('/accountInterface/personalinfo', function (req, res) {
@@ -917,4 +834,36 @@ router.post('/friendSearch', function(req,res) {
     });
 });
 
+router.get('/ChangeUN', function(req,res) {
+   var id = req.body.id;
+   var un = req.body.username;
+    auth.currentUser.updateProfile({
+        displayName: un
+    })
+        .then(function() {
+           db.collection('users').doc(id).update({
+               username: un
+           })
+               .then(() => {
+                   var text = "Changed username";
+                   res.send({text: text});
+               })
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+});
+/ChangeName?id="+id+"&fname="+fname+"&lname="+lname
+router.get('/ChangeName', function(req,res) {
+    var id = req.body.id;
+    var fname = req.body.fname;
+
+    db.collection('users').doc(id).update({
+        username: un
+    })
+        .then(() => {
+            var text = "Changed username";
+            res.send({text: text});
+        })
+});
 module.exports = router;
