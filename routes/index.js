@@ -336,7 +336,7 @@ router.get('/accountInterface/personalinfo', function (req, res) {
                 .then((uInfo) => {
                     var userInfo = uInfo.docs[0].data();
                     var username = user.displayName;
-                    var docID = user.uid;
+                    var docID = uInfo.docs[0].id;
                     var timing = new Date();
                     console.log("Customer ", username," is here at ",timing);
                     console.log(userInfo);
@@ -360,7 +360,7 @@ router.get('/accountInterface/friends', function (req, res) {
             db.collection('friends').where('id', '==', user.uid).get()
                 .then((friends) => {
                     var username = user.displayName;
-                    var docID = user.uid;
+                    var docID = friends.docs[0].id;
                     var timing = new Date();
                     var unavailable = "";
                     var friendsList = friends.docs[0].data().friends;
@@ -835,8 +835,10 @@ router.post('/friendSearch', function(req,res) {
 });
 
 router.get('/ChangeUN', function(req,res) {
-   var id = req.body.id;
-   var un = req.body.username;
+    var query = require('url').parse(req.url, true).query;
+   var id = query.id;
+   var un = query.username;
+   console.log(un);
     auth.currentUser.updateProfile({
         displayName: un
     })
@@ -844,26 +846,55 @@ router.get('/ChangeUN', function(req,res) {
            db.collection('users').doc(id).update({
                username: un
            })
-               .then(() => {
+               .then(function() {
                    var text = "Changed username";
-                   res.send({text: text});
+                   return res.send({text: text});
                })
         })
         .catch(function(error) {
             console.log(error);
         });
 });
-/ChangeName?id="+id+"&fname="+fname+"&lname="+lname
 router.get('/ChangeName', function(req,res) {
     var id = req.body.id;
     var fname = req.body.fname;
+    var lname = req.body.lname;
 
-    db.collection('users').doc(id).update({
-        username: un
+    db.collection('users').where("id","==",id).update({
+        firstname: fname,
+        lastname: lname
     })
         .then(() => {
-            var text = "Changed username";
-            res.send({text: text});
+            var text = "Changed name";
+            return res.send({text: text});
+        })
+});
+router.get('/ChangePhone', function(req,res) {
+    var id = req.body.id;
+    var ph = req.body.phone;
+
+    db.collection('users').where("id","==",id).update({
+        phone: ph
+    })
+        .then(() => {
+            var text = "Changed phone";
+            return res.send({text: text});
+        })
+});
+router.get('/ChangeLocation', function(req,res) {
+    var id = req.body.id;
+    var city = req.body.city;
+    var state = req.body.state;
+    var zip = req.body.zip;
+
+    db.collection('users').where("id","==",id).update({
+        city: city,
+        state: state,
+        zipcode: zip
+    })
+        .then(() => {
+            var text = "Changed location";
+            return res.send({text: text});
         })
 });
 module.exports = router;
