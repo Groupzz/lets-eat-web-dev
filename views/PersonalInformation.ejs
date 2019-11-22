@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/stylesheets/accountInterface.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-en.min.js"></script>
     <script>
         function logoff() {
             window.location.href = "/logout";
@@ -34,46 +36,60 @@
             $('.usernameContainer').click(function() {
                 id = $(this).attr("name");
                 $('#usernameChangeModal').modal({show:true});
-            })
+            });
             $('#submitUsername').click(function() {
                 var un = document.getElementById("modalUserNameChange").value;
                 ajaxChangeUserName(id, un);
-            })
+            });
             // Change name
             $('.nameContainer').click(function() {
                 id = $(this).attr("name");
                 $('#nameChangeModal').modal({show:true});
-            })
+            });
             $('#submitName').click(function() {
                 var fname = document.getElementById("modalFirstNameChange").value;
                 var lname = document.getElementById("modalLastNameChange").value;
                 ajaxChangeName(id, fname, lname);
-            })
+            });
             // Cannot change email
             $('.emailContainer').click(function() {
                 alert("Cannot change email");
-            })
+            });
+            // Cannot change date of birth
+            $('.dobContainer').click(function() {
+                alert("Cannot change date of birth");
+            });
             // Change phone
             $('.phoneContainer').click(function() {
                 id = $(this).attr("name");
                 $('#phoneChangeModal').modal({show:true});
-            })
+            });
             $('#submitPhone').click(function() {
                 var ph = document.getElementById("modalPhoneChange").value;
                 ajaxChangePhone(id, ph);
-            })
+            });
             // Change location
             $('.locationContainer').click(function() {
                 id = $(this).attr("name");
                 $('#locationChangeModal').modal({show:true});
-            })
+            });
             $('#submitLocation').click(function() {
                 var city = document.getElementById("modalCityChange").value;
                 var state = document.getElementById("modalStateChange").value;
                 var zip = document.getElementById("modalZipChange").value;
                 ajaxChangeLocation(id, city, state, zip);
-            })
+            });
+            // Change password
+            $('.contentContainer1').click(function() {
+                id = $(this).attr("name");
+                $('#passowrdChangeModal').modal({show:true});
+            });
+            $('#submitPassword').click(function() {
+                var pw = document.getElementById("modalPasswordChange").value;
+                ajaxChangePassword(id, pw);
+            });
 
+            // Make sure username is unique
             $('#modalUserNameChange').on('change', function() {
                 var username = document.getElementById("modalUserNameChange").value;
                 $.get("/isUnique?uname="+username, function (response) {
@@ -82,7 +98,12 @@
                     }
                 })
             });
-          // Change password only
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
         })
 
         function ajaxChangeUserName(id, un) {
@@ -141,7 +162,46 @@
                 }
             });
         }
+        function ajaxChangePassword(id, pw) {
+            $.ajax({
+                type : "GET",
+                url: "/ChangePassword?id="+id+"&pw="+pw,
+                success : function(result){
+                    alert("change made successfully");
 
+                    location.reload();
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
+        // Making sure that the password satisfies the requirements
+        function satisyReq() {
+            var password = document.getElementById("modalPasswordChange");
+            console.log("check");
+            var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            if(!password.value.match(passw)){
+                password.style="border-color:red;";
+                alert("Make sure your password satisfied the following format:\n* contains at least one number \n* one uppercase and lowercase letter\n* at least 8 or more characters");
+            }
+            password.style="border-color:black; background:none";
+        }
+        function validatePassword() {
+            var password = document.getElementById("modalPasswordChange")
+                , confirm_password = document.getElementById("modalConfirmPasswordChange");
+            console.log("check");
+            if(password.value != confirm_password.value) {
+                alert("passwords do not match");
+            }
+            var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            if(!password.value.match(passw)){
+                password.style="border-color:red;";
+                alert("Make sure your password satisfied the following format:\n* contains at least one number \n* one uppercase and lowercase letter\n* at least 8 or more characters");
+            }
+            password.style="border-color:black; background:none";
+        }
     </script>
 </head>
 
@@ -165,6 +225,9 @@
                 </div>
                 <div class="contentContainer phoneContainer" name="<%=docID%>">
                     <span class="containerLabel">Phone:</span><span class="phoneContent content"><%=userInfo.phone%></span>
+                </div>
+                <div class="contentContainer dobContainer" name="<%=docID%>">
+                    <span class="containerLabel">Date of Birth:</span><span class="phoneContent content"><%=userInfo.dateofbirth%></span>
                 </div>
                 <div class="contentContainer locationContainer" name="<%=docID%>">
                     <span class="containerLabel">Location:</span><span class="locationContent content"><%=userInfo.city%>, <%=userInfo.state%> <%=userInfo.sipcode%></span>
@@ -225,7 +288,6 @@
     <div class="modal-content">
         <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
         <div class="modal-header">
-            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
             <h4 class="modal-title">Change Username</h4>
         </div>
         <div class="modal-body">
@@ -242,7 +304,6 @@
     <div class="modal-content">
         <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
         <div class="modal-header">
-            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
             <h4 class="modal-title">Change Name</h4>
         </div>
         <div class="modal-body">
@@ -260,7 +321,6 @@
     <div class="modal-content">
         <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
         <div class="modal-header">
-            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
             <h4 class="modal-title">Change Name</h4>
         </div>
         <div class="modal-body">
@@ -277,7 +337,6 @@
     <div class="modal-content">
         <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
         <div class="modal-header">
-            <!--<i class="fa fa-close" style = "font-size:24px;float: right;"onclick="closeModal()"></i>-->
             <h4 class="modal-title">Change Location</h4>
         </div>
         <div class="modal-body">
@@ -291,20 +350,22 @@
         </div>
     </div>
 </div>
+<div class="changeModal" id="passowrdChangeModal">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body">
+            <input type = "password" id = "modalPasswordChange" class = "modalNameChangeInput" placeholder = "Password" value = "" onchange="satisyReq()">
+            <input type = "password" id = "modalConfirmPasswordChange" class = "modalNameChangeInput" placeholder = "Confirm Password" value = "" onchange="validatePassword()">
+
+            <input type = "button" id = "submitPassword" class = "modalSubmitButton" value="Submit">
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+</div>
 </body>
 </html>
-
-<!--User info-->
-
-<!--                <center><button type="button" onclick="alert('You may now edit')">Edit</button></center><br>-->
-<!--                <label for="username">Username: </label><input type="text" name="Username" value="" onFocus="field_focus(this, 'Username');" onblur="field_blur(this, 'Username');" class="Username" required/><br>-->
-<!--                <label for="first name">First Name: </label><input type="text" name="FirstName" value="" onFocus="field_focus(this, 'First Name');" onblur="field_blur(this, 'First Name');" class="First Name" required/><br>-->
-<!--                <label for="last name">Last Name: </label><input type="text" name="LastName" value="" onFocus="field_focus(this, 'Last Name');" onblur="field_blur(this, 'Last Name');" class="Last Name" required/><br>-->
-<!--                <label for="email">E-mail: </label><input type="Email" name="Email" value="" onFocus="field_focus(this, 'Email');" onblur="field_blur(this, 'Email');" class="Email" required/><br>-->
-<!--                <label for="password">Password: </label><input type="Password" name="Password" value="" onFocus="field_focus(this, 'Password');" onblur="field_blur(this, 'Password');" class="Password" required id="myPw"/><br>-->
-<!--                <input type="checkbox" onclick="hidePassword()">Show Password<br>-->
-<!--                <label for="city">City: </label><input type="text" name="City" value="" onFocus="field_focus(this, 'City');" onblur="field_blur(this, 'City');" class="City" required/><br>-->
-<!--                <label for="state">State: </label><input type="text" name="State" value="" onFocus="field_focus(this, 'State');" onblur="field_blur(this, 'State');" class="State" required/><br>-->
-<!--                <label for="secq">Security Question: </label><input type="text" name="SecurityQuestion" value="" onFocus="field_focus(this, 'Security Question');" onblur="field_blur(this, 'Security Question');" class="Security Question" required/><br>-->
-<!--                <label for="answer">Answer:</label><input type="Password" name="Answer" value="" onFocus="field_focus(this, 'Answer');" onblur="field_blur(this, 'Answer');" class="Answer" required id="myAns"/><br>-->
-<!--                <input type="checkbox" onclick="hideAnswer()">Show Answer<br>-->

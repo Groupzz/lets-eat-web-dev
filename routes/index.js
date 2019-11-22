@@ -900,4 +900,18 @@ router.get('/ChangeLocation', function(req,res) {
             return res.send({text: text});
         })
 });
+router.get('/ChangePassword', function(req, res) {
+   var query = require('url').parse(req.url, true).query;
+   var id = query.id;
+   var pw = query.pw;
+
+   auth.currentUser.updatePassword(pw)
+       .then(() => {
+           var text = "Changed password";
+           return res.send({text: text});
+       })
+       .catch((error) => {
+           console.log(error);
+       });
+});
 module.exports = router;

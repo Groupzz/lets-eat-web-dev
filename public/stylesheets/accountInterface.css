@@ -276,6 +276,7 @@ h1 {
 .changePassword:hover {
   background-color: white;
   border-radius: .5em;
+  cursor: pointer;
 }
 .content {
   text-align: right;
