@@ -5,6 +5,7 @@
     <title>Welcome, <%=username%></title>
     <link rel="stylesheet" href="/stylesheets/accountInterface.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function logoff() {
             window.location.href = "/logout";
@@ -27,6 +28,17 @@
         function home() {
             window.location.href = "/home";
         }
+        $(document).ready(function() {
+            var id;
+            $('.editPrefs').click(function() {
+                id = $(this).attr("name");
+                $('#prefsChangeModal').modal({show:true});
+            });
+            $('#submitPrefs').click(function() {
+                ajaxChangePrefs(id, );
+            });
+        });
+
     </script>
 </head>
 
@@ -38,20 +50,47 @@
         <img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"> <!-- for logo -->
         <form method="POST">
             <h1><center>Preferences</center></h1>
-<!--            <center><button type="button" onclick="alert('You may now edit')">Edit</button></center>-->
-            <p align = "left"><input type="checkbox" name="American" value="American" disabled>American<br></p>
-            <p align = "left"><input type="checkbox" name="Mexican" value="Mexican" disabled>Mexican<br></p>
-            <p align = "left"><input type="checkbox" name="Chinese" value="Chinese" disabled>Chinese<br></p>
-            <p align = "left"><input type="checkbox" name="Japanese" value="Japanese" disabled>Japanese<br></p>
-            <p align = "left"><input type="checkbox" name="Thai" value="Thai" disabled>Thai<br></p>
-            <p align = "left"><input type="checkbox" name="Italian" value="Italian" disabled>Italian<br></p>
-            <p align = "left"><input type="checkbox" name="Indian" value="Indian" disabled>Indian<br></p>
-            <p align = "left"><input type="checkbox" name="Greek" value="Greek" disabled>Greek<br></p>
-<!--            <div class="search-container"><center>-->
-<!--                    <form >-->
-<!--                        <button type="submit">Submit</button>-->
-<!--                    </form></center>-->
-<!--            </div>-->
+            <span class="editPrefs" name="<%=docID%>">Edit</span>
+            <%if (prefs.American){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="American" value="American" disabled>American<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="American" value="American" disabled>American<br></p>
+            <%}%>
+            <%if (prefs.Mexican){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Mexican" value="Mexican" disabled>Mexican<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Mexican" value="Mexican" disabled>Mexican<br></p>
+            <%}%>
+            <%if (prefs.Chinese){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Chinese" value="Chinese" disabled>Chinese<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Chinese" value="Chinese" disabled>Chinese<br></p>
+            <%}%>
+            <%if (prefs.Japanese){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Japanese" value="Japanese" disabled>Japanese<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Japanese" value="Japanese" disabled>Japanese<br></p>
+            <%}%>
+            <%if (prefs.Thai){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Thai" value="Thai" disabled>Thai<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Thai" value="Thai" disabled>Thai<br></p>
+            <%}%>
+            <%if (prefs.Italian){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Italian" value="Italian" disabled>Italian<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Italian" value="Italian" disabled>Italian<br></p>
+            <%}%>
+            <%if (prefs.Indian){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Indian" value="Indian" disabled>Indian<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Indian" value="Indian" disabled>Indian<br></p>
+            <%}%>
+            <%if (prefs.Greek){%>
+                <p align = "left"><input type="checkbox" checked="checked" name="Greek" value="Greek" disabled>Greek<br></p>
+            <%} else {%>
+                <p align = "left"><input type="checkbox" name="Greek" value="Greek" disabled>Greek<br></p>
+            <%}%>
         </form>
     </div>
 </div>
@@ -65,6 +104,29 @@
     <a href="/accountInterface/bookmark">Bookmarks</a>
     <a href="/logout">Logout</a>
 </div>
+</div>
+<div class="changeModal" id="prefsChangeModal">
+    <!-- Modal content-->
+    <div class="modal-content1">
+        <div class = "modal-top-header"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+        <div class="modal-header">
+            <h4 class="modal-title">Update Preferences</h4>
+        </div>
+        <div class="modal-body">
+            <p align = "left"><input type="checkbox" id="am" name="American" class = "modalNameChangeInput1">American<br></p>
+            <p align = "left"><input type="checkbox" id="me" name="Mexican" class = "modalNameChangeInput1">Mexican<br></p>
+            <p align = "left"><input type="checkbox" id="ch" name="Chinese" class = "modalNameChangeInput1">Chinese<br></p>
+            <p align = "left"><input type="checkbox" id="ja" name="Japanese" class = "modalNameChangeInput1" >Japanese<br></p>
+            <p align = "left"><input type="checkbox" id="th" name="Thai" class = "modalNameChangeInput1">Thai<br></p>
+            <p align = "left"><input type="checkbox" id="it" name="Italian" class = "modalNameChangeInput1">Italian<br></p>
+            <p align = "left"><input type="checkbox" id="in" name="Indian" class = "modalNameChangeInput1">Indian<br></p>
+            <p align = "left"><input type="checkbox" id="gr" name="Greek" class = "modalNameChangeInput1">Greek<br></p>
+
+            <input type = "button" id = "submitPrefs" class = "modalSubmitButton" name="<%=docID%>" value="Submit">
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -387,6 +387,7 @@ router.get('/accountInterface/preferences', function (req, res) {
                     var docID = preferences.docs[0].id;
                     var timing = new Date();
                     var prefs = preferences.docs[0].data();
+                    console.log(prefs);
                     console.log("Customer ", username," is here at ",timing);
 
                     res.render('Preferences', {title:'Preferences', data: buffer, username, docID, prefs});
