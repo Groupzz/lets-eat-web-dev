@@ -74,7 +74,14 @@
                 ajaxChangeLocation(id, city, state, zip);
             })
 
-
+            $('#modalUserNameChange').on('change', function() {
+                var username = document.getElementById("modalUserNameChange").value;
+                $.get("/isUnique?uname="+username, function (response) {
+                    if (response.UserNameInUse) {
+                        alert("that username is not available");
+                    }
+                })
+            });
           // Change password only
         })
 
