@@ -110,7 +110,7 @@
             $('.restDirections').click(function() {
                 $.ajax({
                     type : "GET",
-                    url: "/getDirections?mylat="+mylat+"&mylong="+mylong+"&reslat="+reslat+"&reslong"+reslng,
+                    url: "/getDirections?reslat="+reslat+"&reslong"+reslng,
                     success : function(result){
                         console.log("Getting directions");
                     },

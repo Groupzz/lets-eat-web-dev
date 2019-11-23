@@ -963,15 +963,11 @@ router.get('/ChangePrefs', function(req, res) {
 /* Get directions */
 router.get('/getDirections', function(req,res) {
     var query = require('url').parse(req.url, true).query;
-    var myloc = {
-        lat: query.mylat,
-        long: query.mylong
-    };
     var resloc = {
         lat: query.reslat,
         long: query.reslong
     };
 
-    res.render('map', {title: 'Directions', data: buffer, myloc, resloc});
+    res.render('map', {title: 'Directions', data: buffer, resloc});
 });
 module.exports = router;
