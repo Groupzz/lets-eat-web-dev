@@ -961,17 +961,17 @@ router.get('/ChangePrefs', function(req, res) {
         });
 });
 /* Get directions */
-router.get('/getDirections', function(req,res) {
-    var query = require('url').parse(req.url, true).query;
+router.post('/getDirections', function(req,res) {
+    //var query = require('url').parse(req.url, true).query;
     var resloc = {
-        lat: query.reslat,
-        long: query.reslong
+        lat: req.body.reslat,
+        long: req.body.reslong
     };
     var myloc = {
-        lat: query.mylat,
-        long: query.mylong
+        lat: req.body.mylat,
+        long: req.body.mylong
     };
-
+    console.log(resloc);
     res.render('map', {title: 'Directions', data: buffer, resloc, myloc});
 });
 module.exports = router;

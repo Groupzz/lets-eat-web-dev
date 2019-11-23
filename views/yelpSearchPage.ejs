@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!--    <script src="http://maps.googleapis.com/maps/api/js"></script>-->
     <script>
+        var reslat,reslong;
         x = navigator.geolocation;
         x.getCurrentPosition(success, failure);
         var mylat,mylong;
@@ -33,6 +34,8 @@
                 success: function(result){
                     if (result.text !== "Do new Search") {
                         restaurant = result.text;
+                        reslat = restaurant.coordinates.latitude;
+                        reslong = restaurant.coordinates.longitude;
                         $('.restName').html(restaurant.name);
                         $('.imageBox').css("background-image","url('"+restaurant.image_url+"')");
                         if (restaurant.price) {
@@ -77,7 +80,6 @@
 
         newRestaurant();
 
-        var reslat,reslng;
         // Functions
         function yelpSite() {
             window.open('https://www.yelp.com/');
@@ -107,18 +109,22 @@
             window.location.href = restaurant.url;
         }
         $(document).ready(function() {
-            $('.restDirections').click(function() {
-                $.ajax({
-                    type : "GET",
-                    url: "/getDirections?reslat="+reslat+"&reslong"+reslng+"&mylat="+mylat+"&mylong="+mylong,
-                    success : function(result){
-                        console.log("Getting directions");
-                    },
-                    error : function(e) {
-                        console.log("ERROR: ", e);
-                    }
-                });
-            });
+            $('#mylat').val(mylat);
+            $('#mylong').val(mylong);
+            $('#reslat').val(reslat);
+            $('#reslong').val(reslong);
+            // $('.restDirections').click(function() {
+            //     $.ajax({
+            //         type : "GET",
+            //         url: "/getDirections?reslat="+reslat+"&reslong"+reslng+"&mylat="+mylat+"&mylong="+mylong,
+            //         success : function(result){
+            //             console.log("Getting directions");
+            //         },
+            //         error : function(e) {
+            //             console.log("ERROR: ", e);
+            //         }
+            //     });
+            // });
         });
         // var directionsService, directionsRenderer, map, startMarker, endMarker,poss;
         // function initMap() {
@@ -262,7 +268,14 @@
                     </div>
                     <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>
                     <span class="restLocation"></span><span class="restPhone"></span>
-                    <span class="restDirections">Get Directions</span>
+                    <form method="POST" action="/getDirections">
+                        <input type="text" id="mylat" name="mylat" hidden/>
+                        <input type="text" id="mylong" name="mylong" hidden/>
+                        <input type="text" id="reslat" name="reslat" hidden/>
+                        <input type="text" id="reslong" name="reslong" hidden/>
+                        <input type="submit" class="restDirections" value="Get Directions"/>
+                    </form>
+
                     <span class="restYelp" onclick="directYelp()">Yelp Page</span>
 <!--                    <div class="mapcontainer">-->
 <!--                        <div id="map"></div>-->

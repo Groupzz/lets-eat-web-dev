@@ -236,8 +236,10 @@ li div{
 .restDirections {
     position: fixed;
     left: 45%;
-    margin-top: 13%;
+    margin-top: 15%;
     text-decoration: underline;
+    border: none;
+    font-size: 18px;
 }
 .restDirections:hover {
     color: #dbc8a7;
@@ -245,8 +247,8 @@ li div{
 }
 .restYelp {
     position: fixed;
-    left: 53%;
-    margin-top: 13%;
+    left: 55%;
+    margin-top: 15%;
     text-decoration: underline;
 }
 .restYelp:hover {
