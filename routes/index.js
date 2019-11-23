@@ -962,7 +962,6 @@ router.get('/ChangePrefs', function(req, res) {
 });
 /* Get directions */
 router.post('/getDirections', function(req,res) {
-    //var query = require('url').parse(req.url, true).query;
     var resloc = {
         lat: req.body.reslat,
         long: req.body.reslong
@@ -973,5 +972,36 @@ router.post('/getDirections', function(req,res) {
     };
     console.log(resloc);
     res.render('map', {title: 'Directions', data: buffer, resloc, myloc});
+});
+
+/* Bookmark restaurant */
+router.get('bookmarkRest', function(req,res) {
+    var query = require('url').parse(req.url, true).query;
+    var restId = query.id;
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            db.collection('likedRestaurants').where('id','==',user.uid).get()
+                .then((liked) => {
+                    var isFound = false;
+                    var list = friendss.data().friends;
+                    list.forEach(function(item) {
+                        if (item === friendUser) {
+                            console.log("already have that person as a friend");
+                            isFound = true;
+                        }
+                    });
+
+                    // if user is already in the friends list
+                    if (isFound) {
+                    db.collection('likedRestaurants').doc(liked.docs[0].id).update({
+
+                    })
+                    }
+                })
+        } else {
+            console.log("impossible to get this far");
+        }
+    })
 });
 module.exports = router;

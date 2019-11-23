@@ -108,23 +108,38 @@
         function directYelp() {
             window.location.href = restaurant.url;
         }
+        function ajaxBookmarkRestaurant(id) {
+            $.ajax({
+                type : "GET",
+                url: "/bookmarkRest?id="+id,
+                success : function(result){
+                    alert("change made successfully");
+
+                    location.reload();
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
         $(document).ready(function() {
             $('#mylat').val(mylat);
             $('#mylong').val(mylong);
             $('#reslat').val(reslat);
             $('#reslong').val(reslong);
-            // $('.restDirections').click(function() {
-            //     $.ajax({
-            //         type : "GET",
-            //         url: "/getDirections?reslat="+reslat+"&reslong"+reslng+"&mylat="+mylat+"&mylong="+mylong,
-            //         success : function(result){
-            //             console.log("Getting directions");
-            //         },
-            //         error : function(e) {
-            //             console.log("ERROR: ", e);
-            //         }
-            //     });
-            // });
+
+            $('.bookmark').click(function() {
+                console.log("bookmark has been clicked on");
+                var un = $('.bookmark').attr("name");
+                if (un.match("")) {
+                    console.log("not logged in");
+                    alert("Must be logged in to bookmark restaurant")
+                } else {
+                    console.log("Logged in");
+                    var id = restaurant.id;
+                    ajaxBookmarkRestaurant(id);
+                }
+            });
         });
         // var directionsService, directionsRenderer, map, startMarker, endMarker,poss;
         // function initMap() {
@@ -263,6 +278,7 @@
                     <div class="nameandclosedContainer">
                         <span class="restName" id="restName"></span><span class="isClosed"></span>
                     </div>
+                    <span class="bookmark" name="<%=un%>"><i class="fa fa-bookmark-o" aria-hidden="true"></i></span>
                     <div class="pranrdaContainer">
                         <span class="restPriceandRating"></span>
                     </div>
@@ -277,21 +293,11 @@
                     </form>
 
                     <span class="restYelp" onclick="directYelp()">Yelp Page</span>
-<!--                    <div class="mapcontainer">-->
-<!--                        <div id="map"></div>-->
-<!--                    </div>-->
                 </div>
                 <div class="refreshContainer">
                     <input type="button" value="New Restaurant" class ="refreshButton" id="refresh" onclick="newRestaurant()">
                 </div>
-
             </div>
-
-
-<!--            <script async defer-->
-<!--                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApKBreU4wt1M8_x0wa5wHmYCt5MNHMum4-->
-<!--&callback=initMap">-->
-<!--            </script>-->
         </div>
     </div>
 

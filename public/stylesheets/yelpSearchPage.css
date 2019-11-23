@@ -190,7 +190,14 @@ li div{
 .isClosed {
     margin-left: 40px;
 }
-
+.bookmark {
+    position: fixed;
+    top: 14%;
+    right: 18%;
+}
+.bookmark:hover {
+    cursor: pointer;
+}
 /* Content Area end */
 .imageBox {
     height: 30%;
