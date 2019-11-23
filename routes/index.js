@@ -967,7 +967,11 @@ router.get('/getDirections', function(req,res) {
         lat: query.reslat,
         long: query.reslong
     };
+    var myloc = {
+        lat: query.mylat,
+        long: query.mylong
+    };
 
-    res.render('map', {title: 'Directions', data: buffer, resloc});
+    res.render('map', {title: 'Directions', data: buffer, resloc, myloc});
 });
 module.exports = router;
