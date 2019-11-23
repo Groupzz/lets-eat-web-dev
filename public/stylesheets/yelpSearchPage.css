@@ -245,8 +245,6 @@ li div{
     left: 45%;
     margin-top: 15%;
     text-decoration: underline;
-    border: none;
-    font-size: 18px;
 }
 .restDirections:hover {
     color: #dbc8a7;

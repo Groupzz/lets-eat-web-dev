@@ -961,17 +961,17 @@ router.get('/ChangePrefs', function(req, res) {
         });
 });
 /* Get directions */
-router.post('/getDirections', function(req,res) {
+router.get('/getDirections', function(req,res) {
+    // var resloc = {
+    //     lat: req.body.reslat,
+    //     long: req.body.reslong
+    // };
     var resloc = {
-        lat: req.body.reslat,
-        long: req.body.reslong
-    };
-    var myloc = {
-        lat: req.body.mylat,
-        long: req.body.mylong
+        lat: restaurants[restaurants.length - 1].coordinates.latitude,
+        long: restaurants[restaurants.length - 1].coordinates.longitude
     };
     console.log(resloc);
-    res.render('map', {title: 'Directions', data: buffer, resloc, myloc});
+    res.render('map', {title: 'Directions', data: buffer, resloc});
 });
 
 /* Bookmark restaurant */
