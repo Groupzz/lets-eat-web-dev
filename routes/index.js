@@ -962,10 +962,6 @@ router.get('/ChangePrefs', function(req, res) {
 });
 /* Get directions */
 router.get('/getDirections', function(req,res) {
-    // var resloc = {
-    //     lat: req.body.reslat,
-    //     long: req.body.reslong
-    // };
     var resloc = {
         lat: restaurants[restaurants.length - 1].coordinates.latitude,
         long: restaurants[restaurants.length - 1].coordinates.longitude
@@ -975,7 +971,7 @@ router.get('/getDirections', function(req,res) {
 });
 
 /* Bookmark restaurant */
-router.get('bookmarkRest', function(req,res) {
+router.get('/bookmarkRest', function(req,res) {
     var query = require('url').parse(req.url, true).query;
     var restId = query.id;
     auth.onAuthStateChanged(function(user) {
@@ -983,20 +979,27 @@ router.get('bookmarkRest', function(req,res) {
         if(user) {
             db.collection('likedRestaurants').where('id','==',user.uid).get()
                 .then((liked) => {
+                    var id = liked.docs[0].id;
                     var isFound = false;
-                    var list = friendss.data().friends;
+                    var list = liked.docs[0].data().restaurantIDs;
                     list.forEach(function(item) {
-                        if (item === friendUser) {
-                            console.log("already have that person as a friend");
+                        if (item === restId) {
+                            console.log("already bookmarked the restaurant");
                             isFound = true;
                         }
                     });
 
-                    // if user is already in the friends list
+                    // if user already bookmarked the restaurant
                     if (isFound) {
-                    db.collection('likedRestaurants').doc(liked.docs[0].id).update({
-
-                    })
+                        var text = "In";
+                        return res.send({text: text});
+                    } else {
+                        list.push(restId);
+                        db.collection('likedRestaurants').doc(id).update({
+                            restaurantIDs: list
+                        })
+                        var text = "Added to db";
+                        return res.send({text: text});
                     }
                 })
         } else {

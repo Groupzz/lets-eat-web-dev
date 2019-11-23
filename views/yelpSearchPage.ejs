@@ -115,9 +115,11 @@
                 type : "GET",
                 url: "/bookmarkRest?id="+id,
                 success : function(result){
-                    alert("change made successfully");
-
-                    location.reload();
+                    if (result.text.match("In")) {
+                        alert("Already bookmarked this restaurant.");
+                    } else {
+                        alert("Successfully bookmarked restaurant.");
+                    }
                 },
                 error : function(e) {
                     console.log("ERROR: ", e);
@@ -128,7 +130,8 @@
             $('.bookmark').click(function() {
                 console.log("bookmark has been clicked on");
                 var un = $('.bookmark').attr("name");
-                if (un.match("")) {
+                console.log(un);
+                if (un === "") {
                     console.log("not logged in");
                     alert("Must be logged in to bookmark restaurant")
                 } else {

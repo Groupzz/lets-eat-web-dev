@@ -193,7 +193,7 @@ li div{
 .bookmark {
     position: fixed;
     top: 14%;
-    right: 18%;
+    right: 25%;
 }
 .bookmark:hover {
     cursor: pointer;
