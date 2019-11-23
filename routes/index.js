@@ -409,11 +409,23 @@ router.get('/accountInterface/bookmark', function (req, res) {
                 .then((bookmarks) => {
                     var username = user.displayName;
                     var docID = bookmarks.docs[0].id;
+                    var bkmksID = bookmarks.docs[0].data().restaurantIDs;
+                    // var bkmks = [];
+                    // for (var i = 0; i < bkmksID.length; i++) {
+                    //     client.search({
+                    //         id: bkmksID[i]
+                    //     })
+                    //         .then(response => {
+                    //             console.log("Business:",response.jsonBody.businesses);
+                    //         })
+                    //         .catch((e) => {
+                    //             console.log(e);
+                    //         });
+                    // }
                     var timing = new Date();
-                    var bkmks = bookmarks.docs[0].data().restaurantIDs;
                     console.log("Customer ", username," is here at ",timing);
 
-                    res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID, bkmks});
+                    res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID, bkmksID});
                 })
                 .catch((error) => {
                     console.log(error);

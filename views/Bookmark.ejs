@@ -41,9 +41,9 @@
             <h1><center>Bookmarks</center></h1>
             <center>
                 <ul style="list-style-type:none;">
-                    <li>Bookmark 1 - Restaurant, Location</li>
-                    <li>Bookmark 2 - Restaurant, Location</li>
-                    <li>Bookmark 3 - Restaurant, Location</li>
+                    <%for (var i = 0; i < bkmksID.length; i++) {%>
+                    <li><%=bkmksID[i]%> - Restaurant, Location</li>
+                    <%}%>
                 </ul>
             </center>
         </div>
