@@ -6,11 +6,14 @@
     <meta charset="utf-8">
     <link rel="'stylesheet" href="/stylesheets/map.css">
     <link rel="icon" href='/images/logo2.gif'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Directions</title>
 </head>
 <body>
 <div id="right-panel"></div>
 <div id="map"></div>
+<input id="lat" name="<%=resloc.lat%>" hidden/>
+<input id="lng" name="<%=resloc.long%>" hidden/>
 <script>
     x = navigator.geolocation;
     x.getCurrentPosition(success, failure);
@@ -28,29 +31,21 @@
     function initMap() {
         var directionsRenderer = new google.maps.DirectionsRenderer;
         var directionsService = new google.maps.DirectionsService;
-        // var lat = $('#lat').attr('name');
-        // var lng = $('#long').attr('name');
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 7,
             center: {lat: ((<%=resloc.lat%>+mylat)/2), lng: ((<%=resloc.long%>+mylong)/2)}
         });
         directionsRenderer.setMap(map);
         directionsRenderer.setPanel(document.getElementById('right-panel'));
-
-        // var control = document.getElementById('floating-panel');
-        // control.style.display = 'block';
-        // map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
-
-        // var onChangeHandler = function() {
-            calculateAndDisplayRoute(directionsService, directionsRenderer);
-        // };
-        // document.getElementById('start').addEventListener('change', onChangeHandler);
-        // document.getElementById('end').addEventListener('change', onChangeHandler);
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
     }
 
     function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        var lat = parseFloat($('#lat').attr('name'));
+        var lng = parseFloat($('#lng').attr('name'));
+        console.log(typeof lat);
         var start = {lat: mylat, lng: mylong};
-        var end = {lat: <%=resloc.lat%>, lng: <%=resloc.long%>};
+        var end = {lat: lat, lng: lng};
         directionsService.route({
             origin: start,
             destination: end,
