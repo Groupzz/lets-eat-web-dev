@@ -95,6 +95,23 @@ router.get('/home', function(req,res) {
     });
 });
 
+/* GET advanced search */
+router.get('/advancedSearch', function(req,res) {
+    auth.onAuthStateChanged(function(user) {
+        var un = null;
+        // Signed in
+        if(user) {
+            un = user.displayName;
+            var timing = new Date();
+            console.log("Home: customer ", un, " is here ", timing);
+            res.render('advancedSearch', { title: 'Default' , data: buffer, un});
+        } else {
+            console.log("Home:", un);
+            res.render('advancedSearch', { title: 'Default' , data: buffer, un});
+        }
+    });
+});
+
 /* GET login page */
 router.get('/login', function(req,res) {
     var buffer = "";
@@ -439,6 +456,8 @@ router.get('/accountInterface/bookmark', function (req, res) {
 
 /* POST restaurant search */
 router.post('/restaurantSearch', function(req,res) {
+    restaurants = [];
+    used = [];
     var searchTerm = req.body.term;
     var location = req.body.location;
     var loc = location.split(",");
@@ -1018,5 +1037,37 @@ router.get('/bookmarkRest', function(req,res) {
             console.log("impossible to get this far");
         }
     })
+});
+/* Gets restaurants based on advanced search */
+router.post('/advance', function(req,res) {
+    var am = false, me = false, ch = false, ja = false, th = false, it = false, ind = false, gr = false;
+    console.log(typeof req.body.American+"Value "+req.body.American);
+    // if (req.body.American.match("true")) am = true;
+    // if (query.me.match("true")) me = true;
+    // if (query.ja.match("true")) ja = true;
+    // if (query.ch.match("true")) ch = true;
+    // if (query.th.match("true")) th = true;
+    // if (query.it.match("true")) it = true;
+    // if (query.ind.match("true")) ind = true;
+    // if (query.gr.match("true")) gr = true;
+    restaurants = [];
+    used = [];
+    var searchTerm = "";
+    var title = "Advanced Search";
+    var un = null;
+    auth.onAuthStateChanged(function(user) {
+        // Signed in
+        if(user) {
+            un = user.displayName;
+            var timing = new Date();
+            console.log("Yelp: customer ", un, " is here ", timing);
+            //restaurants was passed through here
+            res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+        } else {
+            console.log("Yelp:",un);
+            //restaurants was passed through here
+            res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+        }
+    });
 });
 module.exports = router;

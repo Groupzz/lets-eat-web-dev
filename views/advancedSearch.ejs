@@ -2,58 +2,96 @@
 <html>
 <head>
     <link rel="icon" href='/images/logo2.gif'>
-    <title>Welcome, <%=username%></title>
+    <title>Welcome, <%=un%></title>
     <link rel="stylesheet" href="/stylesheets/advancedSearch.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        function home() {
+            window.location.href = "/home";
+        }
+        beforeSubmit = function(){
+            if (1 == 1){
+                var am = document.getElementById('am');
+                var mex = document.getElementById('mex');
+                var ja = document.getElementById('ja');
+                var ko = document.getElementById('ko');
+                var ch = document.getElementById('ch');
+                var ind = document.getElementById('ind');
+                var th = document.getElementById('th');
+                var med = document.getElementById('med');
+                var it = document.getElementById('it');
+                var fr = document.getElementById('fr');
+                var one = document.getElementById('one');
+                var two = document.getElementById('two');
+                var three = document.getElementById('three');
+                var four = document.getElementById('four');
+                var open = document.getElementById('open');
+                am.value = am.checked;
+                mex.value = mex.checked;
+                ja.value = ja.checked;
+                ko.value = ko.checked;
+                ch.value = ch.checked;
+                ind.value = ind.checked;
+                th.value = th.checked;
+                med.value = med.checked;
+                it.value = it.checked;
+                fr.value = fr.checked;
+                one.value = one.checked;
+                two.value = two.checked;
+                three.value = three.checked;
+                four.value = four.checked;
+                open.value = open.checked;
+            }
+            $("#advanceSearchForm").submit();
+        }
+    </script>
 </head>
-
 <body>
-
 <div class="wrapper">
     <center><img src="/images/logo2.gif" alt="Logo" class="center logo" onclick="home()"></center><br> <!-- for logo -->
     <div class = "box">
         <div class="topnav">
             <div class="search-container">
-              <form action="/action_page.php">
-              <h1><center>Advanced Search</center></h1>
-              <br><center><input type="text" placeholder="In The Mood For... " name="search">
-              <br><center><input type="text" placeholder="Where? " name="search">              
-              </form>
+<!--              <form>-->
+<!--              <h1><center>Advanced Search</center></h1>-->
+<!--              <br><center><input type="text" placeholder="In The Mood For... " name="search">-->
+<!--              <br><center><input type="text" placeholder="Where? " name="search">              -->
+<!--              </form>-->
               
             </div>
             <div class="box">
-            <form style = "height:680px;" method="POST" action="/pref"> <!--maybe change this-->
+            <form style = "height:680px;" method="POST" action="/advance" id="advanceSearchForm"> <!--maybe change this-->
                 <div style="float:left;" >
                     <h1 ><center>Cuisine</center></h1>
-                    <p align = "left"><input type="checkbox" name="American" value="American">American<br></p>
-                    <p align = "left"><input type="checkbox" name="Mexican" value="Mexican">Mexican<br></p>
-                    <p align = "left"><input type="checkbox" name="Japanese" value="Japanese">Japanese<br></p>
-                    <p align = "left"><input type="checkbox" name="Korean" value="Korean">Korean<br></p>
-                    <p align = "left"><input type="checkbox" name="Chinese" value="Chinese">Chinese<br></p>
-                    <p align = "left"><input type="checkbox" name="Indian" value="Indian">Indian<br></p>           
-                    <p align = "left"><input type="checkbox" name="Thai" value="Thai">Thai<br></p>
-                    <p align = "left"><input type="checkbox" name="Mediterranean" value="Mediterranean">Mediterranean<br></p>
-                    <p align = "left"><input type="checkbox" name="Italian" value="Italian">Italian<br></p>
-                    <p align = "left"><input type="checkbox" name="French" value="French">French<br></p>
+                    <p align = "left"><input type="checkbox" id="am" name="American" value="American">American<br></p>
+                    <p align = "left"><input type="checkbox" id="mex" name="Mexican" value="Mexican">Mexican<br></p>
+                    <p align = "left"><input type="checkbox" id="ja" name="Japanese" value="Japanese">Japanese<br></p>
+                    <p align = "left"><input type="checkbox" id="ko" name="Korean" value="Korean">Korean<br></p>
+                    <p align = "left"><input type="checkbox" id="ch" name="Chinese" value="Chinese">Chinese<br></p>
+                    <p align = "left"><input type="checkbox" id="ind" name="Indian" value="Indian">Indian<br></p>
+                    <p align = "left"><input type="checkbox" id="th" name="Thai" value="Thai">Thai<br></p>
+                    <p align = "left"><input type="checkbox" id="med" name="Mediterranean" value="Mediterranean">Mediterranean<br></p>
+                    <p align = "left"><input type="checkbox" id="it" name="Italian" value="Italian">Italian<br></p>
+                    <p align = "left"><input type="checkbox" id="fr" name="French" value="French">French<br></p>
                 </div>
                 <div style="float:right;">
                     <h1><center>Price Range</center></h1>
-                    <p align = "left"><input type="checkbox" name="$" value="$">$<br></p>
-                    <p align = "left"><input type="checkbox" name="$$" value="$$">$$<br></p>
-                    <p align = "left"><input type="checkbox" name="$$$" value="$$$">$$$<br></p>
-                    <p align = "left"><input type="checkbox" name="$$$$" value="$$$$">$$$$<br></p>
+                    <p align = "left"><input type="checkbox" id="one" name="$" value="$">$<br></p>
+                    <p align = "left"><input type="checkbox" id="two" name="$$" value="$$">$$<br></p>
+                    <p align = "left"><input type="checkbox" id="three" name="$$$" value="$$$">$$$<br></p>
+                    <p align = "left"><input type="checkbox" id="four" name="$$$$" value="$$$$">$$$$<br></p>
                 </div>
                 <div class="slidecontainer">
                     <h1 style="float:center;   margin-top:420px;">Max Distance</h1>
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange" name="distance">
                     <p><center>Miles: <span id="demo"></span></center></p>
                 </div>
                 <div>
-                    <br><input type="checkbox" name="Open Now" value="Open Now">Open Now
+                    <br><input type="checkbox" id="open" name="Open Now" value="Open Now">Open Now
                 </div>
                 <div >
-                    <button style ="margin-top:38px; float:right; color:#ff80d5; font-family:Helvetica; width: 100%; height: 30px; font-size: larger; " type="submit"><strong>Search</strong></button></center>
+                    <input style ="margin-top:38px; float:right; color:#ff80d5; font-family:Helvetica; width: 100%; height: 30px; font-size: larger; " type="button" value="Search" onclick="beforeSubmit()"/></center>
                 </div>
             </form>
             </div>
