@@ -34,7 +34,6 @@
                 type: "GET",
                 url: "/requestRest",
                 success: function(result){
-                    console.log(result.text);
                     if (result.text !== "Do new search" && result.text !== "No results were found") {
                         restaurant = result.text;
                         reslat = restaurant.coordinates.latitude;
@@ -70,7 +69,7 @@
                     }
                     else {
                         console.log('End of list');
-                        $('.refreshButton').prop('disable', true);
+                        document.querySelector('.refreshButton').disabled = true;
                         $('.refreshButton').attr('value','Do New Search')
                         $('.restEle').html('Do new Search');
                         $('.restEle').css('text-align','center');

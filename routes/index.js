@@ -461,7 +461,6 @@ router.post('/restaurantSearch', function(req,res) {
     var searchTerm = req.body.term;
     var location = req.body.location;
     var loc = location.split(",");
-    console.log(loc);
     if (loc.length != 2) {
         client.search({
             term: searchTerm,
@@ -797,7 +796,6 @@ router.get("/logout", function(req, res){
 
 /* GET a restaurant from the search */
 router.get('/requestRest', function(req, res) {
-    console.log(restaurants.length == used.length);
     if (restaurants.length === 0) {
         console.log("no results were found");
         var text = "No results were found";
@@ -812,7 +810,6 @@ router.get('/requestRest', function(req, res) {
        if (used.length === restaurants.length) {
            used.push("end");
        }
-       console.log(restaurants[i]);
        res.send({text: restaurants[i]});
     }
     else if (used.length > restaurants.length) {
