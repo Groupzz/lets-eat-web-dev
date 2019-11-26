@@ -427,22 +427,46 @@ router.get('/accountInterface/bookmark', function (req, res) {
                     var username = user.displayName;
                     var docID = bookmarks.docs[0].id;
                     var bkmksID = bookmarks.docs[0].data().restaurantIDs;
-                    // var bkmks = [];
-                    // for (var i = 0; i < bkmksID.length; i++) {
-                    //     client.search({
-                    //         id: bkmksID[i]
-                    //     })
-                    //         .then(response => {
-                    //             console.log("Business:",response.jsonBody.businesses);
-                    //         })
-                    //         .catch((e) => {
-                    //             console.log(e);
-                    //         });
-                    // }
-                    var timing = new Date();
-                    console.log("Customer ", username," is here at ",timing);
+                    var bkmkslist = [];
 
-                    res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID, bkmksID});
+
+                        for (var i = 0; i < bkmksID.length; i++) {
+                            const bookmarkPromise = new Promise((res,rej) => {
+                                client.business(bkmksID[i])
+                                    .then(business => {
+                                        console.log("Business ", business.body);
+                                        // bkmks.push(business.body);
+                                        // console.log("In the loop", bkmks);
+                                        // if ( i === bkmksID.length - 1) {
+                                        //     res()
+                                        // }
+                                        res(business.body);
+                                    });
+                            })
+                                .then((buss) => {
+                                    const businessPromise = new Promise((res,rej) => {
+                                        console.log(buss);
+                                        bkmkslist.push(buss);
+                                        console.log(bkmkslist.length);
+                                        if (bkmkslist.length === bkmksID.length - 1) {
+                                            res(bkmkslist)
+                                        }
+                                    })
+                                        .then((bkmks) => {
+                                            console.log(bkmks);
+                                            console.log("Got all the restaurants information");
+                                            console.log("In the then area",bkmks.length);
+                                            var timing = new Date();
+                                            console.log("Customer ", username," is here at ",timing);
+
+                                            res.render('Bookmark', {title:'Bookmark', data: buffer, username, docID, bkmksID});
+                                        })
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
+                        }
+
                 })
                 .catch((error) => {
                     console.log(error);
