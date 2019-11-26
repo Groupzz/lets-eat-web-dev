@@ -520,6 +520,40 @@ router.post('/restaurantSearch', function(req,res) {
     }
 });
 
+/* POST restaurant search in top navigation bar */
+router.post('/restSearch', function(req, res) {
+    restaurants = [];
+    used = [];
+    client.search({
+        term: req.body.search,
+        latitude: req.body.lat,
+        longitude: req.body.lng
+    })
+        .then(response => {
+            restaurants = response.jsonBody.businesses;
+            var title = "searching for... ";
+            var un = null;
+            var searchTerm = req.body.search;
+            auth.onAuthStateChanged(function(user) {
+                // Signed in
+                if(user) {
+                    un = user.displayName;
+                    var timing = new Date();
+                    console.log("Yelp: customer ", un, " is here ", timing);
+                    //restaurants was passed through here
+                    res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+                } else {
+                    console.log("Yelp:",un);
+                    //restaurants was passed through here
+                    res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+                }
+            });
+        })
+        .catch(e => {
+            console.log(e);
+        });
+});
+
 /* GET check username */
 router.get('/isUnique', function(req, res) {
     var query = require('url').parse(req.url, true).query;
@@ -763,16 +797,25 @@ router.get("/logout", function(req, res){
 
 /* GET a restaurant from the search */
 router.get('/requestRest', function(req, res) {
-    if (used.length <= restaurants.length) {
+    console.log(restaurants.length == used.length);
+    if (restaurants.length === 0) {
+        console.log("no results were found");
+        var text = "No results were found";
+        res.send({text: text});
+    }
+    else if (used.length <= restaurants.length) {
        var i = (Math.random() * restaurants.length) | 0;
        while (used.includes(i)) {
            i = (Math.random() * restaurants.length) | 0;
        }
        used.push(i);
+       if (used.length === restaurants.length) {
+           used.push("end");
+       }
        console.log(restaurants[i]);
        res.send({text: restaurants[i]});
     }
-    else if (used.length == restaurants.length) {
+    else if (used.length > restaurants.length) {
         console.log("choose another one");
         var text = "Do new search";
         res.send({text: text});
@@ -1040,34 +1083,97 @@ router.get('/bookmarkRest', function(req,res) {
 });
 /* Gets restaurants based on advanced search */
 router.post('/advance', function(req,res) {
-    var am = false, me = false, ch = false, ja = false, th = false, it = false, ind = false, gr = false;
-    console.log(typeof req.body.American+"Value "+req.body.American);
-    // if (req.body.American.match("true")) am = true;
-    // if (query.me.match("true")) me = true;
-    // if (query.ja.match("true")) ja = true;
-    // if (query.ch.match("true")) ch = true;
-    // if (query.th.match("true")) th = true;
-    // if (query.it.match("true")) it = true;
-    // if (query.ind.match("true")) ind = true;
-    // if (query.gr.match("true")) gr = true;
+    var categories = "", price = "";
     restaurants = [];
     used = [];
-    var searchTerm = "";
-    var title = "Advanced Search";
-    var un = null;
-    auth.onAuthStateChanged(function(user) {
-        // Signed in
-        if(user) {
-            un = user.displayName;
-            var timing = new Date();
-            console.log("Yelp: customer ", un, " is here ", timing);
-            //restaurants was passed through here
-            res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
-        } else {
-            console.log("Yelp:",un);
-            //restaurants was passed through here
-            res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
-        }
-    });
+    if (!!req.body.American) categories += ("American,");
+    if (!!req.body.Mexican) categories += ("Mexican,");
+    if (!!req.body.Japanese) categories += ("Japanese,");
+    if (!!req.body.Korean) categories += ("Korean,");
+    if (!!req.body.Chinese) categories += ("Chinese,");
+    if (!!req.body.Indian) categories += ("Indian,");
+    if (!!req.body.Thai) categories += ("Thai,");
+    if (!!req.body.Mediterranean) categories += ("Mediterranean,");
+    if (!!req.body.Italian) categories += ("Italian,");
+    if (!!req.body.French) categories += ("French");
+
+    if (!!req.body.One) price += ("1,");
+    if (!!req.body.Two) price += ("2,");
+    if (!!req.body.Three) price += ("3,");
+    if (!!req.body.Four) price += ("4");
+    if (categories.endsWith(",")) {
+        categories = categories.substring(0, categories.length - 1);
+        console.log(categories);
+    }
+    if (price.endsWith(",")) {
+        price = price.substring(0, price.length - 1);
+        console.log(price);
+    }
+    if (price.match("")) {
+        client.search({
+            latitude: req.body.lat,
+            longitude: req.body.lng,
+            categories: categories,
+            radius: req.body.distance,
+            open_now: !!req.body.OpenNow
+        })
+            .then(response => {
+                restaurants = response.jsonBody.businesses;
+                console.log("Restaurants ",restaurants);
+                var searchTerm = "";
+                var title = "Advanced Search";
+                var un = null;
+                auth.onAuthStateChanged(function (user) {
+                    // Signed in
+                    if (user) {
+                        un = user.displayName;
+                        var timing = new Date();
+                        console.log("Yelp: customer ", un, " is here ", timing);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+                    } else {
+                        console.log("Yelp:", un);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+                    }
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } else {
+        client.search({
+            latitude: req.body.lat,
+            longitude: req.body.lng,
+            categories: categories,
+            radius: req.body.distance,
+            open_now: !!req.body.OpenNow,
+            price: price
+        })
+            .then(response => {
+                restaurants = response.jsonBody.businesses;
+                console.log("Restaurants ",restaurants);
+                var searchTerm = "";
+                var title = "Advanced Search";
+                var un = null;
+                auth.onAuthStateChanged(function (user) {
+                    // Signed in
+                    if (user) {
+                        un = user.displayName;
+                        var timing = new Date();
+                        console.log("Yelp: customer ", un, " is here ", timing);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+                    } else {
+                        console.log("Yelp:", un);
+                        //restaurants was passed through here
+                        res.render('yelpSearchPage', {title: title, data: buffer, searchTerm, un});
+                    }
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 });
 module.exports = router;

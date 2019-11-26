@@ -40,7 +40,7 @@ img {
 /* Search bar start */
 .searchBar {
     background-image: url('/images/searchicon.png');
-    background-size: 20px;
+    background-size: 12px;
     background-position-y: center;
     background-position-x: center;
     position: absolute;
@@ -61,6 +61,19 @@ img {
     padding: 3px 20px 3px 40px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
+}
+.searchBarSubmit {
+    position: absolute;
+    left:80px;
+    top:8px;
+    text-align: center;
+    float: left;
+    margin-top: 3px;
+    margin-left: 500px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
 }
 
 /* Search bar end */
@@ -193,7 +206,7 @@ li div{
 .bookmark {
     position: fixed;
     top: 14%;
-    right: 25%;
+    right: 20%;
 }
 .bookmark:hover {
     cursor: pointer;

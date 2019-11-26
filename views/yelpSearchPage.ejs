@@ -18,7 +18,10 @@
         function success(position) {
             mylat = position.coords.latitude;
             mylong = position.coords.longitude;
-
+            var lat = document.getElementById('lat');
+            lat.value = mylat;
+            var long = document.getElementById('lng');
+            long.value = mylong;
             console.log(mylat);
             console.log(mylong);
         }
@@ -31,7 +34,8 @@
                 type: "GET",
                 url: "/requestRest",
                 success: function(result){
-                    if (result.text !== "Do new Search") {
+                    console.log(result.text);
+                    if (result.text !== "Do new search" && result.text !== "No results were found") {
                         restaurant = result.text;
                         reslat = restaurant.coordinates.latitude;
                         reslong = restaurant.coordinates.longitude;
@@ -66,9 +70,10 @@
                     }
                     else {
                         console.log('End of list');
-                        $('.refreshButton').attr('disable', true);
+                        $('.refreshButton').prop('disable', true);
                         $('.refreshButton').attr('value','Do New Search')
                         $('.restEle').html('Do new Search');
+                        $('.restEle').css('text-align','center');
                     }
                 },
                 error: function(e) {
@@ -152,11 +157,14 @@
             <div class="top_image">
                 <img src="/images/logo2.gif" alt="Avatar" class = "round-image" onclick = "home()">
             </div>
-            <!--        <div id="searchBarContainer">-->
-            <!--            <form>-->
-            <!--                <input class="searchBar" type="search" name="search" placeholder="Deliciousness is just a click away.....">-->
-            <!--            </form>-->
-            <!--        </div>-->
+                    <div id="searchBarContainer">
+                        <form method="POST" action="/restSearch">
+                            <input id="lat" name="lat" hidden/>
+                            <input id="lng" name="lng" hidden>
+                            <input class="searchBar" type="search" name="search" placeholder="Deliciousness is just a click away.....">
+                            <input type="submit" value="" class="searchBarSubmit"/>
+                        </form>
+                    </div>
             <%if(un!=null){%>
                 <div class="dropdown">
                     <button class="dropbtn"><i class="fa fa-user-circle-o fa-3x" aria-hidden="false"></i>

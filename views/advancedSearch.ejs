@@ -10,40 +10,22 @@
         function home() {
             window.location.href = "/home";
         }
-        beforeSubmit = function(){
-            if (1 == 1){
-                var am = document.getElementById('am');
-                var mex = document.getElementById('mex');
-                var ja = document.getElementById('ja');
-                var ko = document.getElementById('ko');
-                var ch = document.getElementById('ch');
-                var ind = document.getElementById('ind');
-                var th = document.getElementById('th');
-                var med = document.getElementById('med');
-                var it = document.getElementById('it');
-                var fr = document.getElementById('fr');
-                var one = document.getElementById('one');
-                var two = document.getElementById('two');
-                var three = document.getElementById('three');
-                var four = document.getElementById('four');
-                var open = document.getElementById('open');
-                am.value = am.checked;
-                mex.value = mex.checked;
-                ja.value = ja.checked;
-                ko.value = ko.checked;
-                ch.value = ch.checked;
-                ind.value = ind.checked;
-                th.value = th.checked;
-                med.value = med.checked;
-                it.value = it.checked;
-                fr.value = fr.checked;
-                one.value = one.checked;
-                two.value = two.checked;
-                three.value = three.checked;
-                four.value = four.checked;
-                open.value = open.checked;
-            }
-            $("#advanceSearchForm").submit();
+        // Geolocation
+        x = navigator.geolocation;
+        x.getCurrentPosition(success, failure);
+        var mylat,mylong;
+        function success(position) {
+            mylat = position.coords.latitude;
+            mylong = position.coords.longitude;
+            var lat = document.getElementById('lat');
+            lat.value = mylat;
+            var long = document.getElementById('lng');
+            long.value = mylong;
+            console.log(mylat);
+            console.log(mylong);
+        }
+        function failure() {
+            console.log("It didn't work");
         }
     </script>
 </head>
@@ -62,36 +44,38 @@
             </div>
             <div class="box">
             <form style = "height:680px;" method="POST" action="/advance" id="advanceSearchForm"> <!--maybe change this-->
+                <input id="lat" name="lat" hidden/>
+                <input id="lng" name="lng" hidden>
                 <div style="float:left;" >
                     <h1 ><center>Cuisine</center></h1>
-                    <p align = "left"><input type="checkbox" id="am" name="American" value="American">American<br></p>
-                    <p align = "left"><input type="checkbox" id="mex" name="Mexican" value="Mexican">Mexican<br></p>
-                    <p align = "left"><input type="checkbox" id="ja" name="Japanese" value="Japanese">Japanese<br></p>
-                    <p align = "left"><input type="checkbox" id="ko" name="Korean" value="Korean">Korean<br></p>
-                    <p align = "left"><input type="checkbox" id="ch" name="Chinese" value="Chinese">Chinese<br></p>
-                    <p align = "left"><input type="checkbox" id="ind" name="Indian" value="Indian">Indian<br></p>
-                    <p align = "left"><input type="checkbox" id="th" name="Thai" value="Thai">Thai<br></p>
-                    <p align = "left"><input type="checkbox" id="med" name="Mediterranean" value="Mediterranean">Mediterranean<br></p>
-                    <p align = "left"><input type="checkbox" id="it" name="Italian" value="Italian">Italian<br></p>
-                    <p align = "left"><input type="checkbox" id="fr" name="French" value="French">French<br></p>
+                    <p align = "left"><input type="checkbox" id="am" name="American">American<br></p>
+                    <p align = "left"><input type="checkbox" id="mex" name="Mexican">Mexican<br></p>
+                    <p align = "left"><input type="checkbox" id="ja" name="Japanese">Japanese<br></p>
+                    <p align = "left"><input type="checkbox" id="ko" name="Korean">Korean<br></p>
+                    <p align = "left"><input type="checkbox" id="ch" name="Chinese">Chinese<br></p>
+                    <p align = "left"><input type="checkbox" id="ind" name="Indian">Indian<br></p>
+                    <p align = "left"><input type="checkbox" id="th" name="Thai">Thai<br></p>
+                    <p align = "left"><input type="checkbox" id="med" name="Mediterranean">Mediterranean<br></p>
+                    <p align = "left"><input type="checkbox" id="it" name="Italian">Italian<br></p>
+                    <p align = "left"><input type="checkbox" id="fr" name="French">French<br></p>
                 </div>
                 <div style="float:right;">
                     <h1><center>Price Range</center></h1>
-                    <p align = "left"><input type="checkbox" id="one" name="$" value="$">$<br></p>
-                    <p align = "left"><input type="checkbox" id="two" name="$$" value="$$">$$<br></p>
-                    <p align = "left"><input type="checkbox" id="three" name="$$$" value="$$$">$$$<br></p>
-                    <p align = "left"><input type="checkbox" id="four" name="$$$$" value="$$$$">$$$$<br></p>
+                    <p align = "left"><input type="checkbox" id="One" name="one">$<br></p>
+                    <p align = "left"><input type="checkbox" id="Two" name="two">$$<br></p>
+                    <p align = "left"><input type="checkbox" id="Three" name="three">$$$<br></p>
+                    <p align = "left"><input type="checkbox" id="Four" name="four">$$$$<br></p>
                 </div>
                 <div class="slidecontainer">
                     <h1 style="float:center;   margin-top:420px;">Max Distance</h1>
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange" name="distance">
+                    <input type="range" min="1" max="25" value="10" class="slider" id="myRange" name="distance">
                     <p><center>Miles: <span id="demo"></span></center></p>
                 </div>
                 <div>
-                    <br><input type="checkbox" id="open" name="Open Now" value="Open Now">Open Now
+                    <br><input type="checkbox" id="open" name="OpenNow" value="Open Now">Open Now
                 </div>
                 <div >
-                    <input style ="margin-top:38px; float:right; color:#ff80d5; font-family:Helvetica; width: 100%; height: 30px; font-size: larger; " type="button" value="Search" onclick="beforeSubmit()"/></center>
+                    <input style ="margin-top:38px; float:right; color:#ff80d5; font-family:Helvetica; width: 100%; height: 30px; font-size: larger; " type="submit" value="Search"/></center>
                 </div>
             </form>
             </div>
