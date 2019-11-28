@@ -1,7 +1,6 @@
 'use strict';
 
-//import {FieldValueImpl as FieldValue} from "@firebase/firestore/dist/src/api/field_value";
-const FieldValue = require('firebase-admin').firestore.FieldValue;
+
 var express = require('express');
 var router = express.Router();
 var firebase = require("firebase/app");
