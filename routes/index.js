@@ -693,7 +693,7 @@ router.post('/registerUser', function(req,res) {
     };
 
     var actionCodeSettings = {
-        url: 'http://localhost:3000/verify',
+        url: 'google.com',
         handleCodeInApp: true
     };
 
