@@ -41,10 +41,11 @@
                         $('.restName').html(restaurant.name);
                         $('.imageBox').css("background-image","url('"+restaurant.image_url+"')");
                         if (restaurant.price) {
-                            $('.restPriceandRating').html("Price: "+restaurant.price + " Rating: " + restaurant.rating);
+                            $('.restPrice').html("Price: "+restaurant.price);
                         } else {
-                            $('.restPriceandRating').html("Price Not Given Rating:" + restaurant.rating);
+                            $('.restPrice').html("Price Not Given");
                         }
+                        $('.restRating').html("Rating: " + restaurant.rating);
                         if (restaurant.is_closed === false) {
                             $('.isClosed').html("Open");
                             $('.isClosed').css('color','green');
@@ -202,13 +203,21 @@
                         <span class="restName" id="restName"></span><span class="isClosed"></span>
                     </div>
                     <span class="bookmark" name="<%=un%>"><i class="fa fa-bookmark-o" aria-hidden="true"></i></span>
-                    <div class="pranrdaContainer">
-                        <span class="restPriceandRating"></span>
+                    <div class="contentContainer">
+                        <div class="pranrdaContainer">
+                            <span class="restPrice"></span><span class="restRating"></span>
+                        </div>
+                        <div class="deandpiContainer">
+                            <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>
+                        </div>
+                        <div class="locandphoneContainer">
+                            <span class="restLocation"></span><span class="restPhone"></span>
+                        </div>
+                        <div class="dirandyelpContainer">
+                            <span class="restDirections" onclick="getDirections()">Get Directions</span>
+                            <span class="restYelp" onclick="directYelp()">Yelp Page</span>
+                        </div>
                     </div>
-                    <span class="restTransDe">Delivery</span><span class="restTransPi">Pick Up</span>
-                    <span class="restLocation"></span><span class="restPhone"></span>
-                    <span class="restDirections" onclick="getDirections()">Get Directions</span>
-                    <span class="restYelp" onclick="directYelp()">Yelp Page</span>
                 </div>
 
                 <div class="refreshContainer">

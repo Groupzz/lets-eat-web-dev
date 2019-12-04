@@ -218,45 +218,71 @@ li div{
     background-size: 100%;
     padding: 0px 0px 0px 0px;
     border-radius: 5px;
-    float: left;
+    position: absolute;
+    left: 35%;
+    margin-top: 5%;
 }
 .restName {
-    margin-left: 15%;
+    margin-left: 40%;
     width: 30%;
     height: 30%;
     font-size: 30px;
 }
+.contentContainer {
+    margin-top: 15%;
+}
 .pranrdaContainer {
     position: fixed;
-    left: 45%;
+    left: 40%;
     margin-top: 3%;
+    width: 400px;
+}
+.restPrice {
+    position: absolute;
+}
+.restRating {
+    position: absolute;
+    left: 40%;
+}
+.deandpiContainer {
+    position: fixed;
+    left: 40%;
+    margin-top: 5%;
+    width: 400px;
 }
 .restTransDe {
-    position: fixed;
-    left: 45%;
-    margin-top: 5%;
+    position: absolute;
 
 }
 .restTransPi {
-    margin-left: 2%;
+    position: absolute;
+    left: 40%;
+}
+.locandphoneContainer {
     position: fixed;
-    left: 51%;
-    margin-top: 5%;
+    left: 40%;
+    margin-top: 7%;
+    width: 400px;
+    height: 400px;
 }
 .restLocation {
-    position: fixed;
-    left: 45%;
-    margin-top: 9%;
+    position: absolute;
+    top: 8%;
 }
 .restPhone {
+    position: absolute;
+}
+.dirandyelpContainer {
     position: fixed;
-    left: 45%;
-    margin-top: 7%;
+    left: 40%;
+    margin-top: 15%;
+    width: 400px;
+    height: 400px;
 }
 .restDirections {
-    position: fixed;
-    left: 45%;
-    margin-top: 15%;
+    position: absolute;
+    /*left: 40%;*/
+    /*margin-top: 15%;*/
     text-decoration: underline;
 }
 .restDirections:hover {
@@ -264,9 +290,9 @@ li div{
     cursor: pointer;
 }
 .restYelp {
-    position: fixed;
-    left: 55%;
-    margin-top: 15%;
+    position: absolute;
+    left: 40%;
+    /*margin-top: 15%;*/
     text-decoration: underline;
 }
 .restYelp:hover {
@@ -275,6 +301,6 @@ li div{
 }
 .refreshButton {
     position: fixed;
-    top: 55%;
+    bottom: 25%;
     left: 45%;
 }
