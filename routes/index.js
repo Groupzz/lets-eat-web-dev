@@ -6,7 +6,7 @@ var router = express.Router();
 var firebase = require("firebase/app");
 var yelp = require('yelp-fusion');
 var bcrypt = require('bcrypt-nodejs');
-const client = yelp.client('p8eXXM3q_ks6WY_FWc2KhV-EmLhSpbJf0P-SATBhAIM4dNCgsp3sH8ogzJPezOT6LzFQlb_vcFfxziHbHuNt8RwxtWY0-vRpx7C0nPz5apIT4A5LYGmaVfuwPrf3WXYx');
+const client = yelp.client('APIKEY');
 require("firebase/firestore");
 require("firebase/auth");
 
@@ -15,7 +15,7 @@ var host,link, buffer = "", restaurants = [], used = [], randPassFind = [], user
 
 // setup connection to firebase database
 const firebaseConfig = {
-    apiKey: "AIzaSyCvKLDrNaPfCcEIlvddM4MWXFSbTs4SmT0",
+    apiKey: "APIKEY",
     authDomain: "lets-eat-18b7b.firebaseapp.com",
     databaseURL: "https://lets-eat-18b7b.firebaseio.com",
     projectId: "lets-eat-18b7b",
